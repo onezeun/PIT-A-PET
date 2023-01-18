@@ -10,26 +10,9 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   };
 
-  html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre,
-  a, address, img, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
-  table, caption, tbody, tfoot, thead, tr, th, td, article, canvas, 
-  footer, header, menu, nav, section, input {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    box-sizing: border-box;
-  };
-
   html {
-    font-size: 1.4vw;
+    font-size: 4vw;
     font-family: 'Pretendard-Regular', sans-serif;
-  };
-
-  ol, ul {
-    list-style: none;
   };
 `;
 
