@@ -10,7 +10,7 @@ export default function Main() {
         <img src={logoPath} alt='logo' />
       </S.LogoWrap>
       <S.GNB>
-        <i className="ri-chat-1-line icolor"></i>
+        {/* <i className="ri-chat-1-line icolor"></i> */}
         <i className="ri-bell-line icolor"></i>
         <i className="ri-menu-line icolor"></i>
       </S.GNB>

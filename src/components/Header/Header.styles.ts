@@ -6,19 +6,18 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   max-width: 1200px;
   margin: auto;
-  height: 50px;
+  height: 80px;
   padding: 20px;
   line-height: 50px;
 `;
 
 export const LogoWrap = styled.div`
   vertical-align: center;
-  width: 40px;
   height: 40px;
 
   & img {
-    width: 100%;
-    height: 100%;
+    width: 176px;
+    height: 40px;
   }
 `;
 
@@ -26,7 +25,7 @@ export const GNB = styled.div`
 
   & .icolor {
     color: #5EB5E0;
-    margin: 0 10px;
-    font-size: 40px;
+    margin-left: 10px;
+    font-size: 35px;
   }
 `;
