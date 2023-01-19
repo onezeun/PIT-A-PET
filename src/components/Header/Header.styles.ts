@@ -23,7 +23,10 @@ export const LogoWrap = styled.div`
 `;
 
 export const GNB = styled.div`
-`;
 
-export const HambergerWrap = styled.div`
-`
+  & .icolor {
+    color: #5EB5E0;
+    margin: 0 10px;
+    font-size: 40px;
+  }
+`;

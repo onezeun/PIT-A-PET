@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
   };
 
   html {
-    font-size: 4vw;
+    font-size: 16px;
     font-family: 'Pretendard-Regular', sans-serif;
   };
 `;
