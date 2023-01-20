@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /디자인
+css.css
 
 # testing
 /coverage
