@@ -6,7 +6,7 @@ interface Iprops {
   setSideOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Sidebar({sideOpen, setSideOpen}: Iprops) {
+export default function Sidebar({sideOpen, setSideOpen}: Iprops) :JSX.Element {
   const outside = useRef<any>();
 
   useEffect(() => {

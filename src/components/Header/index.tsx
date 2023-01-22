@@ -4,7 +4,7 @@ import logoPath from '../../assets/images/logo.png'
 
 import SideBarWrap from './Sidebar';
 
-export default function Header() {
+export default function Header() :JSX.Element {
   // useState로 관리해 줄 state 의 type 설정
   const [sideOpen , setSideOpen] = useState<boolean>(false);
 
