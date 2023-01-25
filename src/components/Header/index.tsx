@@ -3,6 +3,7 @@ import * as S from './Header.styles';
 import logoPath from '../../assets/images/logo.png';
 
 import SideBarWrap from './Sidebar';
+import Navbar from './Navbar';
 
 export default function Header(): JSX.Element {
   const [sideOpen, setSideOpen] = useState<boolean>(false);
@@ -32,9 +33,10 @@ export default function Header(): JSX.Element {
         {resize < 768 ? (
           <>
             <i className="ri-bell-line icolor"></i>
-            <S.MenuBtn onClick={toggleSide}>
+            <span onClick={toggleSide}>
               <i className="ri-menu-line icolor"></i>
-            </S.MenuBtn>
+            </span>
+            <Navbar></Navbar>
           </>
         ) : null}
         <SideBarWrap

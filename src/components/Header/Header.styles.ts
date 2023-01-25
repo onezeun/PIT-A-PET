@@ -29,11 +29,9 @@ export const GNB = styled.div`
   }
 `;
 
-export const MenuBtn = styled.span``;
-
 export const SideBarWrap = styled.div`
-  display:block;
-  z-index: 5;
+  display: block;
+  z-index: 10;
   padding: 12px;
   border: 1px soild #ccc;
   box-shadow: 0px 0px 5px 1px #ccc;
@@ -53,7 +51,7 @@ export const SideBarWrap = styled.div`
     font-size: 40px;
   }
 
-  & li {
+  & .item {
     margin: 0 0 15px 10px;
     color: #5eb5e0;
   }
@@ -64,11 +62,11 @@ export const SideBarWrap = styled.div`
   }
 
   & p {
-    position : absolute;
+    position: absolute;
     right: 10px;
     bottom: 10px;
     font-size: 1rem;
-    color : #5eb5e0;
+    color: #5eb5e0;
   }
 
   ${({ theme: { media } }) => css`
@@ -88,4 +86,28 @@ export const SideBarWrap = styled.div`
       }
     }
   `}
+`;
+
+export const NavBox = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin: 0;
+  z-index: 5;
+  padding: 10px 5%;
+  border: 1px soild #ccc;
+  box-shadow: 0px 0px 3px 1px #ccc;
+  border-radius: 15px 15px 0 0;
+  background-color: white;
+  height: 100px;
+  width: 100vw;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  transition: 0.5s ease;
+  font-size: 1.2rem;
+
+  & li {
+    width: 25%;
+  }
 `;
