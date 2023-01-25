@@ -40,19 +40,19 @@ export default function Sidebar({ sideOpen, setSideOpen, resize,}: Iprops): JSX.
       ></i>
       {resize >= 768 ? (
         <ul>
-          <li className='item'>홈</li>
-          <li className='item'>알림</li>
-          <li className='item'>메세지</li>
-          <li className='item'>검색</li>
-          <li className='item'>마이홈</li>
+          <S.ListItem>홈</S.ListItem>
+          <S.ListItem>알림</S.ListItem>
+          <S.ListItem>메세지</S.ListItem>
+          <S.ListItem>검색</S.ListItem>
+          <S.ListItem>마이홈</S.ListItem>
         </ul>
       ) : null }
       <ul>
-        <li className='item'>보관함</li>
-        <li className='item'>정보수정</li>
-        <li className='item'>로그아웃</li>
+        <S.ListItem>보관함</S.ListItem>
+        <S.ListItem>정보수정</S.ListItem>
+        <S.ListItem>로그아웃</S.ListItem>
       </ul>
-      <p>ⓒ onezeun.</p>
+      <S.Copyright>ⓒ onezeun.</S.Copyright>
     </S.SideBarWrap>
   );
 }

@@ -17,42 +17,41 @@ export default function PetInfo(): JSX.Element {
       </p>
       <input type="file" className="imgInput" id="imgInput" ref={uploadImg}></input>
       <label htmlFor="imgInput" className='imgLabel'>반려동물 이미지 업로드</label>
-      <img
+      <S.PetImg
         src={profile}
         id="petImg"
-        className="petImg"
         alt="프로필 이미지"
       />
-      <button className="imgBtn" onClick={() => uploadImg.current.click()}>
+      <S.ImgBtn onClick={() => uploadImg.current.click()}>
         이미지 업로드
-      </button>
-      <div className="inputWrap">
-        <label htmlFor="petName" className="subTitle">
+      </S.ImgBtn>
+      <S.InputWrap>
+        <S.SubTitle htmlFor="petName" className="subTitle">
           반려동물 이름
-        </label>
-        <input type="text" id="petName" className="registerInput"></input>
-      </div>
+        </S.SubTitle>
+        <S.RegisterInput type="text" id="petName" className="registerInput"></S.RegisterInput>
+      </S.InputWrap>
 
-      <div className="inputWrap">
-        <label htmlFor="petType" className="subTitle">
+      <S.InputWrap>
+        <S.SubTitle htmlFor="petType" className="subTitle">
           종류
-        </label>
-        <input type="text" id="petType" className="registerInput"></input>
-      </div>
+        </S.SubTitle>
+        <S.RegisterInput type="text" id="petType" className="registerInput"></S.RegisterInput>
+      </S.InputWrap>
 
-      <div className="inputWrap">
-        <label htmlFor="petAge" className="subTitle">
+      <S.InputWrap>
+        <S.SubTitle htmlFor="petAge" className="subTitle">
           나이
-        </label>
-        <input type="text" id="petAge" className="registerInput"></input>
-      </div>
+        </S.SubTitle>
+        <S.RegisterInput type="text" id="petAge" className="registerInput"></S.RegisterInput>
+      </S.InputWrap>
 
-      <div className="inputWrap">
-        <label htmlFor="petGender" className="subTitle">
+      <S.InputWrap>
+        <S.SubTitle htmlFor="petGender" className="subTitle">
           성별
-        </label>
-        <input type="text" id="petGender" className="registerInput"></input>
-      </div>
+        </S.SubTitle>
+        <S.RegisterInput type="text" id="petGender" className="registerInput"></S.RegisterInput>
+      </S.InputWrap>
     </S.PetInfoBox>
   );
 }

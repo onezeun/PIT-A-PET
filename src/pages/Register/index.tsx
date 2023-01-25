@@ -9,50 +9,46 @@ export default function Register(): JSX.Element {
     <>
       <S.RegisterContainer>
         <S.RegisterContent>
-          <img src={logoPath} alt="로고" className='logoImg' />
+          <S.LogoImg src={logoPath} alt="로고" className='logoImg' />
           <h1>회원가입</h1>
-          <div className="registerWrap">
+          <div>
             <form>
-              <div className="inputWrap">
-                <label htmlFor="registerId" className="subTitle">
+              <S.InputWrap>
+                <S.SubTitle htmlFor="registerId">
                   아이디
-                </label>
-                <input
+                </S.SubTitle>
+                <S.RegisterInput
                   type="text"
                   id="registerId"
-                  className="registerInput"
-                ></input>
-              </div>
-              <div className="inputWrap">
-                <label htmlFor="registerPassword" className="subTitle">
+                ></S.RegisterInput>
+              </S.InputWrap>
+              <S.InputWrap>
+                <S.SubTitle htmlFor="registerPassword">
                   이름
-                </label>
-                <input
+                </S.SubTitle>
+                <S.RegisterInput
                   type="text"
                   id="registerPassword"
-                  className="registerInput"
-                ></input>
-              </div>
-              <div className="inputWrap">
-                <label htmlFor="registerPassword" className="subTitle">
+                ></S.RegisterInput>
+              </S.InputWrap>
+              <S.InputWrap>
+                <S.SubTitle htmlFor="registerPassword">
                   비밀번호
-                </label>
-                <input
+                </S.SubTitle>
+                <S.RegisterInput
                   type="password"
                   id="registerPassword"
-                  className="registerInput"
-                ></input>
-              </div>
-              <div className="inputWrap">
-                <label htmlFor="registerPassword" className="subTitle">
+                ></S.RegisterInput>
+              </S.InputWrap>
+              <S.InputWrap>
+                <S.SubTitle htmlFor="registerPassword">
                   비밀번호 확인
-                </label>
-                <input
+                </S.SubTitle>
+                <S.RegisterInput
                   type="password"
                   id="registerPassword"
-                  className="registerInput"
-                ></input>
-              </div>
+                ></S.RegisterInput>
+              </S.InputWrap>
               <S.PetCheck>
                 <p>반려동물이 있으신가요?</p>
                 <input type="radio" name="pet" id="y_pet"></input>

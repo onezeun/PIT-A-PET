@@ -14,57 +14,43 @@ export const RegisterContainer = styled.div`
 export const RegisterContent = styled.div`
   margin-top: 5vh;
   text-align: center;
-
-  & .logoImg {
-    width: 100px;
-    height: auto;
-    margin-bottom: 20px;
-  }
-
   & h1 {
     color: ${(props) => props.theme.colors.BLUE};
     font-family: 'IM_Hyemin-Bold';
     font-size: 40px;
     margin-bottom: 50px;
   }
+`;
 
-  & .registerWrap {
-    & .inputWrap {
-      width: 300px;
-      text-align: left;
-      margin: 20px auto 0;
-    }
-    & .subTitle {
-      color: ${(props) => props.theme.colors.BLUE};
-    }
+export const LogoImg = styled.img`
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+`;
 
-    & .registerInput {
-      color: ${(props) => props.theme.colors.BLUE};
-      margin: 5px auto 0;
-      padding: 10px;
-      width: 300px;
-      height: 40px;
-      display: block;
-      border: 1px solid ${(props) => props.theme.colors.BLUE};
-      border-radius: 5px;
-    }
+export const InputWrap = styled.div`
+  width: 300px;
+  text-align: left;
+  margin: 20px auto 0;
+`;
 
-    & .registerBtn {
-      margin: 30px auto 0;
-      font-family: 'IM_Hyemin-Bold';
-      font-size: 1.5rem;
-      width: 300px;
-      height: 40px;
-      background: ${(props) => props.theme.colors.BLUE};
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-  }
+export const SubTitle = styled.label`
+  color: ${(props) => props.theme.colors.BLUE};
+`;
 
-  & .linkWrap {
-    margin: auto;
-  }
+export const RegisterInput = styled.input`
+  color: ${(props) => props.theme.colors.BLUE};
+  margin: 5px auto 0;
+  padding: 10px;
+  width: 300px;
+  height: 40px;
+  display: block;
+  border: 1px solid ${(props) => props.theme.colors.BLUE};
+  border-radius: 5px;
+`;
+
+export const LinkWrap = styled.div`
+  margin: auto;
 
   & a {
     color: ${(props) => props.theme.colors.BLUE};
@@ -75,7 +61,18 @@ export const RegisterContent = styled.div`
     border-radius: 5px;
     margin: 10px auto;
     line-height: 40px;
-  }
+`;
+
+export const RegisterBtn = styled.div`
+  margin: 30px auto 0;
+  font-family: 'IM_Hyemin-Bold';
+  font-size: 1.5rem;
+  width: 300px;
+  height: 40px;
+  background: ${(props) => props.theme.colors.BLUE};
+  color: white;
+  border: none;
+  border-radius: 5px;
 `;
 
 export const PetCheck = styled.div`
@@ -87,8 +84,8 @@ export const PetCheck = styled.div`
     font-weight: bold;
   }
 
-  & input[type="radio"] {
-    display : none;
+  & input[type='radio'] {
+    display: none;
   }
 
   & label {
@@ -97,9 +94,9 @@ export const PetCheck = styled.div`
     height: 35px;
     line-height: 35px;
     margin: 15px 1% 0;
-    background:${(props) => props.theme.colors.YELLOW_100};
+    background: ${(props) => props.theme.colors.YELLOW_100};
     border-radius: 5px;
-    color:${(props) => props.theme.colors.GREY_200};
+    color: ${(props) => props.theme.colors.GREY_200};
   }
 `;
 
@@ -121,22 +118,23 @@ export const PetInfoBox = styled.div`
   & .imgInput, .imgLabel {
     display: none;
   }
+`;
 
-  & .petImg {
-    width: 120px;
-    height: auto;
-    margin 10px 0;
-  }
 
-  & .imgBtn {
-    display: block;
-    width: 150px;
-    height: 30px;
-    margin: auto;
-    font-size: 0.9rem;
-    background: ${(props) => props.theme.colors.YELLOW_100};
-    border: none;
-    border-radius: 5px;
-    color: ${(props) => props.theme.colors.GREY_200};
-  }
+export const PetImg = styled.img`
+  width: 120px;
+  height: auto;
+  margin 10px 0;
+`;
+
+export const ImgBtn = styled.div`
+  display: block;
+  width: 150px;
+  height: 30px;
+  margin: auto;
+  font-size: 0.9rem;
+  background: ${(props) => props.theme.colors.YELLOW_100};
+  border: none;
+  border-radius: 5px;
+  color: ${(props) => props.theme.colors.GREY_200};
 `;
