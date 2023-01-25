@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './styles/theme';
 import GlobalStyle from 'styles/GlobalStyle';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import "remixicon/fonts/remixicon.css";
+import 'remixicon/fonts/remixicon.css';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <App />
-  </React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>,
 );
 
 reportWebVitals();
