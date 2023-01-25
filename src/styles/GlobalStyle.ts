@@ -1,20 +1,11 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components/macro';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
-  html, body, div, span, h1, h2, h3, h4, h5, h6, p, pre,
-  a, address, img, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
-  table, caption, tbody, tfoot, thead, tr, th, td, article, canvas, 
-  footer, header, menu, nav, section, input {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    box-sizing: border-box;
+  * {
+  box-sizing: border-box;
   };
 
   @font-face {
@@ -24,10 +15,28 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   };
 
+  @font-face {
+    font-family: 'IM_Hyemin-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  };
+
   html {
     font-size: 16px;
     font-family: 'Pretendard-Regular', sans-serif;
   };
+
+  input:focus {outline:none;}
+
+  a {
+    text-decoration: none;
+    color: black;
+
+    & ::hover {
+      color: black;
+    }
+  }
 `;
 
 export default GlobalStyle;

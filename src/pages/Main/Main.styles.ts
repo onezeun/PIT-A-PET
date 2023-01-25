@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const MainContainer = styled.div`
   display:flex;
   aline-items:center;
   max-width: 1200px;

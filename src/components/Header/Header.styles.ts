@@ -72,7 +72,7 @@ export const SideBarWrap = styled.div`
   ${({ theme: { media } }) => css`
     @media screen and ${media.tablet} {
       right: 0;
-      width: 30vw;
+      width: 200px;
       & .icolor {
         display: none;
       }
@@ -100,7 +100,7 @@ export const NavBox = styled.ul`
   border-radius: 15px 15px 0 0;
   background-color: white;
   height: 100px;
-  width: 100vw;
+  width: 100%;
   bottom: 0;
   left: 0;
   position: fixed;
