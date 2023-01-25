@@ -23,7 +23,7 @@ export const LogoWrap = styled.div`
 
 export const GNB = styled.div`
   & .icolor {
-    color: #5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
     margin-left: 10px;
     font-size: 35px;
   }
@@ -33,10 +33,10 @@ export const SideBarWrap = styled.div`
   display: block;
   z-index: 10;
   padding: 12px;
-  border: 1px soild #ccc;
-  box-shadow: 0px 0px 5px 1px #ccc;
+  border: 1px soild ${props => props.theme.colors.GREY};
+  box-shadow: 0px 0px 5px 1px ${props => props.theme.colors.GREY};
   border-radius: 15px 0 0 15px;
-  background-color: #fff0ca;
+  background-color: ${props => props.theme.colors.YELLOW};
   height: 100%;
   width: 50vw;
   right: -60%;
@@ -46,14 +46,14 @@ export const SideBarWrap = styled.div`
   font-size: 1.2rem;
 
   & .icolor {
-    color: #5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
     margin-left: 0;
     font-size: 40px;
   }
 
   & .item {
     margin: 0 0 15px 10px;
-    color: #5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
   }
 
   &.open {
@@ -66,7 +66,7 @@ export const SideBarWrap = styled.div`
     right: 10px;
     bottom: 10px;
     font-size: 1rem;
-    color: #5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
   }
 
   ${({ theme: { media } }) => css`
@@ -95,8 +95,8 @@ export const NavBox = styled.ul`
   margin: 0;
   z-index: 5;
   padding: 10px 5%;
-  border: 1px soild #ccc;
-  box-shadow: 0px 0px 3px 1px #ccc;
+  border: 1px soild ${props => props.theme.colors.GREY};
+  box-shadow: 0px 0px 3px 1px ${props => props.theme.colors.GREY};
   border-radius: 15px 15px 0 0;
   background-color: white;
   height: 100px;

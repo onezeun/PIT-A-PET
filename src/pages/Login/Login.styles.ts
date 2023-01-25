@@ -22,7 +22,7 @@ export const LoginContent = styled.div`
   }
 
   & h1 {
-    color:#5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
     font-family: 'IM_Hyemin-Bold';
     font-size: 40px;
     margin-bottom: 50px;
@@ -35,17 +35,17 @@ export const LoginContent = styled.div`
       margin: 20px auto 0;
     }
     & .subTitle {
-      color:#5eb5e0;
+      color: ${props => props.theme.colors.BLUE};
     }
 
     & .loginInput {
-      color:#5eb5e0;
+      color: ${props => props.theme.colors.BLUE};
       margin: 5px auto 0;
       padding: 10px;
       width: 300px;
       height: 40px;
       display: block;
-      border: 1px solid #5eb5e0;
+      border: 1px solid ${props => props.theme.colors.BLUE};
       border-radius: 5px;
     }
 
@@ -55,7 +55,7 @@ export const LoginContent = styled.div`
       font-size: 1.5rem;
       width: 300px;
       height: 40px;
-      background: #5eb5e0;
+      background: ${props => props.theme.colors.BLUE};
       color: white;
       border: none;
       border-radius: 5px;
@@ -67,11 +67,11 @@ export const LoginContent = styled.div`
   }
 
   & a {
-    color:#5eb5e0;
+    color: ${props => props.theme.colors.BLUE};
     width: 300px;
     height: 40px;
     display: block;
-    border: 1px solid #5eb5e0;
+    border: 1px solid ${props => props.theme.colors.BLUE};
     border-radius:5px;
     margin:10px auto;
     line-height: 40px;
