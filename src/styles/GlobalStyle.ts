@@ -22,12 +22,13 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   };
 
-  html {
+  html, input, button {
     font-size: 16px;
     font-family: 'Pretendard-Regular', sans-serif;
   };
 
   input:focus {outline:none;}
+
 
   a {
     text-decoration: none;

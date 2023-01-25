@@ -1,7 +1,6 @@
 import React from 'react';
 import * as S from './Login.styles';
 
-import AllContainer from 'components/Allcontainer';
 import logoPath from '../../assets/images/b_chr.png';
 
 export default function Login(): JSX.Element {
