@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as S from './Header.styles';
 
 import SideBarWrap from './Sidebar';
 import Navbar from './Navbar';
 
-export default function Header(): JSX.Element {
+export default function Header(): JSX.Element | null {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const [sideOpen, setSideOpen] = useState<boolean>(false);
   const [resize, setResize] = useState<number>(window.innerWidth);
-  let navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -24,7 +26,8 @@ export default function Header(): JSX.Element {
   const toggleSide = () => {
     setSideOpen(true);
   };
-
+  
+  if(location.pathname === "/login" || location.pathname === "/register") return null;
   return (
     <S.HeaderContainer>
       <S.LogoWrap onClick={() => {navigate('/')}}>
