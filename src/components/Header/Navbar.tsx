@@ -6,10 +6,28 @@ export default function Navbar() {
   let navigate = useNavigate();
   return (
     <S.NavBox>
-      <li onClick={() => {navigate('/')}}>홈</li>
-      <li>메세지</li>
-      <li>검색</li>
-      <li>마이홈</li>
+      <S.NavBoxItem
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        <S.NavBoxImgWrap>
+          <img src={process.env.PUBLIC_URL + '/images/eye.png'} alt="" />
+        </S.NavBoxImgWrap>
+        <p>둘러보기</p>
+      </S.NavBoxItem>
+      <S.NavBoxItem>
+        <i className="ri-chat-1-fill"></i>
+        <p>메세지</p>
+      </S.NavBoxItem>
+      <S.NavBoxItem>
+        <i className="ri-search-line"></i>
+        <p>검색</p>
+      </S.NavBoxItem>
+      <S.NavBoxItem>
+        <i className="ri-user-heart-fill"></i>
+        <p>마이홈</p>
+      </S.NavBoxItem>
     </S.NavBox>
   );
 }

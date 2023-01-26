@@ -6,7 +6,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   max-width: 1200px;
   margin: auto;
-  height: 80px;
+  height: 100px;
   padding: 20px;
   line-height: 50px;
 `;
@@ -14,6 +14,7 @@ export const HeaderContainer = styled.div`
 export const LogoWrap = styled.div`
   vertical-align: center;
   height: 40px;
+  cursor: pointer;
 
   & img {
     width: 176px;
@@ -26,6 +27,7 @@ export const GNB = styled.div`
     color: ${(props) => props.theme.colors.BLUE};
     margin-left: 10px;
     font-size: 35px;
+    cursor: pointer;
   }
 `;
 
@@ -78,7 +80,7 @@ export const SideBarWrap = styled.div`
 export const ListItem = styled.li`
   margin: 0 0 15px 10px;
   color: ${(props) => props.theme.colors.BLUE};
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export const Copyright = styled.p`
@@ -92,6 +94,7 @@ export const Copyright = styled.p`
 export const NavBox = styled.ul`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   text-align: center;
   margin: 0;
   z-index: 5;
@@ -99,7 +102,8 @@ export const NavBox = styled.ul`
   border: 1px soild ${(props) => props.theme.colors.GREY};
   box-shadow: 0px 0px 3px 1px ${(props) => props.theme.colors.GREY};
   border-radius: 15px 15px 0 0;
-  background-color: white;
+  color: ${(props) => props.theme.colors.BLUE};
+  background-color: ${(props) => props.theme.colors.YELLOW_100};
   height: 100px;
   width: 100%;
   bottom: 0;
@@ -108,7 +112,32 @@ export const NavBox = styled.ul`
   transition: 0.5s ease;
   font-size: 1.2rem;
 
-  & li {
-    width: 25%;
+  & i {
+    font-size: 35px;
+    width: auto;
+  }
+`;
+
+export const NavBoxItem = styled.li`
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  & p {
+    font-size: 1rem;
+    line-height: 23px;
+  }
+`;
+
+export const NavBoxImgWrap = styled.div`
+  display: flex;
+  align-items: center;
+  height: 50px;
+
+  & img {
+    width: auto;
+    height: 35px;
   }
 `;

@@ -53,8 +53,8 @@ export default function Sidebar({ sideOpen, setSideOpen, resize,}: Iprops): JSX.
         <S.ListItem>보관함</S.ListItem>
         <S.ListItem>정보수정</S.ListItem>
         {/* 임시 */}
-        <S.ListItem onClick={() => {navigate('/login')}}>로그인</S.ListItem>
-        <S.ListItem onClick={() => {navigate('/register')}}>회원가입</S.ListItem>
+        <S.ListItem onClick={() => {navigate('/login'); toggleSide()}}>로그인</S.ListItem>
+        <S.ListItem onClick={() => {navigate('/register'); toggleSide()}}>회원가입</S.ListItem>
         <S.ListItem>로그아웃</S.ListItem>
       </ul>
       <S.Copyright>ⓒ onezeun.</S.Copyright>
