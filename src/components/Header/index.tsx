@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './Header.styles';
-import logoPath from '../../assets/images/logo.png';
 
 import SideBarWrap from './Sidebar';
 import Navbar from './Navbar';
@@ -27,7 +26,7 @@ export default function Header(): JSX.Element {
   return (
     <S.HeaderContainer>
       <S.LogoWrap>
-        <img src={logoPath} alt="logo" />
+        <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt="logo" />
       </S.LogoWrap>
       <S.GNB>
         {resize < 768 ? (

@@ -18,7 +18,7 @@ export default function PetInfo(): JSX.Element {
       <input type="file" className="imgInput" id="imgInput" ref={uploadImg}></input>
       <label htmlFor="imgInput" className='imgLabel'>반려동물 이미지 업로드</label>
       <S.PetImg
-        src={profile}
+        src={process.env.PUBLIC_URL + '/images/profile.png'}
         id="petImg"
         alt="프로필 이미지"
       />

@@ -1,14 +1,12 @@
 import React from 'react';
 import * as S from './Login.styles';
 
-import logoPath from '../../assets/images/b_chr.png';
-
 export default function Login(): JSX.Element {
   return (
     <>
       <S.LoginContainer>
         <S.LoginContent>
-          <img src={logoPath} alt="로고" />
+          <img src={process.env.PUBLIC_URL + '/images/b_chr.png'} alt="로고" />
           <h1>로그인</h1>
           <S.LoginWrap>
             <form>
