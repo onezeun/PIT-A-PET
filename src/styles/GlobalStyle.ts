@@ -38,6 +38,10 @@ const GlobalStyle = createGlobalStyle`
       color: black;
     }
   }
+
+  button {
+    cursor:pointer;
+  }
 `;
 
 export default GlobalStyle;

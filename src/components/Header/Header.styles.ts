@@ -78,6 +78,7 @@ export const SideBarWrap = styled.div`
 export const ListItem = styled.li`
   margin: 0 0 15px 10px;
   color: ${(props) => props.theme.colors.BLUE};
+  cursor:pointer;
 `;
 
 export const Copyright = styled.p`

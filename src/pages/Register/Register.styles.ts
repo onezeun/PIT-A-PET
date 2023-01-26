@@ -69,10 +69,12 @@ export const RegisterBtn = styled.div`
   font-size: 1.5rem;
   width: 300px;
   height: 40px;
+  line-height: 40px;
   background: ${(props) => props.theme.colors.BLUE};
   color: white;
   border: none;
   border-radius: 5px;
+  cursor:pointer;
 `;
 
 export const PetCheck = styled.div`
@@ -97,6 +99,7 @@ export const PetCheck = styled.div`
     background: ${(props) => props.theme.colors.YELLOW_100};
     border-radius: 5px;
     color: ${(props) => props.theme.colors.GREY_200};
+    cursor:pointer;
   }
 `;
 
@@ -131,10 +134,12 @@ export const ImgBtn = styled.div`
   display: block;
   width: 150px;
   height: 30px;
+  line-height: 30px;
   margin: auto;
   font-size: 0.9rem;
   background: ${(props) => props.theme.colors.YELLOW_100};
   border: none;
   border-radius: 5px;
   color: ${(props) => props.theme.colors.GREY_200};
+  cursor:pointer;
 `;
