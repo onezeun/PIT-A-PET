@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './Header.styles';
 
 interface Iprops {
@@ -8,6 +9,7 @@ interface Iprops {
 }
 
 export default function Sidebar({ sideOpen, setSideOpen, resize,}: Iprops): JSX.Element {
+  let navigate = useNavigate();
   const outside = useRef<any>();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize,}: Iprops): JSX.
       ></i>
       {resize >= 768 ? (
         <ul>
-          <S.ListItem>홈</S.ListItem>
+          <S.ListItem onClick={() => {navigate('/')}}>홈</S.ListItem>
           <S.ListItem>알림</S.ListItem>
           <S.ListItem>메세지</S.ListItem>
           <S.ListItem>검색</S.ListItem>
@@ -50,6 +52,9 @@ export default function Sidebar({ sideOpen, setSideOpen, resize,}: Iprops): JSX.
       <ul>
         <S.ListItem>보관함</S.ListItem>
         <S.ListItem>정보수정</S.ListItem>
+        {/* 임시 */}
+        <S.ListItem onClick={() => {navigate('/login')}}>로그인</S.ListItem>
+        <S.ListItem onClick={() => {navigate('/register')}}>회원가입</S.ListItem>
         <S.ListItem>로그아웃</S.ListItem>
       </ul>
       <S.Copyright>ⓒ onezeun.</S.Copyright>
