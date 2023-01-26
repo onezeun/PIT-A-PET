@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   };
 
   input:focus {outline:none;}
-
+  textarea:focus {outline:none;}
 
   a {
     text-decoration: none;
@@ -40,6 +40,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button {
+    border: none;
     cursor:pointer;
   }
 `;
