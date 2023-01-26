@@ -5,7 +5,7 @@ import AllContainer from 'components/AllContainer';
 import MessageBox from 'components/MessageBox';
 import Card from 'components/Card';
 
-export default function Main() {
+export default function Main(): JSX.Element {
   return (
     <AllContainer>
       <MessageBox></MessageBox>

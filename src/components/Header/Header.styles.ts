@@ -124,6 +124,7 @@ export const NavBoxItem = styled.li`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  cursor:pointer;
 
   & p {
     font-size: 1rem;

@@ -79,8 +79,6 @@ export const Content = styled.div`
   margin-top: 20px;
 `;
 
-export const CommentWrap = styled.div``;
-
 export const CommentCount = styled.p`
   font-size: 0.9rem;
   color: ${(props) => props.theme.colors.GREY_100};

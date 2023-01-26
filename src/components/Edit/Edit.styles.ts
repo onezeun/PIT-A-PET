@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components/macro';
 
-export const EditWrap = styled.div``;
-
 export const EditTop = styled.div`
   display: flex;
   align-items: center;
