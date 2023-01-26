@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Main.styles';
+// import * as S from './Main.styles';
 
 import AllContainer from 'components/AllContainer';
 import MessageBox from 'components/MessageBox';

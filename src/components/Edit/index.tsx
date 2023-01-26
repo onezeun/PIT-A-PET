@@ -18,7 +18,7 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
   }
 
   return (
-    <S.EditWrap>
+    <>
       <form>
         <S.EditTop>
           <S.EditTitleWrap onClick={toggleEdit}>
@@ -38,6 +38,6 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
         </S.ImgUpload>
         <S.SubmitBtn>글 작성</S.SubmitBtn>
       </form>
-    </S.EditWrap>
+    </>
   );
 }

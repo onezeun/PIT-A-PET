@@ -27,12 +27,12 @@ export default function Card(): JSX.Element {
           <span>3 일전</span>
         </S.ContentTop>
         <S.Content>👛👛👛👛 설날</S.Content>
-        <S.CommentWrap>
+        <div>
           <S.CommentCount>댓글 422개</S.CommentCount>
           <S.Comment>
             <span>hwisu</span>너무 귀여워요~~
           </S.Comment>
-        </S.CommentWrap>
+        </div>
       </S.CardContentWrap>
     </S.CardWrap>
   );
