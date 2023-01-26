@@ -24,7 +24,11 @@ export default function Navbar() {
         <i className="ri-search-line"></i>
         <p>검색</p>
       </S.NavBoxItem>
-      <S.NavBoxItem>
+      <S.NavBoxItem
+        onClick={() => {
+          navigate('/mypage');
+        }}
+      >
         <i className="ri-user-heart-fill"></i>
         <p>마이홈</p>
       </S.NavBoxItem>
