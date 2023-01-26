@@ -1,12 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './Login.styles';
 
 export default function Login(): JSX.Element {
+  const navigate = useNavigate();
+
   return (
     <>
       <S.LoginContainer>
         <S.LoginContent>
-          <img src={process.env.PUBLIC_URL + '/images/b_chr.png'} alt="로고" />
+          <img src={process.env.PUBLIC_URL + '/images/b_chr.png'} alt="로고" onClick={() => {navigate('/')}}/>
           <h1>로그인</h1>
           <S.LoginWrap>
             <form>
@@ -22,7 +25,7 @@ export default function Login(): JSX.Element {
             </form>
             <S.LinkWrap>
               <a href='#' className='googleLogin'>구글계정으로 로그인하기</a>
-              <a href='#' className='register'>회원가입하러가기</a>
+              <a href='#' className='register' onClick={() => {navigate('/register')}} >회원가입하러가기</a>
             </S.LinkWrap>
           </S.LoginWrap>
         </S.LoginContent>

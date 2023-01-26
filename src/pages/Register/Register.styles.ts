@@ -26,6 +26,7 @@ export const LogoImg = styled.img`
   width: 100px;
   height: auto;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 export const InputWrap = styled.div`

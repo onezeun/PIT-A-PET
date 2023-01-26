@@ -3,11 +3,16 @@ import styled, { css } from 'styled-components/macro';
 export const CardWrap = styled.div`
   margin: auto;
   padding: 15px 0;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   min-height: 200px;
-  box-shadow: 0px 0px 5px 1px ${(props) => props.theme.colors.GREY};
-  border-radius: 5px;
+  border-top: 1px solid ${(props) => props.theme.colors.GREY};
+  border-bottom: 1px solid ${(props) => props.theme.colors.GREY};
+  
+  @media screen and (min-width: 501px) {
+    box-shadow: 0px 0px 5px 1px ${(props) => props.theme.colors.GREY};
+    border: none;
+    border-radius: 5px;
 `;
 
 export const UserWrap = styled.div`

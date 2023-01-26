@@ -138,6 +138,6 @@ export const NavBoxImgWrap = styled.div`
 
   & img {
     width: auto;
-    height: 35px;
+    height: 30px;
   }
 `;

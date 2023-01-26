@@ -4,6 +4,7 @@ import profile from '../../assets/images/profile.png'
 
 export default function PetInfo(): JSX.Element {
   const uploadImg = useRef<any>('');
+  
   return (
     <S.PetInfoBox>
       <p>

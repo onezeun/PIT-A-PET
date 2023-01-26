@@ -19,6 +19,7 @@ export const LoginContent = styled.div`
     width: 100px;
     height: auto;
     margin-bottom: 20px;
+    cursor:pointer;
   }
 
   & h1 {
