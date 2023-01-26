@@ -4,11 +4,6 @@ export const RegisterContainer = styled.div`
   max-width: 1200px;
   width: 100%;
   margin: auto;
-
-  & h1 {
-    font-family: 'KOTRAHOPE';
-    font-size: 40px;
-  }
 `;
 
 export const RegisterContent = styled.div`
