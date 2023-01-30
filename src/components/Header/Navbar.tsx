@@ -26,7 +26,7 @@ export default function Navbar() {
       </S.NavBoxItem>
       <S.NavBoxItem
         onClick={() => {
-          navigate('/mypage');
+          navigate('/userhome');
         }}
       >
         <i className="ri-user-heart-fill"></i>
