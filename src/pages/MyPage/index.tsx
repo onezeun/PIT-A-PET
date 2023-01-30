@@ -21,8 +21,8 @@ export default function MyPage(): JSX.Element {
         <S.UserWrap>
           <S.UserImgWrap>
             <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-            <button>이미지업로드</button>
-            <button>이미지제거</button>
+            <S.MyPageBtn>이미지업로드</S.MyPageBtn>
+            <S.MyPageBtn>이미지제거</S.MyPageBtn>
           </S.UserImgWrap>
           <S.UserInfo>
             <p>
@@ -32,12 +32,12 @@ export default function MyPage(): JSX.Element {
               닉네임<span>하찌킹</span>
             </p>
           </S.UserInfo>
-          <S.PwdBtn>비밀번호 변경</S.PwdBtn>
+          <S.MyPageBtn>비밀번호 변경</S.MyPageBtn>
         </S.UserWrap>
         <S.PetWrap>
           <S.PetTitleWrap>
             <h1>반려동물리스트</h1>
-            <button>등록하기</button>
+            <S.MyPageBtn>추가</S.MyPageBtn>
           </S.PetTitleWrap>
           <S.PetImgWrap>
             <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
@@ -46,8 +46,8 @@ export default function MyPage(): JSX.Element {
             <p>반려동물 이름~ 슬라이드 넣을예정</p>
           </S.PetImgWrap>
           <S.PetImgBtnWrap>
-            <button>이미지업로드</button>
-            <button>이미지제거</button>
+            <S.MyPageBtn>이미지업로드</S.MyPageBtn>
+            <S.MyPageBtn>이미지제거</S.MyPageBtn>
           </S.PetImgBtnWrap>
           <S.PetInfo>
             <p>
@@ -61,7 +61,7 @@ export default function MyPage(): JSX.Element {
             </p>
           </S.PetInfo>
         </S.PetWrap>
-        <S.SaveBtn>저장하기</S.SaveBtn>
+        <S.MyPageBtn>저장하기</S.MyPageBtn>
       </S.MyPageWrap>
     </AllContainer>
   );
