@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import * as S from './Register.styles';
+import * as S from './SignUp.styles';
 import profile from '../../assets/images/profile.png'
 
 export default function PetInfo(): JSX.Element {
@@ -30,28 +30,28 @@ export default function PetInfo(): JSX.Element {
         <S.SubTitle htmlFor="petName" className="subTitle">
           반려동물 이름
         </S.SubTitle>
-        <S.RegisterInput type="text" id="petName" className="registerInput"></S.RegisterInput>
+        <S.SignUpInput type="text" id="petName" className="signUpInput"></S.SignUpInput>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petType" className="subTitle">
           종류
         </S.SubTitle>
-        <S.RegisterInput type="text" id="petType" className="registerInput"></S.RegisterInput>
+        <S.SignUpInput type="text" id="petType" className="signUpInput"></S.SignUpInput>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petAge" className="subTitle">
           나이
         </S.SubTitle>
-        <S.RegisterInput type="text" id="petAge" className="registerInput"></S.RegisterInput>
+        <S.SignUpInput type="text" id="petAge" className="signUpInput"></S.SignUpInput>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petGender" className="subTitle">
           성별
         </S.SubTitle>
-        <S.RegisterInput type="text" id="petGender" className="registerInput"></S.RegisterInput>
+        <S.SignUpInput type="text" id="petGender" className="signUpInput"></S.SignUpInput>
       </S.InputWrap>
     </S.PetInfoBox>
   );
