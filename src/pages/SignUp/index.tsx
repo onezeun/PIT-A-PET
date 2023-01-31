@@ -1,51 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { signUpPost } from 'store/Auth/auth.slice';
 import * as S from './SignUp.styles';
 import PetInfo from './PetInfo';
 
 export default function SignUp(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [email, setEmail] = useState('');
-  const [nickName, setNickName] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
 
   const [emailError, setEmailError] = useState(true);
   const [passwordError, setPasswordError] = useState(true);
-  const [nickNameError, setNickNameError] = useState(true);
+  const [nameError, setNameError] = useState(true);
 
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-  const [nickNameErrorMessage, setNickNameErrorMessage] = useState('');
+  const [nameErrorMessage, setNameErrorMessage] = useState('');
+
+  const [successful, setSuccessful] = useState(false);
+
+  useEffect(() => {
+    if (emailError || passwordError || nameError === true) {
+      setSuccessful(false);
+    } else if (password != rePassword) {
+      setSuccessful(false);
+    } else setSuccessful(true);
+  });
 
   const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    const emailRegex = /^[A-Za-z0-9+]{5,}$/;
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 
     if (value === '') {
       setEmailErrorMessage('이메일를 입력해주세요');
       setEmailError(true);
-    } else if (value.length < 5 || value.length > 21) {
-      setEmailErrorMessage('이메일는 5자 이상, 20자 이하로 입력해주세요');
-      setEmailError(true);
     } else if (!emailRegex.test(value)) {
-      setEmailErrorMessage('이메일는 영문, 숫자만 입력 가능합니다');
+      setEmailErrorMessage('잘못된 형식의 이메일입니다.');
       setEmailError(true);
     } else setEmailError(false);
     setEmail(value);
   };
 
-  const nickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const nameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     if (value === '') {
-      setNickNameErrorMessage('닉네임을 입력해주세요');
-      setNickNameError(true);
+      setNameErrorMessage('닉네임을 입력해주세요');
+      setNameError(true);
     } else if (value.length > 10) {
-      setNickNameErrorMessage('닉네임은 10글자 이내로 입력해주세요');
-      setNickNameError(true);
-    } else setNickNameError(false);
-    setNickName(value);
+      setNameErrorMessage('닉네임은 10글자 이내로 입력해주세요');
+      setNameError(true);
+    } else setNameError(false);
+    setName(value);
   };
 
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,22 +97,22 @@ export default function SignUp(): JSX.Element {
     setPetCheck(false);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    console.log('눌렀다!')
+    console.log(successful)
+    e.preventDefault();
 
-
-  // const handleSubit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   // 회원 가입일때
-  //   if (isCreate) {
-  //     createUserWithEmailAndPassword(auth, email, pwd)
-  //       .then(() => {
-  //         alert("회원가입 성공");
-  //       })
-  //       .catch(e => {
-  //         alert(e);
-  //       });
-  //   }
-  // };
+    if (successful === true) {
+      dispatch(signUpPost({ email, password }))
+      .then(() => {
+        alert('회원가입을 성공적으로 완료했습니다!');
+      })
+      .catch((err) => {
+        console.log('회원가입에러',err)
+        alert('회원가입실패!');
+      })
+    }
+  };
 
   return (
     <>
@@ -118,31 +129,26 @@ export default function SignUp(): JSX.Element {
           <h1>회원가입</h1>
           <div>
             <form>
-              <S.InputWrap>
+              <S.InputWrap onChange={emailChange}>
                 <S.SubTitle htmlFor="signUpEmail">이메일</S.SubTitle>
                 <S.SignUpInput type="text" id="signUpEmail"></S.SignUpInput>
               </S.InputWrap>
-              <S.InputWrap>
-                <S.SubTitle htmlFor="signUpNickName">닉네임</S.SubTitle>
-                <S.SignUpInput
-                  type="text"
-                  id="signUpNickName"
-                ></S.SignUpInput>
+              <S.InputWrap onChange={nameChange}>
+                <S.SubTitle htmlFor="signUpName">이름</S.SubTitle>
+                <S.SignUpInput type="text" id="signUpName"></S.SignUpInput>
               </S.InputWrap>
-              <S.InputWrap>
+              <S.InputWrap onChange={passwordChange}>
                 <S.SubTitle htmlFor="signUpPassword">비밀번호</S.SubTitle>
                 <S.SignUpInput
                   type="password"
                   id="signUpPassword"
                 ></S.SignUpInput>
               </S.InputWrap>
-              <S.InputWrap>
-                <S.SubTitle htmlFor="signUpPassword">
-                  비밀번호 확인
-                </S.SubTitle>
+              <S.InputWrap onChange={rePasswordChange}>
+                <S.SubTitle htmlFor="signUpRePassword">비밀번호 확인</S.SubTitle>
                 <S.SignUpInput
                   type="password"
-                  id="signUpPassword"
+                  id="signUpRePassword"
                 ></S.SignUpInput>
               </S.InputWrap>
               <S.PetCheck>
@@ -157,7 +163,7 @@ export default function SignUp(): JSX.Element {
                 </label>
               </S.PetCheck>
               {petCheck == true ? <PetInfo /> : null}
-              <S.SignUpBtn>회원가입</S.SignUpBtn>
+              <S.SignUpBtn onClick={handleSubmit}>회원가입</S.SignUpBtn>
             </form>
             <S.LinkWrap>
               <a href="#" className="googleLogin">
