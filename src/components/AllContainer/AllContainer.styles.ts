@@ -5,7 +5,7 @@ export const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  margin: 0 auto 105px;
+  margin: 0 auto 150px;
 
   @media screen and (min-width: 1024px) {
     margin: auto;

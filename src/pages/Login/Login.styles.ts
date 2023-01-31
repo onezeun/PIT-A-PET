@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components/macro';
 export const LoginContainer = styled.div`
   max-width: 1200px;
   width: 100%;
-  margin: auto;
+  margin: 0 auto 150px;
 
   & h1 {
     font-family: 'KOTRAHOPE';
