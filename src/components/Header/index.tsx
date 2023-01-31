@@ -47,7 +47,7 @@ export default function Header(): JSX.Element | null {
     );
   } else if (
     location.pathname === '/login' ||
-    location.pathname === '/register'
+    location.pathname === '/signup'
   ) {
     return null;
   } else {

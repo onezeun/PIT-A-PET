@@ -25,7 +25,7 @@ export default function Login(): JSX.Element {
             </form>
             <S.LinkWrap>
               <a href='#' className='googleLogin'>구글계정으로 로그인하기</a>
-              <a href='#' className='register' onClick={() => {navigate('/register')}} >회원가입하러가기</a>
+              <a href='#' className='signup' onClick={() => {navigate('/signup')}} >회원가입하러가기</a>
             </S.LinkWrap>
           </S.LoginWrap>
         </S.LoginContent>
