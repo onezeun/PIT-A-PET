@@ -16,7 +16,6 @@ export interface ILoginSuccess {
   uid: string;
   email: string | null;
   name: string | null;
-  isLoggedIn : boolean | null;
 }
 
 // user

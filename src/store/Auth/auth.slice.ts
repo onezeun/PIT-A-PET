@@ -20,7 +20,6 @@ interface AuthState {
 
   loginLoading: AsyncType;
   loginError: string | null;
-  isLoggedIn : boolean | null;
 
   signUpLoading: AsyncType;
   signUpError: string | null;
@@ -35,7 +34,6 @@ const initialState: AuthState = {
 
   loginLoading: 'idle',
   loginError: null,
-  isLoggedIn: false,
 
   signUpLoading: 'idle',
   signUpError: null,
@@ -56,7 +54,6 @@ export const UserSignUp = createAsyncThunk(
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
-        isLoggedIn : true
       };
     } catch (err: any) {
       switch (err.code) {
@@ -92,7 +89,6 @@ export const UserLogin = createAsyncThunk(
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
-        isLoggedIn : true,
       } 
     } catch (err: any) {
       switch (err.code) {
@@ -151,7 +147,6 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.uid = action.payload.uid;
         state.name = action.payload.name;
-        state.isLoggedIn = true;
       })
       .addCase(UserLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;
