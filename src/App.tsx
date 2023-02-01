@@ -1,5 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
 
 import Header from 'components/Header';
 import Main from './pages/Main'
@@ -8,8 +10,9 @@ import Login from 'pages/Login';
 import MyPage from 'pages/MyPage';
 import UserHome from 'pages/UserHome';
 
-
 function App() {
+  let user = useSelector((state: RootState) => state.auth);
+
   return (
     <>
       <Header />

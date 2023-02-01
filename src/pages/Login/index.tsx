@@ -53,7 +53,7 @@ export default function Login(): JSX.Element {
       dispatch(UserLogin({ email, password }))
         .then((data) => {
           if (data.type == 'auth/USER_LOGIN/fulfilled') {
-            console.log('로그인 성공');
+            navigate('/')
           } else {
             setLoginErrorMessage(data.payload);
           }

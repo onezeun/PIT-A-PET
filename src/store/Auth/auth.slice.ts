@@ -19,6 +19,7 @@ interface AuthState {
 
   loginLoading: AsyncType;
   loginError: string | null;
+  isLoggedIn : boolean | null;
 
   signUpLoading: AsyncType;
   signUpError: string | null;
@@ -33,6 +34,7 @@ const initialState: AuthState = {
 
   loginLoading: 'idle',
   loginError: null,
+  isLoggedIn: false,
 
   signUpLoading: 'idle',
   signUpError: null,
@@ -54,6 +56,7 @@ export const UserSignUp = createAsyncThunk(
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
+        isLoggedIn : true
       };
     } catch (err: any) {
       switch (err.code) {
@@ -82,12 +85,14 @@ export const UserLogin = createAsyncThunk(
         email,
         password,
       );
+      console.log('userCredential.user', userCredential.user); 
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
-      };
+        isLoggedIn : true,
+      }
     } catch (err: any) {
       switch (err.code) {
         case 'auth/user-not-found':
@@ -97,7 +102,7 @@ export const UserLogin = createAsyncThunk(
           throw rejectWithValue('비밀번호를 다시 확인해주세요.');
           break;
       }
-      throw rejectWithValue('로그인실패~');
+      throw rejectWithValue('로그인실패');
     }
   },
 );
@@ -143,6 +148,8 @@ export const authSlice = createSlice({
         state.email = action.payload.email;
         state.token = action.payload.token;
         state.uid = action.payload.uid;
+        state.name = action.payload.name;
+        state.isLoggedIn = true;
       })
       .addCase(UserLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;
