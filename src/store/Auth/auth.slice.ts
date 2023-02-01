@@ -5,10 +5,10 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-  updateProfile
+  updateProfile,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginPayload } from '../interface';
-
+import { app } from '../../Firebase';
 
 // 초기 상태 타입
 interface AuthState {
@@ -42,20 +42,21 @@ const initialState: AuthState = {
 export const signUpPost = createAsyncThunk(
   'auth/SIGN_UP',
   async ({ email, password }: ISignUpPayload, { rejectWithValue }) => {
-    const auth = getAuth();
     try {
       const userCredential = await createUserWithEmailAndPassword(
-        auth,
+        getAuth(app),
         email,
         password,
       );
       // await updateProfile(userCredential.user, {displayName: name})
-      return {
-        token: await userCredential.user.getIdToken(),
-        email: userCredential.user.email,
-        uid: userCredential.user.uid,
-      };
+      return userCredential.user;
+      // {
+      //   token: await userCredential.user.getIdToken(),
+      //   email: userCredential.user.email,
+      //   uid: userCredential.user.uid,
+      // };
     } catch (err) {
+      console.log('err', err);
       throw rejectWithValue('회원가입 실패');
     }
   },
@@ -67,30 +68,30 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    // 대기중
-    .addCase(signUpPost.pending, (state, action) => {
-      state.signUpError = null;
-      state.signUpLoading = 'pending';
-    })
-    // 성공
-    .addCase(signUpPost.fulfilled, (state, action) => {
-      state.signUpError = null;
-      state.signUpLoading = 'succeeded';
+      // 대기중
+      .addCase(signUpPost.pending, (state, action) => {
+        state.signUpError = null;
+        state.signUpLoading = 'pending';
+      })
+      // 성공
+      .addCase(signUpPost.fulfilled, (state, action) => {
+        state.signUpError = null;
+        state.signUpLoading = 'succeeded';
 
-      state.token = action.payload.token;
-      state.email = action.payload.email;
-      state.uid = action.payload.uid;
-    })
-    // 거절
-    .addCase(signUpPost.rejected, (state, action) => {
-      state.signUpLoading = 'failed';
-      state.signUpError = action.payload as string;
+        // state.token = action.payload.token;
+        state.email = action.payload.email;
+        state.uid = action.payload.uid;
+      })
+      // 거절
+      .addCase(signUpPost.rejected, (state, action) => {
+        state.signUpLoading = 'failed';
+        state.signUpError = action.payload as string;
 
-      state.token = null;
-      state.email = null;
-      state.uid = null;
-    });
-  }
+        state.token = null;
+        state.email = null;
+        state.uid = null;
+      });
+  },
 });
 
 // export const { setUserId, setname } = authSlice.actions;

@@ -98,8 +98,6 @@ export default function SignUp(): JSX.Element {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log('눌렀다!')
-    console.log(successful)
     e.preventDefault();
 
     if (successful === true) {
