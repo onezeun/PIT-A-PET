@@ -91,6 +91,32 @@ export const UserInfo = styled.div`
   }
 `;
 
+export const PetCheck = styled.div`
+  margin: 30px auto;
+  max-width: 300px;
+
+  & p {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  & input[type='radio'] {
+    display: none;
+  }
+
+  & label {
+    display: inline-block;
+    width: 48%;
+    height: 35px;
+    line-height: 35px;
+    margin: 15px 1% 0;
+    background: ${(props) => props.theme.colors.YELLOW_100};
+    border-radius: 5px;
+    color: ${(props) => props.theme.colors.GREY_200};
+    cursor:pointer;
+  }
+`;
+
 export const PetWrap = styled.div`
   margin-top: 50px;
 `;

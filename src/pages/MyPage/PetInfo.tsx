@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import * as S from './SignUp.styles';
+import * as S from '../SignUp/SignUp.styles';
 import profile from '../../assets/images/profile.png'
 
 export default function PetInfo(): JSX.Element {
@@ -7,15 +7,6 @@ export default function PetInfo(): JSX.Element {
   
   return (
     <S.PetInfoBox>
-      <p>
-        회원가입시에는 1마리만 입력 가능합니다.
-        <br />
-        가입 후 회원정보에서 추가 등록이 가능합니다.
-        <br />
-        구글계정으로 가입하시는 경우
-        <br />
-        가입 후 회원정보에서 수정해주세요.
-      </p>
       <input type="file" className="imgInput" id="imgInput" ref={uploadImg}></input>
       <label htmlFor="imgInput" className='imgLabel'>반려동물 이미지 업로드</label>
       <S.PetImg

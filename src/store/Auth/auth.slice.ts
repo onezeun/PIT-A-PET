@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from '@firebase/auth';
-import { ISignUpPayload, ILoginPayload } from '../interface';
+import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
 import { app } from '../../Firebase';
 
 // 초기 상태 타입
@@ -39,25 +39,65 @@ const initialState: AuthState = {
 };
 
 // 회원가입 요청
-export const signUpPost = createAsyncThunk(
-  'auth/SIGN_UP',
-  async ({ email, password }: ISignUpPayload, { rejectWithValue }) => {
+export const UserSignUp = createAsyncThunk(
+  'auth/USER_SIGN_UP',
+  async ({ name, email, password }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(app),
         email,
         password,
       );
-      // await updateProfile(userCredential.user, {displayName: name})
-      return userCredential.user;
-      // {
-      //   token: await userCredential.user.getIdToken(),
-      //   email: userCredential.user.email,
-      //   uid: userCredential.user.uid,
-      // };
-    } catch (err) {
-      console.log('err', err);
-      throw rejectWithValue('회원가입 실패');
+      await updateProfile(userCredential.user, { displayName: name });
+      return {
+        token: await userCredential.user.getIdToken(),
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        name: userCredential.user.displayName,
+      };
+    } catch (err: any) {
+      switch (err.code) {
+        case 'auth/weak-password':
+          throw rejectWithValue('비밀번호 형식을 확인해주세요');
+          break;
+        case 'auth/invalid-email':
+          throw rejectWithValue('잘못된 형식의 이메일입니다.');
+          break;
+        case 'auth/email-already-in-use':
+          throw rejectWithValue('이미 가입되어 있는 계정입니다');
+          break;
+      }
+      throw rejectWithValue('회원가입실패~');
+    }
+  },
+);
+
+// 로그인
+export const UserLogin = createAsyncThunk(
+  'auth/USER_LOGIN',
+  async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        getAuth(),
+        email,
+        password,
+      );
+      return {
+        token: await userCredential.user.getIdToken(),
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        name: userCredential.user.displayName,
+      };
+    } catch (err: any) {
+      switch (err.code) {
+        case 'auth/user-not-found':
+          throw rejectWithValue('등록되지 않은 회원입니다.');
+          break;
+        case 'auth/wrong-password':
+          throw rejectWithValue('비밀번호를 다시 확인해주세요.');
+          break;
+      }
+      throw rejectWithValue('로그인실패~');
     }
   },
 );
@@ -69,26 +109,47 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 대기중
-      .addCase(signUpPost.pending, (state, action) => {
+      .addCase(UserSignUp.pending, (state, action) => {
         state.signUpError = null;
         state.signUpLoading = 'pending';
       })
       // 성공
-      .addCase(signUpPost.fulfilled, (state, action) => {
+      .addCase(UserSignUp.fulfilled, (state, action) => {
         state.signUpError = null;
         state.signUpLoading = 'succeeded';
 
-        // state.token = action.payload.token;
+        state.token = action.payload.token;
         state.email = action.payload.email;
         state.uid = action.payload.uid;
       })
       // 거절
-      .addCase(signUpPost.rejected, (state, action) => {
-        state.signUpLoading = 'failed';
+      .addCase(UserSignUp.rejected, (state, action) => {
         state.signUpError = action.payload as string;
+        state.signUpLoading = 'failed';
 
         state.token = null;
         state.email = null;
+        state.uid = null;
+      });
+    builder
+      .addCase(UserLogin.pending, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'pending';
+      })
+      .addCase(UserLogin.fulfilled, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'succeeded';
+
+        state.email = action.payload.email;
+        state.token = action.payload.token;
+        state.uid = action.payload.uid;
+      })
+      .addCase(UserLogin.rejected, (state, action) => {
+        state.loginError = action.payload as string;
+        state.loginLoading = 'failed';
+
+        state.email = null;
+        state.token = null;
         state.uid = null;
       });
   },

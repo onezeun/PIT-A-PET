@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './MyPage.styles';
 
@@ -7,6 +7,18 @@ import AllContainer from 'components/AllContainer';
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
 
+  // 반려동물 입력
+  const [petCheck, setPetCheck] = useState(false);
+
+  const yesPet = (e: any) => {
+    e.preventDefault();
+    setPetCheck(true);
+  };
+
+  const noPet = (e: any) => {
+    e.preventDefault();
+    setPetCheck(false);
+  };
   return (
     <AllContainer>
       <S.MyPageWrap>

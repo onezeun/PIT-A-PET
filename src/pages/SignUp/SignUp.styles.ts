@@ -36,14 +36,20 @@ export const SubTitle = styled.label`
 `;
 
 export const SignUpInput = styled.input`
-  color: ${(props) => props.theme.colors.BLUE};
+  color: ${(props) => props.color || props.theme.colors.BLUE};
   margin: 5px auto 0;
   padding: 10px;
   width: 300px;
   height: 40px;
   display: block;
-  border: 1px solid ${(props) => props.theme.colors.BLUE};
+  border: 1px solid ${(props) => props.color || props.theme.colors.BLUE};
   border-radius: 5px;
+`;
+
+export const SignUpErrMsg = styled.p<{ mt?: string }>`
+  margin-top: ${(props) => props.mt || '5px'};
+  font-size: 0.85rem;
+  color: red;
 `;
 
 export const LinkWrap = styled.div`
@@ -61,7 +67,7 @@ export const LinkWrap = styled.div`
 `;
 
 export const SignUpBtn = styled.div`
-  margin: 30px auto 0;
+  margin: 5px auto 0;
   font-family: 'IM_Hyemin-Bold';
   font-size: 1.5rem;
   width: 300px;
@@ -71,7 +77,7 @@ export const SignUpBtn = styled.div`
   color: white;
   border: none;
   border-radius: 5px;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export const PetCheck = styled.div`
@@ -96,7 +102,7 @@ export const PetCheck = styled.div`
     background: ${(props) => props.theme.colors.YELLOW_100};
     border-radius: 5px;
     color: ${(props) => props.theme.colors.GREY_200};
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 
@@ -115,11 +121,11 @@ export const PetInfoBox = styled.div`
     border-radius: 5px;
   }
 
-  & .imgInput, .imgLabel {
+  & .imgInput,
+  .imgLabel {
     display: none;
   }
 `;
-
 
 export const PetImg = styled.img`
   width: 120px;
@@ -138,5 +144,5 @@ export const ImgBtn = styled.div`
   border: none;
   border-radius: 5px;
   color: ${(props) => props.theme.colors.GREY_200};
-  cursor:pointer;
+  cursor: pointer;
 `;

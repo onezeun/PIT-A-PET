@@ -3,6 +3,7 @@
 export interface ISignUpPayload {
   email: string;
   password: string;
+  name: string;
 }
 
 export interface ILoginPayload {
@@ -14,6 +15,7 @@ export interface ILoginSuccess {
   token: string;
   uid: string;
   email: string | null;
+  name: string | null;
 }
 
 // user

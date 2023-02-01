@@ -32,7 +32,7 @@ export const LoginContent = styled.div`
 
 export const LoginWrap = styled.div`
   & button {
-    margin: 30px auto 0;
+    margin: 5px auto 0;
     font-family: 'IM_Hyemin-Bold';
     font-size: 1.5rem;
     width: 300px;
@@ -64,6 +64,13 @@ export const LoginInput = styled.input`
   border: 1px solid ${(props) => props.theme.colors.BLUE};
   border-radius: 5px;
 `;
+
+export const LoginErrMsg = styled.p<{ mt?: string }>`
+  margin-top: ${(props) => props.mt || '5px'};
+  font-size: 0.85rem;
+  color: red;
+`;
+
 
 export const LinkWrap = styled.div`
   margin: auto;
