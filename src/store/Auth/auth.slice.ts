@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-  updateProfile,
+  setPersistence,
+  browserSessionPersistence
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
 import { app } from '../../Firebase';
@@ -50,7 +51,6 @@ export const UserSignUp = createAsyncThunk(
         email,
         password,
       );
-      await updateProfile(userCredential.user, { displayName: name });
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
@@ -79,20 +79,21 @@ export const UserSignUp = createAsyncThunk(
 export const UserLogin = createAsyncThunk(
   'auth/USER_LOGIN',
   async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence)
     try {
       const userCredential = await signInWithEmailAndPassword(
-        getAuth(),
+        auth,
         email,
         password,
       );
-      console.log('userCredential.user', userCredential.user); 
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
         isLoggedIn : true,
-      }
+      } 
     } catch (err: any) {
       switch (err.code) {
         case 'auth/user-not-found':
@@ -102,6 +103,7 @@ export const UserLogin = createAsyncThunk(
           throw rejectWithValue('비밀번호를 다시 확인해주세요.');
           break;
       }
+      console.log(err)
       throw rejectWithValue('로그인실패');
     }
   },
