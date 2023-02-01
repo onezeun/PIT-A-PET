@@ -23,7 +23,7 @@ export default function Login(): JSX.Element {
     let value = e.target.value;
 
     if (value === '') {
-      setEmailErrorMessage('이메일를 입력해주세요');
+      setEmailErrorMessage('이메일을 입력해주세요');
       setEmailError(true);
     } else {
       setEmailErrorMessage('');

@@ -39,7 +39,7 @@ export default function SignUp(): JSX.Element {
     const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 
     if (value === '') {
-      setEmailErrorMessage('이메일를 입력해주세요');
+      setEmailErrorMessage('이메일을 입력해주세요');
       setEmailError(true);
     } else if (!emailRegex.test(value)) {
       setEmailErrorMessage('잘못된 형식의 이메일입니다.');
@@ -54,10 +54,10 @@ export default function SignUp(): JSX.Element {
   const nameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     if (value === '') {
-      setNameErrorMessage('닉네임을 입력해주세요');
+      setNameErrorMessage('이름을 입력해주세요');
       setNameError(true);
     } else if (value.length > 10) {
-      setNameErrorMessage('닉네임은 10글자 이내로 입력해주세요');
+      setNameErrorMessage('10글자 이내로 입력해주세요');
       setNameError(true);
     } else {
       setNameErrorMessage('');
