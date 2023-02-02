@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserSessionPersistence,
+  updateProfile
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
 import { app, apiKey } from '../../Firebase';
@@ -46,16 +47,16 @@ const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
 // 회원가입 요청
 export const UserSignUp = createAsyncThunk(
   'auth/USER_SIGN_UP',
-  async (
-    { name, email, password }: ISignUpPayload,
-    { rejectWithValue },
-  ): Promise<ILoginSuccess> => {
+  async ({ name, email, password,  }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(app),
         email,
         password,
       );
+      await updateProfile(userCredential.user, {displayName: name})
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
@@ -82,10 +83,7 @@ export const UserSignUp = createAsyncThunk(
 // 로그인
 export const UserLogin = createAsyncThunk(
   'auth/USER_LOGIN',
-  async (
-    { email, password }: ILoginPayload,
-    { rejectWithValue, dispatch },
-  ): Promise<ILoginSuccess> => {
+  async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);
     try {
@@ -134,6 +132,7 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.email = action.payload.email;
         state.uid = action.payload.uid;
+        state.name = action.payload.name;
         state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       // 거절
