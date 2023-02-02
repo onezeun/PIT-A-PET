@@ -10,7 +10,6 @@ import SignUpSuccess from './SignUpSuccess';
 export default function SignUp(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  let signUpError = useSelector((state: RootState) => state.auth.signUpError);
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');

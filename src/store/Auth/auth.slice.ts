@@ -6,10 +6,10 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   setPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
-import { app } from '../../Firebase';
+import { app, apiKey } from '../../Firebase';
 
 // 초기 상태 타입
 interface AuthState {
@@ -20,6 +20,7 @@ interface AuthState {
 
   loginLoading: AsyncType;
   loginError: string | null;
+  sessionKey?: boolean | null;
 
   signUpLoading: AsyncType;
   signUpError: string | null;
@@ -34,15 +35,21 @@ const initialState: AuthState = {
 
   loginLoading: 'idle',
   loginError: null,
+  sessionKey: null,
 
   signUpLoading: 'idle',
   signUpError: null,
 };
 
+const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
+
 // 회원가입 요청
 export const UserSignUp = createAsyncThunk(
   'auth/USER_SIGN_UP',
-  async ({ name, email, password }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
+  async (
+    { name, email, password }: ISignUpPayload,
+    { rejectWithValue },
+  ): Promise<ILoginSuccess> => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(app),
@@ -75,9 +82,12 @@ export const UserSignUp = createAsyncThunk(
 // 로그인
 export const UserLogin = createAsyncThunk(
   'auth/USER_LOGIN',
-  async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
+  async (
+    { email, password }: ILoginPayload,
+    { rejectWithValue, dispatch },
+  ): Promise<ILoginSuccess> => {
     const auth = getAuth();
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserSessionPersistence);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -89,7 +99,7 @@ export const UserLogin = createAsyncThunk(
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
-      } 
+      };
     } catch (err: any) {
       switch (err.code) {
         case 'auth/user-not-found':
@@ -99,7 +109,7 @@ export const UserLogin = createAsyncThunk(
           throw rejectWithValue('비밀번호를 다시 확인해주세요.');
           break;
       }
-      console.log(err)
+      console.log(err);
       throw rejectWithValue('로그인실패');
     }
   },
@@ -124,6 +134,7 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.email = action.payload.email;
         state.uid = action.payload.uid;
+        state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       // 거절
       .addCase(UserSignUp.rejected, (state, action) => {
@@ -147,6 +158,7 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.uid = action.payload.uid;
         state.name = action.payload.name;
+        state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       .addCase(UserLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;

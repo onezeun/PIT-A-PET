@@ -12,14 +12,11 @@ interface Iprops {
 }
 
 export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.Element {
-  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
-  const is_session = sessionStorage.getItem(_session_key)? true : false;
-
-  console.log('_session_key',_session_key)
-  console.log('is_session',is_session)
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const outside = useRef<any>();
+  const sessionKey = useSelector((state: RootState) => state.auth.sessionKey);
+
+  console.log(sessionKey);
 
   useEffect(() => {
     document.addEventListener('mousedown', handlerOutsie);
@@ -59,7 +56,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
         </ul>
       ) : null}
       <ul>
-        {is_session ? (
+        {sessionKey ? (
           <>
             <S.ListItem>보관함</S.ListItem>
             <S.ListItem onClick={() => { navigate('/mypage'); toggleSide() }}>정보수정</S.ListItem>
