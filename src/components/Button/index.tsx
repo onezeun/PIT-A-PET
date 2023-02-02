@@ -13,14 +13,12 @@ interface ButtonStyle {
   fontSize?: string;
 }
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    ButtonStyle {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonStyle {
   children: React.ReactNode;
   className?: string;
 }
 
-function Button({ className, children, ...rest }: ButtonProps): JSX.Element {
+export default function Button({ className, children, ...rest }: ButtonProps): JSX.Element {
   return (
     <ButtonStyled className={className} {...rest}>
       {children}
@@ -52,5 +50,3 @@ const ButtonStyled = styled.button<ButtonStyle>`
     font-size: ${fontSize};
   `}
 `;
-
-export default Button;

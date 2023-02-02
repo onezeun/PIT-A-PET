@@ -205,3 +205,65 @@ export const MyPageBtn = styled.button`
     }
   `}
 `;
+
+export const AddPet = styled.div`
+  margin: auto;
+  max-width: 300px;
+
+  & p {
+    font-size: 0.9rem;
+    padding: 10px;
+    color: ${(props) => props.theme.colors.GREY_100};
+    text-align: left;
+    line-height: 25px;
+    margin: 10px 0;
+    background: rgba(255, 236, 172, 0.6);
+    border-radius: 5px;
+  }
+
+  & .imgInput,
+  .imgLabel {
+    display: none;
+  }
+`;
+
+export const AddPetImg = styled.img`
+  width: 120px;
+  height: auto;
+  margin 10px 0;
+`;
+
+export const AddPetImgBtn = styled.div`
+  display: block;
+  width: 150px;
+  height: 30px;
+  line-height: 30px;
+  margin: auto;
+  font-size: 0.9rem;
+  background: ${(props) => props.theme.colors.YELLOW_100};
+  border: none;
+  border-radius: 5px;
+  color: ${(props) => props.theme.colors.GREY_200};
+  cursor: pointer;
+`;
+
+export const InputWrap = styled.div`
+  width: 300px;
+  text-align: left;
+  margin: 20px auto 0;
+`;
+
+export const SubTitle = styled.label`
+  color: ${(props) => props.theme.colors.BLUE};
+`;
+
+export const addPetInput = styled.input`
+  color: ${(props) => props.color || props.theme.colors.BLUE};
+  margin: 5px auto 0;
+  padding: 10px;
+  width: 300px;
+  height: 40px;
+  display: block;
+  border: 1px solid ${(props) => props.color || props.theme.colors.BLUE};
+  border-radius: 5px;
+`;
