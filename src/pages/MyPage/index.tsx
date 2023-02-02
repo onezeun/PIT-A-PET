@@ -24,8 +24,8 @@ export default function MyPage(): JSX.Element {
     className: 'center',
     centerMode: true,
     infinite: true,
-    centerPadding: '0px',
-    slidesToShow: 3,
+    centerPadding: '150px',
+    slidesToShow: 1,
     speed: 500,
   };
 
@@ -69,22 +69,30 @@ export default function MyPage(): JSX.Element {
             <AddPet />
           </Modal>
           <S.PetImgSlider {...settings}>
-            <S.PetImgWrap>
-              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-              <p>반려동물 이름</p>
-            </S.PetImgWrap>
-            <S.PetImgWrap>
-              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-              <p>반려동물 이름</p>
-            </S.PetImgWrap>
-            <S.PetImgWrap>
-              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-              <p>반려동물 이름</p>
-            </S.PetImgWrap>
-            <S.PetImgWrap>
-              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-              <p>반려동물 이름</p>
-            </S.PetImgWrap>
+            <S.SliderItem>
+              <S.SliderContent>
+                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <p>반려동물 이름1</p>
+              </S.SliderContent>
+            </S.SliderItem>
+            <S.SliderItem>
+              <S.SliderContent>
+                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <p>반려동물 이름2</p>
+              </S.SliderContent>
+            </S.SliderItem>
+            <S.SliderItem>
+              <S.SliderContent>
+                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <p>반려동물 이름3</p>
+              </S.SliderContent>
+            </S.SliderItem>
+            <S.SliderItem>
+              <S.SliderContent>
+                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <p>반려동물 이름4</p>
+              </S.SliderContent>
+            </S.SliderItem>
           </S.PetImgSlider>
           <S.PetInfo>
             <p>

@@ -89,10 +89,6 @@ export const UserInfo = styled.div`
   }
 `;
 
-export const PetWrap = styled.div`
-  margin-top: 50px;
-`;
-
 export const PetTitleWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -119,15 +115,21 @@ export const PetTitleWrap = styled.div`
 `;
 
 export const PetImgSlider = styled(Slider)`
-  margin:25px auto 20px;
-  width: 80%;
+  margin: 25px auto 20px;
   overflow: hidden;
   max-width: 500px;
+  padding: 0 30px;
 `;
 
-export const PetImgWrap = styled.div`
+export const SliderContent = styled.div`
+  opacity: 1;
+  transform: scale(1.04);
+`;
+
+export const SliderItem = styled.div`
   display: flex;
   flex-direction: column;
+  hei
 
   & img {
     margin: auto;
@@ -135,6 +137,30 @@ export const PetImgWrap = styled.div`
     height: 100px;
     border-radius: 50%;
     margin-bottom: 10px;
+  }
+
+  ${SliderContent} {
+    line-height: 50px;
+    position: relative;
+    text-align: center;
+  }
+`;
+
+export const PetWrap = styled.div`
+  margin-top: 50px;
+
+  .center .slick-center ${SliderContent} {
+    /* center 모드일때 center에게 강조할 경우 사용 */
+    color: ${(props) => props.theme.colors.BLUE};
+    opacity: 1;
+    transform: scale(0.95);
+  }
+
+  .center ${SliderContent} {
+    /* center 모드일때 center 외 속성에게 사용 */
+    opacity: 0.5;
+    transition: all 300ms ease;
+    transform: scale(0.7);
   }
 `;
 
