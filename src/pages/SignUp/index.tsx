@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
 import { UserSignUp } from 'store/Auth/auth.slice';
 import * as S from './SignUp.styles';
 
@@ -115,10 +115,11 @@ export default function SignUp(): JSX.Element {
 
     if (allCheck === true) {
       setSignUpErrorMessage('');
-      dispatch(UserSignUp({ email, password, name }))
-        .then((data) => {
-          if (data.type == 'auth/SIGN_UP/fulfilled') {
-            alert('회원가입을 성공적으로 완료했습니다!');
+      dispatch(UserSignUp({ name, email, password }))
+        .then((data: any) => {
+          console.log('data', data);
+          // if (typeof data.payload == "object") {
+          if (data.type == 'auth/USER_SIGN_UP/fulfilled') {
             setSuccessful(true);
           } else {
             setSignUpErrorMessage(data.payload);
@@ -145,74 +146,76 @@ export default function SignUp(): JSX.Element {
               navigate('/');
             }}
           />
-          <h1>회원가입</h1>
           {successful ? (
             <SignUpSuccess />
           ) : (
-            <div>
-              <form>
-                <S.InputWrap>
-                  <S.SubTitle htmlFor="signUpEmail">이메일</S.SubTitle>
-                  <S.SignUpInput
-                    type="text"
-                    id="signUpEmail"
-                    onChange={emailChange}
-                    color={emailErrorMessage == '' ? undefined : 'red'}
-                  ></S.SignUpInput>
-                  <S.SignUpErrMsg>{emailErrorMessage}</S.SignUpErrMsg>
-                </S.InputWrap>
-                <S.InputWrap>
-                  <S.SubTitle htmlFor="signUpName">이름</S.SubTitle>
-                  <S.SignUpInput
-                    type="text"
-                    id="signUpName"
-                    onChange={nameChange}
-                    color={nameErrorMessage == '' ? undefined : 'red'}
-                  ></S.SignUpInput>
-                  <S.SignUpErrMsg>{nameErrorMessage}</S.SignUpErrMsg>
-                </S.InputWrap>
-                <S.InputWrap>
-                  <S.SubTitle htmlFor="signUpPassword">비밀번호</S.SubTitle>
-                  <S.SignUpInput
-                    type="password"
-                    id="signUpPassword"
-                    onChange={passwordChange}
-                    color={passwordErrorMessage == '' ? undefined : 'red'}
-                  ></S.SignUpInput>
-                  <S.SignUpErrMsg>{passwordErrorMessage}</S.SignUpErrMsg>
-                </S.InputWrap>
-                <S.InputWrap>
-                  <S.SubTitle htmlFor="signUpRePassword">
-                    비밀번호 확인
-                  </S.SubTitle>
-                  <S.SignUpInput
-                    type="password"
-                    id="signUpRePassword"
-                    onChange={rePasswordChange}
-                    color={rePasswordErrorMessage == '' ? undefined : 'red'}
-                  ></S.SignUpInput>
-                  <S.SignUpErrMsg>{rePasswordErrorMessage}</S.SignUpErrMsg>
-                </S.InputWrap>
-                <S.SignUpErrMsg mt={'50px'}>
-                  {signUpErrorMessage}
-                </S.SignUpErrMsg>
-                <S.SignUpBtn onClick={handleSubmit}>회원가입</S.SignUpBtn>
-              </form>
-              <S.LinkWrap>
-                <a href="#" className="googleLogin">
-                  구글계정으로 회원가입
-                </a>
-                <a
-                  href="#"
-                  className="signUp"
-                  onClick={() => {
-                    navigate('/login');
-                  }}
-                >
-                  로그인하러가기
-                </a>
-              </S.LinkWrap>
-            </div>
+            <>
+              <h1>회원가입</h1>
+              <div>
+                <form>
+                  <S.InputWrap>
+                    <S.SubTitle htmlFor="signUpEmail">이메일</S.SubTitle>
+                    <S.SignUpInput
+                      type="text"
+                      id="signUpEmail"
+                      onChange={emailChange}
+                      color={emailErrorMessage == '' ? undefined : 'red'}
+                    ></S.SignUpInput>
+                    <S.SignUpErrMsg>{emailErrorMessage}</S.SignUpErrMsg>
+                  </S.InputWrap>
+                  <S.InputWrap>
+                    <S.SubTitle htmlFor="signUpName">이름</S.SubTitle>
+                    <S.SignUpInput
+                      type="text"
+                      id="signUpName"
+                      onChange={nameChange}
+                      color={nameErrorMessage == '' ? undefined : 'red'}
+                    ></S.SignUpInput>
+                    <S.SignUpErrMsg>{nameErrorMessage}</S.SignUpErrMsg>
+                  </S.InputWrap>
+                  <S.InputWrap>
+                    <S.SubTitle htmlFor="signUpPassword">비밀번호</S.SubTitle>
+                    <S.SignUpInput
+                      type="password"
+                      id="signUpPassword"
+                      onChange={passwordChange}
+                      color={passwordErrorMessage == '' ? undefined : 'red'}
+                    ></S.SignUpInput>
+                    <S.SignUpErrMsg>{passwordErrorMessage}</S.SignUpErrMsg>
+                  </S.InputWrap>
+                  <S.InputWrap>
+                    <S.SubTitle htmlFor="signUpRePassword">
+                      비밀번호 확인
+                    </S.SubTitle>
+                    <S.SignUpInput
+                      type="password"
+                      id="signUpRePassword"
+                      onChange={rePasswordChange}
+                      color={rePasswordErrorMessage == '' ? undefined : 'red'}
+                    ></S.SignUpInput>
+                    <S.SignUpErrMsg>{rePasswordErrorMessage}</S.SignUpErrMsg>
+                  </S.InputWrap>
+                  <S.SignUpErrMsg mt={'50px'}>
+                    {signUpErrorMessage}
+                  </S.SignUpErrMsg>
+                  <S.SignUpBtn onClick={handleSubmit}>회원가입</S.SignUpBtn>
+                </form>
+                <S.LinkWrap>
+                  <a href="#" className="googleLogin">
+                    구글계정으로 회원가입
+                  </a>
+                  <a
+                    href="#"
+                    className="signUp"
+                    onClick={() => {
+                      navigate('/login');
+                    }}
+                  >
+                    로그인하러가기
+                  </a>
+                </S.LinkWrap>
+              </div>
+            </>
           )}
         </S.SignUpContent>
       </S.SignUpContainer>

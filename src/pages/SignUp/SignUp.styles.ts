@@ -146,3 +146,20 @@ export const ImgBtn = styled.div`
   color: ${(props) => props.theme.colors.GREY_200};
   cursor: pointer;
 `;
+
+export const SuccessTitle = styled.p`
+  margin: 80px 0 40px 0;
+  font-family: 'IM_Hyemin-Bold';
+  font-size: 1.8rem;
+  line-height: 2rem;
+  color: ${(props) => props.theme.colors.GREY_200};
+
+  & span {
+    color: ${(props) => props.theme.colors.BLUE};
+  }
+
+  & p {
+    margin-top: 15px;
+    font-size: 1.3rem;
+  }
+`
