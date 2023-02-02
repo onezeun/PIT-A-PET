@@ -117,7 +117,6 @@ export default function SignUp(): JSX.Element {
       setSignUpErrorMessage('');
       dispatch(UserSignUp({ name, email, password }))
         .then((data: any) => {
-          console.log('data', data);
           // if (typeof data.payload == "object") {
           if (data.type == 'auth/USER_SIGN_UP/fulfilled') {
             setSuccessful(true);

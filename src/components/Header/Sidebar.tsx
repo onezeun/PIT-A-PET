@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { apiKey } from '../../Firebase';
 import * as S from './Header.styles';
+import { UserLogout } from 'store/Auth/auth.slice';
 
 interface Iprops {
   sideOpen: boolean;
@@ -13,10 +14,9 @@ interface Iprops {
 
 export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const outside = useRef<any>();
   const sessionKey = useSelector((state: RootState) => state.auth.sessionKey);
-
-  console.log(sessionKey);
 
   useEffect(() => {
     document.addEventListener('mousedown', handlerOutsie);
@@ -35,6 +35,13 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
     setSideOpen(false);
   };
 
+  const handlerLogout = () => {
+    dispatch(UserLogout()).then(() => {
+      localStorage.clear();
+    }).catch((err: any)=> {
+      console.log(err);
+    })
+  }
   return (
     <S.SideBarWrap
       id="sidebar"
@@ -60,7 +67,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
           <>
             <S.ListItem>보관함</S.ListItem>
             <S.ListItem onClick={() => { navigate('/mypage'); toggleSide() }}>정보수정</S.ListItem>
-            <S.ListItem>로그아웃</S.ListItem>
+            <S.ListItem onClick={() => { handlerLogout(); navigate('/'); toggleSide() }}>로그아웃</S.ListItem>
           </>
         ) : (
         <>

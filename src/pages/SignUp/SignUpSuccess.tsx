@@ -9,8 +9,6 @@ export default function SignUpSuccess(): JSX.Element {
   const navigate = useNavigate();
   let user = useSelector((state: RootState) => state.auth.name);
 
-  console.log(user);
-
   return (
     <>
       <S.SuccessTitle>

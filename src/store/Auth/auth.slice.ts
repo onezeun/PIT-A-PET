@@ -7,10 +7,11 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserSessionPersistence,
-  updateProfile
+  updateProfile,
+  signOut,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
-import { app, apiKey } from '../../Firebase';
+import { app, apiKey, auth } from '../../Firebase';
 
 // 초기 상태 타입
 interface AuthState {
@@ -19,12 +20,16 @@ interface AuthState {
   email: string | null;
   name: string | null;
 
-  loginLoading: AsyncType;
-  loginError: string | null;
-  sessionKey?: boolean | null;
-
   signUpLoading: AsyncType;
   signUpError: string | null;
+
+  loginLoading: AsyncType;
+  loginError: string | null;
+
+  logoutLoading: AsyncType;
+  logoutError: string | null;
+
+  sessionKey?: boolean | null;
 }
 
 // 초기 상태
@@ -34,15 +39,19 @@ const initialState: AuthState = {
   email: null,
   name: null,
 
-  loginLoading: 'idle',
-  loginError: null,
-  sessionKey: null,
-
   signUpLoading: 'idle',
   signUpError: null,
+
+  loginLoading: 'idle',
+  loginError: null,
+
+  logoutLoading: 'idle',
+  logoutError: null,
+
+  sessionKey: null,
 };
 
-const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
+const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 
 // 회원가입 요청
 export const UserSignUp = createAsyncThunk(
@@ -113,6 +122,11 @@ export const UserLogin = createAsyncThunk(
   },
 );
 
+// 로그아웃
+export const UserLogout = createAsyncThunk('auth/USER_LOGOUT', async () => {
+  await signOut(auth);
+});
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -166,6 +180,24 @@ export const authSlice = createSlice({
         state.email = null;
         state.token = null;
         state.uid = null;
+      });
+      builder
+      .addCase(UserLogout.pending, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'pending';
+      })
+      .addCase(UserLogout.fulfilled, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'succeeded';
+
+        state.email = null;
+        state.token = null;
+        state.uid = null;
+        state.sessionKey = false;
+      })
+      .addCase(UserLogout.rejected, (state, action) => {
+        state.loginError = action.payload as string;
+        state.loginLoading = 'failed';
       });
   },
 });
