@@ -39,15 +39,10 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // position: relative;
   font-weight: 700;
   padding: 20px 20px 15px 20px;
 
-
   & .close {
-    // position: absolute;
-    // top: 5px;
-    // right: 15px;
     font-size: 1.5rem;
     text-align: center;
     cursor: pointer;
