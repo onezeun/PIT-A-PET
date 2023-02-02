@@ -74,6 +74,16 @@ export const IconWrap = styled.span`
 
 `;
 
+export const CardTagWrap = styled.div`
+  display: flex;
+`;
+
+export const CardTag = styled.div`
+  margin: 3px 5px 0 0;
+  color: ${(props) => props.theme.colors.GREY_100};
+`;
+
+
 export const Content = styled.div`
   min-height: 50px;
   margin-top: 20px;

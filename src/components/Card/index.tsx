@@ -26,6 +26,12 @@ export default function Card(): JSX.Element {
           </div>
           <span>3 일전</span>
         </S.ContentTop>
+        <S.CardTagWrap>
+            <S.CardTag>#강아지</S.CardTag>
+            <S.CardTag>#포메</S.CardTag>
+            <S.CardTag>#8살</S.CardTag>
+            <S.CardTag>#초코콘요리사</S.CardTag>
+          </S.CardTagWrap>
         <S.Content>👛👛👛👛 설날</S.Content>
         <div>
           <S.CommentCount>댓글 422개</S.CommentCount>
