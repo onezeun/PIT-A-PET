@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './MyPage.styles';
 
@@ -10,6 +10,10 @@ export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
   const [userImg, setUserImg] = useState('');
   const userImgUpload = useRef<any>();
+
+  useEffect(()=> {
+    console.log(userImg);
+  })
 
   const userImgChange = () => {
     const file = userImgUpload.current.files[0];

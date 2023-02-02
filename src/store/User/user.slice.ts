@@ -10,8 +10,8 @@ interface UserState {
   email: string;
   name: string;
 
-  isPet : boolean | null,
-  petImg : string | null,
+  isPet: boolean | null;
+  petImg: string | null;
   petName: string | null;
   petType: string | null;
   petAge: number | null;
@@ -26,11 +26,11 @@ interface UserState {
 
 // 초기 상태
 const initialState: UserState = {
-  email:'',
-  name:'',
+  email: '',
+  name: '',
 
-  isPet : null,
-  petImg : null,
+  isPet: null,
+  petImg: null,
   petName: null,
   petType: null,
   petAge: null,
@@ -44,23 +44,36 @@ const initialState: UserState = {
 };
 
 export const getUser = createAsyncThunk(
-  'auth/GET_USER',
+  'user/GET_USER',
   async (userRequest: IUpdatePayloadUser, { rejectWithValue }) => {
     try {
-    } catch (err) {
-    }
+
+    } catch (err) {}
   },
 );
 
 export const updateUser = createAsyncThunk(
-  'auth/GET_USER',
+  'user/UPDATE_USER',
   async (userRequest: IUpdatePayloadUser, { rejectWithValue }) => {
     try {
-    } catch (err) {
-    }
+    } catch (err) {}
   },
 );
 
+export const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // 대기중
+      .addCase(getUser.pending, (state, action) => {})
+      // 성공
+      .addCase(getUser.fulfilled, (state, action) => {})
+      // 거절
+      .addCase(getUser.rejected, (state, action) => {});
+  },
+});
 
 // export const { setUserId, setname } = authSlice.actions;
-// export default authSlice.reducer;
+export default userSlice.reducer;
