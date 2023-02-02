@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './MyPage.styles';
 
@@ -8,8 +8,23 @@ import AddPet from './AddPet';
 
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
+  const [userImg, setUserImg] = useState('');
+  const userImgUpload = useRef<any>();
 
-  // 반려동물 입력
+  const userImgChange = () => {
+    const file = userImgUpload.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setUserImg(reader.result as string);
+    };
+  };
+
+  const deleteUserImg = () => {
+    setUserImg('');
+  }
+
+  // 모달창
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -41,10 +56,20 @@ export default function MyPage(): JSX.Element {
         />
         <h1>회원정보수정</h1>
         <S.UserWrap>
+          <input
+            type="file"
+            className="imgInput"
+            id="imgInput"
+            onChange={userImgChange}
+            ref={userImgUpload}
+          ></input>
+          <label htmlFor="imgInput" className="imgLabel">
+            회원 프로필사진 업로드
+          </label>
           <S.UserImgWrap>
-            <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-            <S.MyPageBtn>이미지업로드</S.MyPageBtn>
-            <S.MyPageBtn>이미지제거</S.MyPageBtn>
+            <img src={userImg ? userImg : process.env.PUBLIC_URL + '/images/profile.png'} />
+            <S.MyPageBtn onClick={() => userImgUpload.current.click()}>이미지업로드</S.MyPageBtn>
+            <S.MyPageBtn onClick={deleteUserImg}>이미지제거</S.MyPageBtn>
           </S.UserImgWrap>
           <S.UserInfo>
             <p>
@@ -71,25 +96,25 @@ export default function MyPage(): JSX.Element {
           <S.PetImgSlider {...settings}>
             <S.SliderItem>
               <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
                 <p>반려동물 이름1</p>
               </S.SliderContent>
             </S.SliderItem>
             <S.SliderItem>
               <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
                 <p>반려동물 이름2</p>
               </S.SliderContent>
             </S.SliderItem>
             <S.SliderItem>
               <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
                 <p>반려동물 이름3</p>
               </S.SliderContent>
             </S.SliderItem>
             <S.SliderItem>
               <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
                 <p>반려동물 이름4</p>
               </S.SliderContent>
             </S.SliderItem>

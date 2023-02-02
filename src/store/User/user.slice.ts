@@ -5,7 +5,6 @@ import { doc, getDoc, setDoc, updateDoc } from '@firebase/firestore';
 import { db } from 'Firebase';
 import { IUpdatePayloadUser, IUserPayload } from '../interface';
 
-
 // 초기 상태 타입
 interface UserState {
   email: string;

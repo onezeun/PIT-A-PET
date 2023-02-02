@@ -36,6 +36,11 @@ export const LogoImg = styled.img`
 export const UserWrap = styled.div`
   margin: 20px auto;
   padding: 10px;
+
+  & .imgInput,
+  .imgLabel {
+    display: none;
+  }
 `;
 
 export const UserImgWrap = styled.div`
@@ -124,20 +129,20 @@ export const PetImgSlider = styled(Slider)`
 export const SliderContent = styled.div`
   opacity: 1;
   transform: scale(1.04);
+
+  & img {
+    margin: auto;
+    width: 100px;
+    height: auto;
+    max-height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
 `;
 
 export const SliderItem = styled.div`
   display: flex;
   flex-direction: column;
-  hei
-
-  & img {
-    margin: auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
 
   ${SliderContent} {
     line-height: 50px;
@@ -244,8 +249,9 @@ export const AddPet = styled.div`
 
 export const AddPetImg = styled.img`
   width: 120px;
-  height: auto;
+  height: 120px;
   margin 10px 0;
+  border-radius: 50%;
 `;
 
 export const AddPetImgBtn = styled.div`

@@ -1,19 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import * as S from './MyPage.styles';
 
 export default function addPet(): JSX.Element {
-  const uploadImg = useRef<any>('');
+  const [petImg, setPetImg] = useState('');
+  const petImgUpload = useRef<any>();
+
+  const petImgChange = () => {
+    const file = petImgUpload.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPetImg(reader.result as string);
+    }
+  }
   
   return (
     <S.AddPet>
-      <input type="file" className="imgInput" id="imgInput" ref={uploadImg}></input>
+      <input type="file" className="imgInput" id="imgInput" onChange={petImgChange} ref={petImgUpload}></input>
       <label htmlFor="imgInput" className='imgLabel'>반려동물 이미지 업로드</label>
       <S.AddPetImg
-        src={process.env.PUBLIC_URL + '/images/profile.png'}
+        src={petImg ? petImg : process.env.PUBLIC_URL + '/images/pet_default_img.png'}
         id="petImg"
         alt="프로필 이미지"
       />
-      <S.AddPetImgBtn onClick={() => uploadImg.current.click()}>
+      <S.AddPetImgBtn onClick={() => petImgUpload.current.click()}>
         이미지 업로드
       </S.AddPetImgBtn>
       <S.InputWrap>
