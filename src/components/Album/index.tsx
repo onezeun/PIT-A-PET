@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import * as S from './Album.styles';
 
-export default function Album() {
+export default function Album(): JSX.Element {
   return (
     <>
     </>
