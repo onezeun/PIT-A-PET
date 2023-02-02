@@ -8,7 +8,7 @@ export const Container = styled.div`
   margin: 0 auto 150px;
 
   @media screen and (min-width: 1024px) {
-    margin: auto;
+    margin: 0 auto 100px;
   }
 `;
 

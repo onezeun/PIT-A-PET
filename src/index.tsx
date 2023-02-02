@@ -8,6 +8,8 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import GlobalStyle from 'styles/GlobalStyle';
 import 'remixicon/fonts/remixicon.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import App from './App';
 

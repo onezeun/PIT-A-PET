@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './MyPage.styles';
 
 import AllContainer from 'components/AllContainer';
-import Modal from 'components/Modal'
-import AddPet from './AddPet'
+import Modal from 'components/Modal';
+import AddPet from './AddPet';
 
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
@@ -17,6 +17,16 @@ export default function MyPage(): JSX.Element {
   };
   const modalClose = () => {
     setModalOpen(false);
+  };
+
+  // 슬라이드
+  const settings = {
+    className: 'center',
+    centerMode: true,
+    infinite: true,
+    centerPadding: '0px',
+    slidesToShow: 3,
+    speed: 500,
   };
 
   return (
@@ -50,16 +60,32 @@ export default function MyPage(): JSX.Element {
           <S.PetTitleWrap>
             <h1>반려동물리스트</h1>
             <S.MyPageBtn onClick={openModal}>추가</S.MyPageBtn>
-            <Modal modalOpen={modalOpen} modalClose={modalClose} header="반려동물추가등록">
-              <AddPet />
-            </Modal>
           </S.PetTitleWrap>
-          <S.PetImgWrap>
-            <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-            <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-            <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
-            <p>반려동물 이름~ 슬라이드 넣을예정</p>
-          </S.PetImgWrap>
+          <Modal
+            modalOpen={modalOpen}
+            modalClose={modalClose}
+            header="반려동물추가등록"
+          >
+            <AddPet />
+          </Modal>
+          <S.PetImgSlider {...settings}>
+            <S.PetImgWrap>
+              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+              <p>반려동물 이름</p>
+            </S.PetImgWrap>
+            <S.PetImgWrap>
+              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+              <p>반려동물 이름</p>
+            </S.PetImgWrap>
+            <S.PetImgWrap>
+              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+              <p>반려동물 이름</p>
+            </S.PetImgWrap>
+            <S.PetImgWrap>
+              <img src={process.env.PUBLIC_URL + '/images/profile.png'} />
+              <p>반려동물 이름</p>
+            </S.PetImgWrap>
+          </S.PetImgSlider>
           <S.PetInfo>
             <p>
               이름<span>하찌</span>
