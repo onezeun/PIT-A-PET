@@ -2,21 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { createPet } from 'store/Pet/pet.slice';
-import { apiKey } from '../../Firebase';
 import * as S from './MyPage.styles';
 interface IProps {
   uid: string;
   modalClose: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
-export default function AddPet(props: IProps): JSX.Element {
+export default function AddPet({ uid, modalClose }: IProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-
-  const [uid, setUid] = useState('');
-
-
   const [petImg, setPetImg] = useState({});
-  const [img, setimg] = useState();
   const [petImgUrl, setPetImgUrl] = useState('');
   const [petName, setPetName] = useState('');
   const [petType, setPetType] = useState('');
@@ -32,10 +26,6 @@ export default function AddPet(props: IProps): JSX.Element {
   const [allCheck, setAllCheck] = useState(false);
 
   const petImgUpload = useRef<any>();
-
-  useEffect(() => {
-    setUid(props.uid);
-  })
 
   const petImgChange = (e: any) => {
     const file = e.target.files[0];
@@ -74,12 +64,13 @@ export default function AddPet(props: IProps): JSX.Element {
   const addPetCheck = () => {
     if (petNameError || petTypeError || petImg) {
       setAllCheck(false);
+      alert('누락된 항목을 확인해주세요')
     } else setAllCheck(true);
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!allCheck) {
+    if (allCheck) {
       dispatch(createPet({ uid, petImg, petName, petType, petAge, petGender }))
         .then((data: any) => {
           console.log(data);
@@ -89,62 +80,68 @@ export default function AddPet(props: IProps): JSX.Element {
         })
       return;
     };
-
-    props.modalClose;
+    modalClose;
   }
 
   return (
-    <S.AddPet>
+    <S.PetBox>
       <input type="file" className="imgInput" id="imgInput" onChange={petImgChange} ref={petImgUpload}></input>
       <label htmlFor="imgInput" className='imgLabel'>반려동물 이미지 업로드</label>
-      <S.AddPetImg
+      <S.PetBoxImg
         src={petImgUrl ? petImgUrl : process.env.PUBLIC_URL + '/images/pet_default_img.png'}
         id="petImg"
         alt="프로필 이미지"
       />
-      <S.AddPetImgBtn onClick={() => petImgUpload.current.click()}>
+      <S.PetBoxImgBtn onClick={() => petImgUpload.current.click()}>
         이미지 업로드
-      </S.AddPetImgBtn>
+      </S.PetBoxImgBtn>
       <S.InputWrap>
         <S.SubTitle htmlFor="petName" className="subTitle">
           반려동물 이름
         </S.SubTitle>
-        <S.addPetInput type="text" id="petName" className="addPetInput" onChange={petNameChange}></S.addPetInput>
+        <S.PetBoxInput type="text" id="petName" className="addPetInput" onChange={petNameChange}></S.PetBoxInput>
+        <S.PetUpErrMsg>{petNameErrorMessage}</S.PetUpErrMsg>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petType" className="subTitle">
           종류
         </S.SubTitle>
-        <S.addPetInput type="text" id="petType" className="addPetInput" placeholder='EX)강아지, 고슴도치, 도마뱀 등' onChange={petTypeChange}></S.addPetInput>
+        <S.PetBoxInput type="text" id="petType" className="addPetInput" placeholder='EX)강아지, 고슴도치, 도마뱀 등' onChange={petTypeChange}></S.PetBoxInput>
+        <S.PetUpErrMsg>{petTypeErrorMessage}</S.PetUpErrMsg>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petAge" className="subTitle">
           나이
         </S.SubTitle>
-        <S.addPetSelectInput id="petAge" className="addPetInput" onChange={(e) => setPetAge(e.target.value)}>
+        <S.PetBoxSelectInput id="petAge" className="addPetInput" onChange={(e) => setPetAge(e.target.value)}>
           <option value="none">모름</option>
           <option value="0~10">0~10</option>
           <option value="11~20">11~20</option>
           <option value="21~30">21~30</option>
           <option value="30이상">30이상</option>
-        </S.addPetSelectInput>
+        </S.PetBoxSelectInput>
       </S.InputWrap>
 
       <S.InputWrap>
         <S.SubTitle htmlFor="petGender" className="subTitle">
           성별
         </S.SubTitle>
-        <S.addPetSelectInput id="petGender" className="signUpInput" onChange={(e) => setPetGender(e.target.value)}>
+        <S.PetBoxSelectInput id="petGender" className="signUpInput" onChange={(e) => setPetGender(e.target.value)}>
           <option value="여">여</option>
           <option value="남">남</option>
           <option value="기타">기타</option>
-        </S.addPetSelectInput>
+        </S.PetBoxSelectInput>
       </S.InputWrap>
-      <S.ModalSaveBtn className="save" onClick={handleSubmit}>
+      <S.ModalBtnBox>
+        <S.ModalBtn className="cancel" onClick={modalClose} btnColor='GREY'>
+          취소
+        </S.ModalBtn>
+        <S.ModalBtn className="save" onClick={handleSubmit}>
           저장
-        </S.ModalSaveBtn>
-    </S.AddPet>
+        </S.ModalBtn>
+      </S.ModalBtnBox>
+    </S.PetBox>
   );
 }
