@@ -17,6 +17,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
   const dispatch = useDispatch<AppDispatch>();
   const outside = useRef<any>();
   const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+  const isLoggedIn = JSON.parse(sessionStorage.getItem(sessionKey)!);
 
   useEffect(() => {
     document.addEventListener('mousedown', handlerOutsie);
@@ -63,7 +64,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
         </ul>
       ) : null}
       <ul>
-        {sessionKey ? (
+        {isLoggedIn ? (
           <>
             <S.ListItem>보관함</S.ListItem>
             <S.ListItem onClick={() => { navigate('/mypage'); toggleSide() }}>정보수정</S.ListItem>
