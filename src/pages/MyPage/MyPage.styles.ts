@@ -1,5 +1,8 @@
 import styled, { css } from 'styled-components/macro';
 import Slider from 'react-slick';
+interface EditBtnStyle {
+  btnColor?: string;
+}
 
 export const MyPageWrap = styled.div`
   text-align: center;
@@ -226,20 +229,9 @@ export const MyPageBtn = styled.button`
   `}
 `;
 
-export const AddPet = styled.div`
+export const PetBox = styled.div`
   margin: auto;
   max-width: 300px;
-
-  & p {
-    font-size: 0.9rem;
-    padding: 10px;
-    color: ${(props) => props.theme.colors.GREY_100};
-    text-align: left;
-    line-height: 25px;
-    margin: 10px 0;
-    background: rgba(255, 236, 172, 0.6);
-    border-radius: 5px;
-  }
 
   & .imgInput,
   .imgLabel {
@@ -247,14 +239,14 @@ export const AddPet = styled.div`
   }
 `;
 
-export const AddPetImg = styled.img`
+export const PetBoxImg = styled.img`
   width: 120px;
   height: 120px;
   margin 10px 0;
   border-radius: 50%;
 `;
 
-export const AddPetImgBtn = styled.div`
+export const PetBoxImgBtn = styled.div`
   display: block;
   width: 150px;
   height: 30px;
@@ -278,7 +270,7 @@ export const SubTitle = styled.label`
   color: ${(props) => props.theme.colors.BLUE};
 `;
 
-export const addPetInput = styled.input`
+export const PetBoxInput = styled.input`
   color: ${(props) => props.color || props.theme.colors.BLUE};
   margin: 5px auto 0;
   padding: 10px;
@@ -289,7 +281,14 @@ export const addPetInput = styled.input`
   border-radius: 5px;
 `;
 
-export const addPetSelectInput = styled.select`
+export const PetUpErrMsg = styled.p<{ mt?: string }>`
+
+  margin-top: ${(props) => props.mt || '5px'};
+  font-size: 0.85rem;
+  color: red;
+`;
+
+export const PetBoxSelectInput = styled.select`
   color: ${(props) => props.color || props.theme.colors.BLUE};
   margin: 5px auto 0;
   padding: 10px;
@@ -305,12 +304,20 @@ export const addPetSelectInput = styled.select`
   }
 `;
 
-export const ModalSaveBtn = styled.button`
-  width: 50%;
+export const ModalBtnBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const ModalBtn = styled.button<EditBtnStyle>`
+  width: 47%;
   height: 40px;
   margin: 30px 0 20px 0;
   color: white;
-  background-color: ${(props) => props.theme.colors.BLUE};
   border-radius: 5px;
   font-size: 1rem;
+
+  ${({ btnColor = 'BLUE' }) => css`
+    background-color: ${(props) => props.theme.colors[btnColor]};
+  `}
 `;

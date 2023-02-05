@@ -30,8 +30,8 @@ export default function MyPage(): JSX.Element {
 
   // 유저 정보 가져오기
   const fetchData = () => {
-    const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
-    const user = JSON.parse(sessionStorage.getItem(session_key)!);
+    const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+    const user = JSON.parse(sessionStorage.getItem(sessionKey)!);
     const userId = user.uid
     setUid(user.uid)
     dispatch(getUser(userId))
@@ -64,13 +64,19 @@ export default function MyPage(): JSX.Element {
   }
 
   // 모달창
-  const [modalOpen, setModalOpen] = useState(false);
+  const [addPetModal, setAddPetModal] = useState(false);
+  const [updatePetModal, setUpdatePetModal] = useState(false);
+  
+  const openAddPet = () => {
+    setAddPetModal(true);
+  };
 
-  const openModal = () => {
-    setModalOpen(true);
+  const openUpdatePet = () => {
+    setUpdatePetModal(true);
   };
   const modalClose = () => {
-    setModalOpen(false);
+    setAddPetModal(false);
+    setUpdatePetModal(false);
   };
 
   // 슬라이드
@@ -136,10 +142,10 @@ export default function MyPage(): JSX.Element {
         <S.PetWrap>
           <S.PetTitleWrap>
             <h1>반려동물리스트</h1>
-            <S.MyPageBtn onClick={openModal}>추가</S.MyPageBtn>
+            <S.MyPageBtn onClick={openAddPet}>추가</S.MyPageBtn>
           </S.PetTitleWrap>
           <Modal
-            modalOpen={modalOpen}
+            modalOpen={addPetModal ? true : null}
             modalClose={modalClose}
             header="반려동물추가등록"
           >
@@ -148,16 +154,9 @@ export default function MyPage(): JSX.Element {
           <S.PetImgSlider {...settings}>
             <S.SliderItem>
               <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
+                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} onClick={openUpdatePet} />
                 <p>반려동물 이름1</p>
               </S.SliderContent>
-              <Modal
-                modalOpen={modalOpen}
-                modalClose={modalClose}
-                header="반려동물정보수정"
-              >
-                <UpdatePet uid={uid} modalClose={modalClose} />
-              </Modal>
             </S.SliderItem>
             <S.SliderItem>
               <S.SliderContent>
@@ -189,6 +188,13 @@ export default function MyPage(): JSX.Element {
               성별<span>남</span>
             </p>
           </S.PetInfo>
+          <Modal
+            modalOpen={updatePetModal ? true : false}
+            modalClose={modalClose}
+            header="반려동물정보수정"
+          >
+            <UpdatePet uid={uid} modalClose={modalClose} />
+          </Modal>
         </S.PetWrap>
         <S.MyPageBtn onClick={handleSubmit}>저장하기</S.MyPageBtn>
       </S.MyPageWrap>
