@@ -10,7 +10,7 @@ export interface ModalStyle {
 }
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ModalStyle {
-  modalOpen: boolean;
+  modalOpen: boolean | null;
   modalClose: React.MouseEventHandler<HTMLButtonElement> | undefined;
   header: string;
   children: React.ReactNode;
