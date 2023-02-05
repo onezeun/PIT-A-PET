@@ -28,8 +28,6 @@ interface AuthState {
 
   logoutLoading: AsyncType;
   logoutError: string | null;
-
-  sessionKey?: boolean | null;
 }
 
 // 초기 상태
@@ -47,11 +45,7 @@ const initialState: AuthState = {
 
   logoutLoading: 'idle',
   logoutError: null,
-
-  sessionKey: null,
 };
-
-const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 
 // 회원가입 요청
 export const userSignUp = createAsyncThunk(
@@ -65,7 +59,7 @@ export const userSignUp = createAsyncThunk(
         email,
         password,
       );
-      await updateProfile(userCredential.user, {displayName: name});
+      await updateProfile(userCredential.user, { displayName: name });
       await addDoc(collection(db, 'users'), {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -97,7 +91,7 @@ export const userSignUp = createAsyncThunk(
 // 로그인
 export const userLogin = createAsyncThunk(
   'auth/USER_LOGIN',
-  async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
+  async ({ email, password }: ILoginPayload,{ rejectWithValue, dispatch },): Promise<ILoginSuccess> => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);
     try {
@@ -152,7 +146,6 @@ export const authSlice = createSlice({
         state.email = action.payload.email;
         state.uid = action.payload.uid;
         state.name = action.payload.name;
-        state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       // 거절
       .addCase(userSignUp.rejected, (state, action) => {
@@ -176,7 +169,6 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.uid = action.payload.uid;
         state.name = action.payload.name;
-        state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;
@@ -186,24 +178,23 @@ export const authSlice = createSlice({
         state.token = null;
         state.uid = null;
       });
-      builder
-        .addCase(userLogout.pending, (state, action) => {
-          state.loginError = null;
-          state.loginLoading = 'pending';
-        })
-        .addCase(userLogout.fulfilled, (state, action) => {
-          state.loginError = null;
-          state.loginLoading = 'succeeded';
+    builder
+      .addCase(userLogout.pending, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'pending';
+      })
+      .addCase(userLogout.fulfilled, (state, action) => {
+        state.loginError = null;
+        state.loginLoading = 'succeeded';
 
-          state.email = null;
-          state.token = null;
-          state.uid = null;
-          state.sessionKey = false;
-        })
-        .addCase(userLogout.rejected, (state, action) => {
-          state.loginError = action.payload as string;
-          state.loginLoading = 'failed';
-        });
+        state.email = null;
+        state.token = null;
+        state.uid = null;
+      })
+      .addCase(userLogout.rejected, (state, action) => {
+        state.loginError = action.payload as string;
+        state.loginLoading = 'failed';
+      });
   },
 });
 

@@ -16,7 +16,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const outside = useRef<any>();
-  const sessionKey = useSelector((state: RootState) => state.auth.sessionKey);
+  const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
 
   useEffect(() => {
     document.addEventListener('mousedown', handlerOutsie);
