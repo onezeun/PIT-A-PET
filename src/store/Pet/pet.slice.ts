@@ -42,7 +42,7 @@ const initialState: PetState = {
 };
 
 export const createPet = createAsyncThunk(
-  'user/CREATE_PET',
+  'pet/CREATE_PET',
   async (
     { uid, petImg, petName, petType, petAge, petGender }: IPetPayload,
     { rejectWithValue },
@@ -77,16 +77,24 @@ export const createPet = createAsyncThunk(
   },
 );
 
+export const getPet = createAsyncThunk(
+  'pet/GET_PET',
+  async (uid: string, { rejectWithValue }) => {
+    try {
+    } catch (err) {}
+  },
+);
+
 export const updatePet = createAsyncThunk(
-  'user/UPDATE_PET',
+  'pet/UPDATE_PET',
   async (userRequest: IPetPayload, { rejectWithValue }) => {
     try {
     } catch (err) {}
   },
 );
 
-export const userSlice = createSlice({
-  name: 'user',
+export const petSlice = createSlice({
+  name: 'pet',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -112,4 +120,4 @@ export const userSlice = createSlice({
 });
 
 // export const { setUserId, setname } = authSlice.actions;
-export default userSlice.reducer;
+export default petSlice.reducer;
