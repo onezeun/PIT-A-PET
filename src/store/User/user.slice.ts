@@ -15,15 +15,7 @@ import { IUpdatePayloadUser, IUserPayload, IUserInfo } from '../interface';
 
 // 초기 상태 타입
 interface UserState {
-  email: string;
-  userName: string;
-
-  isPet: boolean | null;
-  petImg: string | null;
-  petName: string | null;
-  petType: string | null;
-  petAge: number | null;
-  petGender: string | null;
+  userData: object | null;
 
   fetchLoading: AsyncType;
   fetchError: string | null;
@@ -34,15 +26,7 @@ interface UserState {
 
 // 초기 상태
 const initialState: UserState = {
-  email: '',
-  userName: '',
-
-  isPet: null,
-  petImg: null,
-  petName: null,
-  petType: null,
-  petAge: null,
-  petGender: null,
+  userData: null,
 
   fetchLoading: 'idle',
   fetchError: null,
@@ -53,12 +37,15 @@ const initialState: UserState = {
 
 export const getUser = createAsyncThunk(
   'user/GET_USER',
-  async (userId: IUpdatePayloadUser,{ rejectWithValue },): Promise<IUserInfo> => {
+  async (
+    userId: IUpdatePayloadUser,
+    { rejectWithValue },
+  ): Promise<IUserInfo> => {
     try {
       const userDoc = collection(db, 'users');
       const q = query(userDoc, where('uid', '==', userId)) as any;
-      const querySnapshot = await getDocs(q) as any;
-      let getData
+      const querySnapshot = (await getDocs(q)) as any;
+      let getData;
       querySnapshot.forEach((doc: any) => {
         getData = doc.data();
       });
@@ -86,13 +73,22 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 대기중
-      .addCase(getUser.pending, (state, action) => {})
+      .addCase(getUser.pending, (state, action) => {
+        state.fetchError = null;
+        state.fetchLoading = 'pending';
+      })
       // 성공
       .addCase(getUser.fulfilled, (state, action) => {
-        state.userName = action.payload.data;
+        state.fetchError = null;
+        state.fetchLoading = 'succeeded';
+
+        state.userData = action.payload.data;
       })
       // 거절
-      .addCase(getUser.rejected, (state, action) => {});
+      .addCase(getUser.rejected, (state, action) => {
+        state.fetchError = action.payload as string;
+        state.fetchLoading = 'failed';
+      });
   },
 });
 
