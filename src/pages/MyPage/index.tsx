@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { getUser, updateUser } from 'store/User/user.slice';
+import { getPet } from 'store/Pet/pet.slice';
 import { apiKey } from '../../Firebase';
 import * as S from './MyPage.styles';
 
@@ -19,22 +20,44 @@ interface IUserInfo {
   isPet: boolean | null;
 }
 
+export interface IPetInfo {
+  uid: string;
+  petImg: any | null;
+  petName: string | null;
+  petType: string | null;
+  petAge: string | null;
+  petGender: string | null;
+}
+
+
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const [uid, setUid] = useState('');
   const [userData, setUserData] = useState<IUserInfo | null>(null);
+  const [petsData, setPetsData] = useState<IPetInfo[] | null>(null);
   const [userImg, setUserImg] = useState('');
   const userImgUpload = useRef<any>();
 
-  // 유저 정보 가져오기
-  const fetchData = () => {
+  if (uid == '') {
     const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
     const user = JSON.parse(sessionStorage.getItem(sessionKey)!);
-    const userId = user.uid
     setUid(user.uid)
-    dispatch(getUser(userId))
+  }
+
+  useEffect(() => {
+    if (userData !== undefined) {
+      fetchData();
+    }
+    if (petsData !== undefined) {
+      fetchPetData();
+    }
+  }, [])
+
+  // 유저 정보 가져오기
+  const fetchData = () => {
+    dispatch(getUser(uid))
       .then((data: any) => {
         setUserData(data.payload.data);
       })
@@ -43,11 +66,21 @@ export default function MyPage(): JSX.Element {
       });
   }
 
-  useEffect(() => {
-    if (userData !== undefined) {
-      fetchData();
-    }
-  }, [])
+  const fetchPetData = () => {
+    dispatch(getPet(uid))
+      .then((data: any) => {
+        if (data.payload.length == 0) {
+          setPetsData(null);
+          console.log('펫없음')
+        } else {
+          setPetsData(data.payload);
+          console.log(petsData)
+        };
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   // 이미지 미리보기
   const userImgChange = () => {
@@ -66,7 +99,7 @@ export default function MyPage(): JSX.Element {
   // 모달창
   const [addPetModal, setAddPetModal] = useState(false);
   const [updatePetModal, setUpdatePetModal] = useState(false);
-  
+
   const openAddPet = () => {
     setAddPetModal(true);
   };
@@ -94,12 +127,12 @@ export default function MyPage(): JSX.Element {
 
     const file = userImgUpload.current.files[0];
     // dispatch(updateUser({}))
-      // .then((data: any) => {
-      //   console.log(data)
-      // })
-      // .catch((err) => {
+    // .then((data: any) => {
+    //   console.log(data)
+    // })
+    // .catch((err) => {
 
-      // });
+    // });
   };
 
   return (
@@ -134,7 +167,7 @@ export default function MyPage(): JSX.Element {
               이메일<span>{userData ? userData.email : null}</span>
             </p>
             <p>
-              이름<span style={{marginLeft: '55px'}}>{userData ? userData.userName : null}</span>
+              이름<span style={{ marginLeft: '55px' }}>{userData ? userData.userName : null}</span>
             </p>
           </S.UserInfo>
           <S.MyPageBtn>비밀번호 변경</S.MyPageBtn>
@@ -149,54 +182,46 @@ export default function MyPage(): JSX.Element {
             modalClose={modalClose}
             header="반려동물추가등록"
           >
-            <AddPet uid={uid} modalClose={modalClose}/>
+            <AddPet uid={uid} modalClose={modalClose} />
           </Modal>
-          <S.PetImgSlider {...settings}>
-            <S.SliderItem>
-              <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} onClick={openUpdatePet} />
-                <p>반려동물 이름1</p>
-              </S.SliderContent>
-            </S.SliderItem>
-            <S.SliderItem>
-              <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
-                <p>반려동물 이름2</p>
-              </S.SliderContent>
-            </S.SliderItem>
-            <S.SliderItem>
-              <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
-                <p>반려동물 이름3</p>
-              </S.SliderContent>
-            </S.SliderItem>
-            <S.SliderItem>
-              <S.SliderContent>
-                <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
-                <p>반려동물 이름4</p>
-              </S.SliderContent>
-            </S.SliderItem>
-          </S.PetImgSlider>
-          <S.PetInfo>
-            <p>
-              이름<span>하찌</span>
-            </p>
-            <p>
-              나이<span>8 세</span>
-            </p>
-            <p>
-              성별<span>남</span>
-            </p>
-          </S.PetInfo>
-          <Modal
-            modalOpen={updatePetModal ? true : false}
-            modalClose={modalClose}
-            header="반려동물정보수정"
-          >
-            <UpdatePet uid={uid} modalClose={modalClose} />
-          </Modal>
+          {petsData == null ? (
+            <p>반려동물을 등록해보세요~~</p>
+          ) : (
+            <S.PetImgSlider {...settings}>
+              {petsData.map((pet, i: number): JSX.Element => {
+                return (
+                  <S.SliderItem key={i}>
+                    <S.SliderContent>
+                      <img src={process.env.PUBLIC_URL + `${pet.petImg}`} />
+                      <p>{pet.petName}</p>
+                    </S.SliderContent>
+                    <S.PetInfo>
+                      <S.MyPageBtn onClick={openUpdatePet}>반려동물정보수정</S.MyPageBtn>
+                      <p>
+                        이름<span>{pet.petName}</span>
+                      </p>
+                      <p>
+                        나이<span>{pet.petAge}</span>
+                      </p>
+                      <p>
+                        성별<span>{pet.petGender}</span>
+                      </p>
+                    </S.PetInfo>
+                    <Modal
+                      modalOpen={updatePetModal ? true : false}
+                      modalClose={modalClose}
+                      header="반려동물정보수정"
+                    >
+                      <UpdatePet uid={uid} modalClose={modalClose} />
+                    </Modal>
+                  </S.SliderItem>
+                )
+              })}
+            </S.PetImgSlider>
+          )}
+        
         </S.PetWrap>
-        <S.MyPageBtn onClick={handleSubmit}>저장하기</S.MyPageBtn>
+
       </S.MyPageWrap>
     </AllContainer>
   );

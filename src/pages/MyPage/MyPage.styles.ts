@@ -16,12 +16,14 @@ export const MyPageWrap = styled.div`
 
   ${({ theme: { media } }) => css`
     @media screen and ${media.tablet} {
+      min-width: 400px;
       & h1 {
         text-align: left;
       }
     }
 
     @media screen and ${media.desktop} {
+      min-width: 400px;
       & h1 {
         text-align: left;
       }
@@ -154,41 +156,6 @@ export const SliderItem = styled.div`
   }
 `;
 
-export const PetWrap = styled.div`
-  margin-top: 50px;
-
-  .center .slick-center ${SliderContent} {
-    /* center 모드일때 center에게 강조할 경우 사용 */
-    color: ${(props) => props.theme.colors.BLUE};
-    opacity: 1;
-    transform: scale(0.95);
-  }
-
-  .center ${SliderContent} {
-    /* center 모드일때 center 외 속성에게 사용 */
-    opacity: 0.5;
-    transition: all 300ms ease;
-    transform: scale(0.7);
-  }
-`;
-
-export const PetImgBtnWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  ${({ theme: { media } }) => css`
-    @media screen and ${media.tablet} {
-      flex-direction: row;
-    }
-
-    @media screen and ${media.desktop} {
-      flex-direction: row;
-    }
-  `}
-`;
-
 export const PetInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -209,6 +176,57 @@ export const PetInfo = styled.div`
     margin-left: 40px;
   }
 `;
+
+
+export const PetWrap = styled.div`
+  margin-top: 50px;
+
+  .slick-slider {
+    overflow:hidden;
+  };
+
+  .center .slick-center ${SliderContent} {
+    /* center 모드일때 center에게 강조할 경우 사용 */
+    color: ${(props) => props.theme.colors.BLUE};
+    opacity: 1;
+    transform: scale(0.95);
+  }
+
+  .center .slick-center ${PetInfo} {
+    display:block;
+    min-width:440px;
+    margin-left:-45px;
+  }
+
+  .center ${SliderContent} {
+    /* center 모드일때 center 외 속성에게 사용 */
+    opacity: 0.5;
+    transition: all 300ms ease;
+    transform: scale(0.7);
+  }
+
+  .center ${PetInfo} {
+    display:none;
+  }
+`;
+
+export const PetImgBtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  ${({ theme: { media } }) => css`
+    @media screen and ${media.tablet} {
+      flex-direction: row;
+    }
+
+    @media screen and ${media.desktop} {
+      flex-direction: row;
+    }
+  `}
+`;
+
 
 export const MyPageBtn = styled.button`
   border-radius: 5px;

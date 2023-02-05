@@ -27,6 +27,11 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Pretendard-Regular', sans-serif;
   };
 
+  body {
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
   input:focus {outline:none;}
   textarea:focus {outline:none;}
 
