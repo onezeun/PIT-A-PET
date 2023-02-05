@@ -19,32 +19,28 @@ export interface ILoginSuccess {
 }
 
 // user
-export interface IUser {
-  uid: string | null;
-  email: string;
-  name: string;
-  introduce: string;
-}
-
 export interface IUserPayload {
-  uid: string;
-  email: string | null;
-}
+  data?: {
+    uid: string;
+    email: string;
+    userName: string;
 
+    isPet: boolean | null;
+  };
+}
 export interface IUpdatePayloadUser {
   uid: string;
   email: string;
   userName: string;
 
   isPet: boolean | null;
+}
 
-  petImg : string | null;
+// pet
+export interface IPetPayload {
+  petImg: string | null;
   petName: string | null;
   petType: string | null;
   petAge: number | null;
   petGender: string | null;
-}
-
-export interface IUserInfo {
-  data?: any;
 }

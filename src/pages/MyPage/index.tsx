@@ -16,12 +16,6 @@ interface IUserInfo {
   userName: string;
 
   isPet: boolean | null;
-
-  petImg: string | null;
-  petName: string | null;
-  petType: string | null;
-  petAge: number | null;
-  petGender: string | null;
 }
 
 export default function MyPage(): JSX.Element {
@@ -52,6 +46,7 @@ export default function MyPage(): JSX.Element {
     }
   }, [])
 
+  // 이미지 미리보기
   const userImgChange = () => {
     const file = userImgUpload.current.files[0];
     const reader = new FileReader();
@@ -87,16 +82,15 @@ export default function MyPage(): JSX.Element {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
-    // const user = JSON.parse(sessionStorage.getItem(session_key)!);
-    // const userId = user.uid
-    // dispatch(getUser(userId))
-    //   .then((data: any) => {
-    //     console.log(data)
-    //   })
-    //   .catch((err) => {
 
-    //   });
+    const file = userImgUpload.current.files[0];
+    // dispatch(updateUser({}))
+      // .then((data: any) => {
+      //   console.log(data)
+      // })
+      // .catch((err) => {
+
+      // });
   };
 
   return (

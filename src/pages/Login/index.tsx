@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { UserLogin } from 'store/Auth/auth.slice';
+import { userLogin } from 'store/Auth/auth.slice';
 import * as S from './Login.styles';
 
 export default function Login(): JSX.Element {
@@ -50,7 +50,7 @@ export default function Login(): JSX.Element {
 
     if (email != '' && password != '') {
       setLoginErrorMessage('');
-      dispatch(UserLogin({ email, password }))
+      dispatch(userLogin({ email, password }))
         .then((data) => {
           if (data.type == 'auth/USER_LOGIN/fulfilled') {
             navigate('/')

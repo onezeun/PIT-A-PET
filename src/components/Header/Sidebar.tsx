@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { apiKey } from '../../Firebase';
 import * as S from './Header.styles';
-import { UserLogout } from 'store/Auth/auth.slice';
+import { userLogout } from 'store/Auth/auth.slice';
 
 interface Iprops {
   sideOpen: boolean;
@@ -36,7 +36,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
   };
 
   const handlerLogout = () => {
-    dispatch(UserLogout()).then(() => {
+    dispatch(userLogout()).then(() => {
       localStorage.clear();
     }).catch((err: any)=> {
       console.log(err);

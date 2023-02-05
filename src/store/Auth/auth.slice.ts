@@ -54,7 +54,7 @@ const initialState: AuthState = {
 const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 
 // 회원가입 요청
-export const UserSignUp = createAsyncThunk(
+export const userSignUp = createAsyncThunk(
   'auth/USER_SIGN_UP',
   async ({ name, email, password,  }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
     const auth = getAuth();
@@ -95,7 +95,7 @@ export const UserSignUp = createAsyncThunk(
 );
 
 // 로그인
-export const UserLogin = createAsyncThunk(
+export const userLogin = createAsyncThunk(
   'auth/USER_LOGIN',
   async ({ email, password }: ILoginPayload, { rejectWithValue, dispatch }, ): Promise<ILoginSuccess> => {
     const auth = getAuth();
@@ -128,7 +128,7 @@ export const UserLogin = createAsyncThunk(
 );
 
 // 로그아웃
-export const UserLogout = createAsyncThunk('auth/USER_LOGOUT', async () => {
+export const userLogout = createAsyncThunk('auth/USER_LOGOUT', async () => {
   await signOut(auth);
 });
 
@@ -139,12 +139,12 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // 대기중
-      .addCase(UserSignUp.pending, (state, action) => {
+      .addCase(userSignUp.pending, (state, action) => {
         state.signUpError = null;
         state.signUpLoading = 'pending';
       })
       // 성공
-      .addCase(UserSignUp.fulfilled, (state, action) => {
+      .addCase(userSignUp.fulfilled, (state, action) => {
         state.signUpError = null;
         state.signUpLoading = 'succeeded';
 
@@ -155,7 +155,7 @@ export const authSlice = createSlice({
         state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
       // 거절
-      .addCase(UserSignUp.rejected, (state, action) => {
+      .addCase(userSignUp.rejected, (state, action) => {
         state.signUpError = action.payload as string;
         state.signUpLoading = 'failed';
 
@@ -164,11 +164,11 @@ export const authSlice = createSlice({
         state.uid = null;
       });
     builder
-      .addCase(UserLogin.pending, (state, action) => {
+      .addCase(userLogin.pending, (state, action) => {
         state.loginError = null;
         state.loginLoading = 'pending';
       })
-      .addCase(UserLogin.fulfilled, (state, action) => {
+      .addCase(userLogin.fulfilled, (state, action) => {
         state.loginError = null;
         state.loginLoading = 'succeeded';
 
@@ -178,7 +178,7 @@ export const authSlice = createSlice({
         state.name = action.payload.name;
         state.sessionKey = sessionStorage.getItem(_session_key) ? true : false;
       })
-      .addCase(UserLogin.rejected, (state, action) => {
+      .addCase(userLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;
         state.loginLoading = 'failed';
 
@@ -187,23 +187,23 @@ export const authSlice = createSlice({
         state.uid = null;
       });
       builder
-      .addCase(UserLogout.pending, (state, action) => {
-        state.loginError = null;
-        state.loginLoading = 'pending';
-      })
-      .addCase(UserLogout.fulfilled, (state, action) => {
-        state.loginError = null;
-        state.loginLoading = 'succeeded';
+        .addCase(userLogout.pending, (state, action) => {
+          state.loginError = null;
+          state.loginLoading = 'pending';
+        })
+        .addCase(userLogout.fulfilled, (state, action) => {
+          state.loginError = null;
+          state.loginLoading = 'succeeded';
 
-        state.email = null;
-        state.token = null;
-        state.uid = null;
-        state.sessionKey = false;
-      })
-      .addCase(UserLogout.rejected, (state, action) => {
-        state.loginError = action.payload as string;
-        state.loginLoading = 'failed';
-      });
+          state.email = null;
+          state.token = null;
+          state.uid = null;
+          state.sessionKey = false;
+        })
+        .addCase(userLogout.rejected, (state, action) => {
+          state.loginError = action.payload as string;
+          state.loginLoading = 'failed';
+        });
   },
 });
 

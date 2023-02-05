@@ -11,11 +11,17 @@ import {
   query,
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
-import { IUpdatePayloadUser, IUserPayload, IUserInfo } from '../interface';
+import { IUpdatePayloadUser, IUserPayload } from '../interface';
 
 // 초기 상태 타입
 interface UserState {
-  userData: object | null;
+  userData?: {
+    uid: string;
+    email: string;
+    userName: string;
+
+    isPet: boolean | null;
+  };
 
   fetchLoading: AsyncType;
   fetchError: string | null;
@@ -26,7 +32,13 @@ interface UserState {
 
 // 초기 상태
 const initialState: UserState = {
-  userData: null,
+  userData: {
+    uid: '',
+    email: '',
+    userName: '',
+
+    isPet: null,
+  },
 
   fetchLoading: 'idle',
   fetchError: null,
@@ -40,7 +52,7 @@ export const getUser = createAsyncThunk(
   async (
     userId: IUpdatePayloadUser,
     { rejectWithValue },
-  ): Promise<IUserInfo> => {
+  ): Promise<IUserPayload> => {
     try {
       const userDoc = collection(db, 'users');
       const q = query(userDoc, where('uid', '==', userId)) as any;

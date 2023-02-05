@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { UserSignUp } from 'store/Auth/auth.slice';
+import { userSignUp } from 'store/Auth/auth.slice';
 import * as S from './SignUp.styles';
 
 import SignUpSuccess from './SignUpSuccess';
@@ -115,7 +115,7 @@ export default function SignUp(): JSX.Element {
 
     if (allCheck === true) {
       setSignUpErrorMessage('');
-      dispatch(UserSignUp({ name, email, password }))
+      dispatch(userSignUp({ name, email, password }))
         .then((data: any) => {
           // if (typeof data.payload == "object") {
           if (data.type == 'auth/USER_SIGN_UP/fulfilled') {
