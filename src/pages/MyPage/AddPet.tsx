@@ -23,8 +23,6 @@ export default function AddPet({ uid, modalClose }: IProps): JSX.Element {
   const [petNameErrorMessage, setPetNameErrorMessage] = useState('');
   const [petTypeErrorMessage, setPetTypeErrorMessage] = useState('');
 
-  const [allCheck, setAllCheck] = useState(false);
-
   const petImgUpload = useRef<any>();
 
   const petImgChange = (e: any) => {
@@ -61,26 +59,24 @@ export default function AddPet({ uid, modalClose }: IProps): JSX.Element {
     setPetType(value);
   };
 
-  const addPetCheck = () => {
-    if (petNameError || petTypeError || petImg) {
-      setAllCheck(false);
-      alert('누락된 항목을 확인해주세요')
-    } else setAllCheck(true);
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (allCheck) {
+
+    if (petNameError || petTypeError) {
+      alert('누락된 항목을 확인해주세요')
+    } else if (petImgUrl == '') {
+      alert('반려동물의 사진을 넣어주세요')
+    } else {
       dispatch(createPet({ uid, petImg, petName, petType, petAge, petGender }))
-        .then((data: any) => {
-          console.log(data);
+        .then((res) => {
+          console.log(res)
+          alert('저장이 완료되었습니다.');
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err)
         })
-      return;
-    };
-    modalClose;
+    }
   }
 
   return (
