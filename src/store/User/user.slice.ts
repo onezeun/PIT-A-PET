@@ -1,14 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AsyncType } from 'common/asyncType';
-import { doc, getDoc, setDoc, updateDoc } from '@firebase/firestore';
-import { db } from 'Firebase';
-import { IUpdatePayloadUser, IUserPayload } from '../interface';
+import {
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  collection,
+  where,
+  query,
+} from '@firebase/firestore';
+import { db } from '../../Firebase';
+import { IUpdatePayloadUser, IUserPayload, IUserInfo } from '../interface';
 
 // 초기 상태 타입
 interface UserState {
   email: string;
-  name: string;
+  userName: string;
 
   isPet: boolean | null;
   petImg: string | null;
@@ -27,7 +35,7 @@ interface UserState {
 // 초기 상태
 const initialState: UserState = {
   email: '',
-  name: '',
+  userName: '',
 
   isPet: null,
   petImg: null,
@@ -45,10 +53,21 @@ const initialState: UserState = {
 
 export const getUser = createAsyncThunk(
   'user/GET_USER',
-  async (userRequest: IUpdatePayloadUser, { rejectWithValue }) => {
+  async (userId: IUpdatePayloadUser,{ rejectWithValue },): Promise<IUserInfo> => {
     try {
-
-    } catch (err) {}
+      const userDoc = collection(db, 'users');
+      const q = query(userDoc, where('uid', '==', userId)) as any;
+      const querySnapshot = await getDocs(q) as any;
+      let getData
+      querySnapshot.forEach((doc: any) => {
+        getData = doc.data();
+      });
+      return {
+        data: getData,
+      };
+    } catch (err) {
+      throw rejectWithValue('데이터불러오기실패');
+    }
   },
 );
 
@@ -69,7 +88,9 @@ export const userSlice = createSlice({
       // 대기중
       .addCase(getUser.pending, (state, action) => {})
       // 성공
-      .addCase(getUser.fulfilled, (state, action) => {})
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.userName = action.payload.data;
+      })
       // 거절
       .addCase(getUser.rejected, (state, action) => {});
   },

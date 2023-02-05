@@ -1,19 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { getUser, updateUser } from 'store/User/user.slice';
+import { apiKey } from '../../Firebase';
 import * as S from './MyPage.styles';
 
 import AllContainer from 'components/AllContainer';
 import Modal from 'components/Modal';
 import AddPet from './AddPet';
 
+interface IUserInfo {
+  uid: string;
+  email: string;
+  userName: string;
+
+  isPet: boolean | null;
+
+  petImg: string | null;
+  petName: string | null;
+  petType: string | null;
+  petAge: number | null;
+  petGender: string | null;
+}
+
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [userData, setUserData] = useState<IUserInfo | null>(null);
   const [userImg, setUserImg] = useState('');
   const userImgUpload = useRef<any>();
 
-  useEffect(()=> {
-    console.log(userImg);
-  })
+  // 유저 정보 가져오기
+  const fetchData = () => {
+    const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
+    const user = JSON.parse(sessionStorage.getItem(session_key)!);
+    const userId = user.uid
+    dispatch(getUser(userId))
+      .then((data: any) => {
+        setUserData(data.payload.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    if (userData !== undefined) {
+      fetchData();
+    }
+  }, [])
 
   const userImgChange = () => {
     const file = userImgUpload.current.files[0];
@@ -48,6 +85,20 @@ export default function MyPage(): JSX.Element {
     speed: 500,
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
+    // const user = JSON.parse(sessionStorage.getItem(session_key)!);
+    // const userId = user.uid
+    // dispatch(getUser(userId))
+    //   .then((data: any) => {
+    //     console.log(data)
+    //   })
+    //   .catch((err) => {
+
+    //   });
+  };
+
   return (
     <AllContainer>
       <S.MyPageWrap>
@@ -77,10 +128,10 @@ export default function MyPage(): JSX.Element {
           </S.UserImgWrap>
           <S.UserInfo>
             <p>
-              아이디<span>onezeun</span>
+              이메일<span>{userData ? userData.email : null}</span>
             </p>
             <p>
-              닉네임<span>하찌킹</span>
+              이름<span style={{marginLeft: '55px'}}>{userData ? userData.userName : null}</span>
             </p>
           </S.UserInfo>
           <S.MyPageBtn>비밀번호 변경</S.MyPageBtn>
@@ -135,7 +186,7 @@ export default function MyPage(): JSX.Element {
             </p>
           </S.PetInfo>
         </S.PetWrap>
-        <S.MyPageBtn>저장하기</S.MyPageBtn>
+        <S.MyPageBtn onClick={handleSubmit}>저장하기</S.MyPageBtn>
       </S.MyPageWrap>
     </AllContainer>
   );

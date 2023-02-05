@@ -34,7 +34,7 @@ export interface IUserPayload {
 export interface IUpdatePayloadUser {
   uid: string;
   email: string;
-  name: string;
+  userName: string;
 
   isPet: boolean | null;
 
@@ -43,4 +43,8 @@ export interface IUpdatePayloadUser {
   petType: string | null;
   petAge: number | null;
   petGender: string | null;
+}
+
+export interface IUserInfo {
+  data?: any;
 }

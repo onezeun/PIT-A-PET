@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { AsyncType } from 'common/asyncType';
 import {
   createUserWithEmailAndPassword,
@@ -11,7 +10,8 @@ import {
   signOut,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
-import { app, apiKey, auth } from '../../Firebase';
+import { app, apiKey, auth, db } from '../../Firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 // 초기 상태 타입
 interface AuthState {
@@ -65,7 +65,12 @@ export const UserSignUp = createAsyncThunk(
         email,
         password,
       );
-      await updateProfile(userCredential.user, {displayName: name})
+      await updateProfile(userCredential.user, {displayName: name});
+      await addDoc(collection(db, 'users'), {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        userName: name,
+      });
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
