@@ -103,7 +103,7 @@ export default function SignUp(): JSX.Element {
   };
 
   const signUpCheck = () => {
-    if (emailError || passwordError || nameError === true) {
+    if (emailError || passwordError || nameError ) {
       setAllCheck(false);
     } else if (password != rePassword) {
       setAllCheck(false);

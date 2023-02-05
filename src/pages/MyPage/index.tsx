@@ -9,6 +9,7 @@ import * as S from './MyPage.styles';
 import AllContainer from 'components/AllContainer';
 import Modal from 'components/Modal';
 import AddPet from './AddPet';
+import UpdatePet from './UpdatePet';
 
 interface IUserInfo {
   uid: string;
@@ -22,6 +23,7 @@ export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
+  const [uid, setUid] = useState('');
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   const [userImg, setUserImg] = useState('');
   const userImgUpload = useRef<any>();
@@ -31,6 +33,7 @@ export default function MyPage(): JSX.Element {
     const session_key = `firebase:authUser:${apiKey}:[DEFAULT]`
     const user = JSON.parse(sessionStorage.getItem(session_key)!);
     const userId = user.uid
+    setUid(user.uid)
     dispatch(getUser(userId))
       .then((data: any) => {
         setUserData(data.payload.data);
@@ -140,7 +143,7 @@ export default function MyPage(): JSX.Element {
             modalClose={modalClose}
             header="반려동물추가등록"
           >
-            <AddPet />
+            <AddPet uid={uid} modalClose={modalClose}/>
           </Modal>
           <S.PetImgSlider {...settings}>
             <S.SliderItem>
@@ -148,6 +151,13 @@ export default function MyPage(): JSX.Element {
                 <img src={process.env.PUBLIC_URL + '/images/pet_default_img.png'} />
                 <p>반려동물 이름1</p>
               </S.SliderContent>
+              <Modal
+                modalOpen={modalOpen}
+                modalClose={modalClose}
+                header="반려동물정보수정"
+              >
+                <UpdatePet uid={uid} modalClose={modalClose} />
+              </Modal>
             </S.SliderItem>
             <S.SliderItem>
               <S.SliderContent>

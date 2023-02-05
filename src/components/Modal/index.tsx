@@ -28,11 +28,6 @@ export default function Modal({ modalOpen, modalClose, header, children, classNa
               <i className="ri-close-fill close" onClick={modalClose}></i>
             </S.ModalHeader>
             <S.ModalContent>{children}</S.ModalContent>
-            <S.ModalBot>
-              <S.SaveBtn className="save" onClick={modalClose}>
-                저장
-              </S.SaveBtn>
-            </S.ModalBot>
           </S.Modal>
         ) : null}
       </div>

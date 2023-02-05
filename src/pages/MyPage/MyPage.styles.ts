@@ -288,3 +288,29 @@ export const addPetInput = styled.input`
   border: 1px solid ${(props) => props.color || props.theme.colors.BLUE};
   border-radius: 5px;
 `;
+
+export const addPetSelectInput = styled.select`
+  color: ${(props) => props.color || props.theme.colors.BLUE};
+  margin: 5px auto 0;
+  padding: 10px;
+  width: 300px;
+  height: 40px;
+  display: block;
+  border: 1px solid ${(props) => props.color || props.theme.colors.BLUE};
+  border-radius: 5px;
+  outline: none;
+
+  & :focus {
+    outline: none;
+  }
+`;
+
+export const ModalSaveBtn = styled.button`
+  width: 50%;
+  height: 40px;
+  margin: 30px 0 20px 0;
+  color: white;
+  background-color: ${(props) => props.theme.colors.BLUE};
+  border-radius: 5px;
+  font-size: 1rem;
+`;

@@ -38,9 +38,10 @@ export interface IUpdatePayloadUser {
 
 // pet
 export interface IPetPayload {
-  petImg: string | null;
+  uid: string;
+  petImg: any | null;
   petName: string | null;
   petType: string | null;
-  petAge: number | null;
+  petAge: string | null;
   petGender: string | null;
 }

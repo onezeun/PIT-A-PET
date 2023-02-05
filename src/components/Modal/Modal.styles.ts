@@ -55,22 +55,18 @@ export const ModalHeader = styled.div`
 
 export const ModalContent = styled.div`
   padding: 16px;
-  border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
 `;
 
-export const ModalBot = styled.div`
-  padding: 12px 16px;
-  text-align: right;
-`;
-
-export const SaveBtn = styled.button`
-  padding: 6px 12px;
-  color: white;
-  background-color: #6c757d;
-  border-radius: 5px;
-  font-size: 1rem;
-`;
+// export const ModalSaveBtn = styled.button`
+//   width: 50%;
+//   height: 40px;
+//   margin: 30px 0 20px 0;
+//   color: white;
+//   background-color: ${(props) => props.theme.colors.BLUE};
+//   border-radius: 5px;
+//   font-size: 1rem;
+// `;
 
 export const Modal = styled.section<ModalStyle>`
   width: 90%;
@@ -107,12 +103,5 @@ export const Modal = styled.section<ModalStyle>`
         color: ${(props) => props.theme.colors[headTitleColor]};
       `}
     }
-  }
-
-  ${SaveBtn} {
-    ${({ saveBtnColor = 'BLUE', saveBtnFont = 'WHITE' }) => css`
-      background-color: ${(props) => props.theme.colors[saveBtnColor]};
-      color: ${(props) => props.theme.colors[saveBtnFont]};
-    `}
   }
 `;
