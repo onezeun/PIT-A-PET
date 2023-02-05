@@ -4,7 +4,6 @@ import { AsyncType } from 'common/asyncType';
 import {
   doc,
   getDocs,
-  setDoc,
   updateDoc,
   collection,
   where,
@@ -49,13 +48,10 @@ const initialState: UserState = {
 
 export const getUser = createAsyncThunk(
   'user/GET_USER',
-  async (
-    userId: IUpdatePayloadUser,
-    { rejectWithValue },
-  ): Promise<IUserPayload> => {
+  async ( uid: string, { rejectWithValue }, ): Promise<IUserPayload> => {
     try {
       const userDoc = collection(db, 'users');
-      const q = query(userDoc, where('uid', '==', userId)) as any;
+      const q = query(userDoc, where('uid', '==', uid)) as any;
       const querySnapshot = (await getDocs(q)) as any;
       let getData;
       querySnapshot.forEach((doc: any) => {
