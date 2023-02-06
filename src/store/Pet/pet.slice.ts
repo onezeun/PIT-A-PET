@@ -12,12 +12,13 @@ import {
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { IPetPayload } from '../interface';
+import { IAddPetPayload, IUpdatePetPayload } from '../interface';
 
 // 초기 상태 타입
 interface PetState {
   petsData?: {
-    uid: string | null;
+    id: string;
+    uid: string;
     petImg: any | null;
     petName: string | null;
     petType: string | null;
@@ -30,11 +31,15 @@ interface PetState {
 
   getLoading: AsyncType;
   getError: string | null;
+
+  updateLoading: AsyncType;
+  updateError: string | null;
 }
 
 // 초기 상태
 const initialState: PetState = {
   petsData: {
+    id: '',
     uid: '',
     petImg: null,
     petName: null,
@@ -48,26 +53,31 @@ const initialState: PetState = {
 
   getLoading: 'idle',
   getError: null,
+
+  updateLoading: 'idle',
+  updateError: null,
 };
 
 export const createPet = createAsyncThunk(
   'pet/CREATE_PET',
   async (
-    { uid, petImg, petName, petType, petAge, petGender }: IPetPayload,
+    { uid, petImg, petName, petType, petAge, petGender }: IAddPetPayload,
     { rejectWithValue },
-  ): Promise<IPetPayload> => {
+  ): Promise<IAddPetPayload> => {
     try {
       // if(uid === null) {
       //   throw rejectWithValue('유저정보오류');
       // }
       const storage = getStorage();
       const storageRef = ref(storage, 'petimages/' + petImg.name);
-      let petImgUrl
+      let petImgUrl;
       await uploadBytes(storageRef, petImg);
-      await getDownloadURL(ref(storage, 'petimages/' + petImg.name)).then((url) => {
-        petImgUrl = url
-        console.log(url);
-      });
+      await getDownloadURL(ref(storage, 'petimages/' + petImg.name)).then(
+        (url) => {
+          petImgUrl = url;
+          console.log(url);
+        },
+      );
       await addDoc(collection(db, 'pets'), {
         uid: uid,
         petImg: petImgUrl,
@@ -98,8 +108,11 @@ export const getPet = createAsyncThunk(
       const q = query(petsDoc, where('uid', '==', uid)) as any;
       const querySnapshot = (await getDocs(q)) as any;
       let getData: any = [];
+      let id;
       querySnapshot.forEach((doc: any) => {
-        getData.push(doc.data());
+        let data = doc.data();
+        data.id = doc.id;
+        getData.push(data);
       });
       return getData;
     } catch (err) {
@@ -110,9 +123,42 @@ export const getPet = createAsyncThunk(
 
 export const updatePet = createAsyncThunk(
   'pet/UPDATE_PET',
-  async (userRequest: IPetPayload, { rejectWithValue }) => {
+  async (
+    { id, petImg, petName, petType, petAge, petGender }: IUpdatePetPayload,
+    { rejectWithValue },
+  ) => {
     try {
-    } catch (err) {}
+      const petDoc = doc(db, 'pets', id);
+      if (petImg == null) {
+        await updateDoc(petDoc, {
+          petName: petName,
+          petType: petType,
+          petAge: petAge,
+          petGender: petGender,
+        });
+      } else {
+        const storage = getStorage();
+        const storageRef = ref(storage, 'petimages/' + petImg.name);
+        let petImgUrl;
+        await uploadBytes(storageRef, petImg);
+        await getDownloadURL(ref(storage, 'petimages/' + petImg.name)).then(
+          (url) => {
+            petImgUrl = url;
+            console.log(url);
+          },
+        );
+        await updateDoc(petDoc, {
+          petImg: petImgUrl,
+          petName: petName,
+          petType: petType,
+          petAge: petAge,
+          petGender: petGender,
+        });
+      };
+      return rejectWithValue('업데이트 성공');
+    } catch (err) {
+      throw rejectWithValue('업데이트 실패');
+    }
   },
 );
 
@@ -148,12 +194,28 @@ export const petSlice = createSlice({
         state.getError = null;
         state.getLoading = 'succeeded';
 
-        state.petsData = action.payload;
+        state.petsData = action.payload.data;
       })
       // 거절
       .addCase(getPet.rejected, (state, action) => {
         state.getError = action.payload as string;
         state.getLoading = 'failed';
+      });
+    builder
+      // 대기중
+      .addCase(updatePet.pending, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'pending';
+      })
+      // 성공
+      .addCase(updatePet.fulfilled, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'succeeded';
+      })
+      // 거절
+      .addCase(updatePet.rejected, (state, action) => {
+        state.updateError = action.payload as string;
+        state.updateLoading = 'failed';
       });
   },
 });

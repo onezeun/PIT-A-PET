@@ -37,11 +37,15 @@ export interface IUpdatePayloadUser {
 }
 
 // pet
-export interface IPetPayload {
+export interface IAddPetPayload {
   uid: string;
   petImg: any | null;
   petName: string | null;
   petType: string | null;
   petAge: string | null;
   petGender: string | null;
+}
+
+export interface IUpdatePetPayload extends IAddPetPayload {
+  id: string;
 }

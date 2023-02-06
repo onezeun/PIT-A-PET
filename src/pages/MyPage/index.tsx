@@ -20,7 +20,8 @@ interface IUserInfo {
   isPet: boolean | null;
 }
 
-export interface IPetInfo {
+interface IPetInfo {
+  id: string;
   uid: string;
   petImg: any | null;
   petName: string | null;
@@ -35,8 +36,10 @@ export default function MyPage(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
 
   const [uid, setUid] = useState('');
+  const [petId, setPetId] = useState('');
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   const [petsData, setPetsData] = useState<IPetInfo[] | null>(null);
+  const [selectPetData, setSelectPetData] = useState<IPetInfo | null>(null);
   const [userImg, setUserImg] = useState('');
   const userImgUpload = useRef<any>();
 
@@ -104,8 +107,9 @@ export default function MyPage(): JSX.Element {
     setAddPetModal(true);
   };
 
-  const openUpdatePet = () => {
+  const openUpdatePet = (value: any) => {
     setUpdatePetModal(true);
+    setPetId(value);
   };
   const modalClose = () => {
     setAddPetModal(false);
@@ -196,7 +200,10 @@ export default function MyPage(): JSX.Element {
                       <p>{pet.petName}</p>
                     </S.SliderContent>
                     <S.PetInfo>
-                      <S.MyPageBtn onClick={openUpdatePet}>반려동물정보수정</S.MyPageBtn>
+                      <S.MyPageBtn onClick={() => {
+                        setUpdatePetModal(true);
+                        setSelectPetData(pet);
+                      }}>반려동물정보수정</S.MyPageBtn>
                       <p>
                         이름<span>{pet.petName}</span>
                       </p>
@@ -207,21 +214,19 @@ export default function MyPage(): JSX.Element {
                         성별<span>{pet.petGender}</span>
                       </p>
                     </S.PetInfo>
-                    <Modal
-                      modalOpen={updatePetModal ? true : false}
-                      modalClose={modalClose}
-                      header="반려동물정보수정"
-                    >
-                      <UpdatePet uid={uid} modalClose={modalClose} />
-                    </Modal>
                   </S.SliderItem>
                 )
               })}
             </S.PetImgSlider>
           )}
-        
+          <Modal
+            modalOpen={updatePetModal ? true : false}
+            modalClose={modalClose}
+            header="반려동물정보수정"
+          >
+            <UpdatePet selectPetData={selectPetData} uid={uid} modalClose={modalClose} />
+          </Modal>
         </S.PetWrap>
-
       </S.MyPageWrap>
     </AllContainer>
   );
