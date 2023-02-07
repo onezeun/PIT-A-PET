@@ -6,6 +6,7 @@ import {
   addDoc,
   getDocs,
   updateDoc,
+  deleteDoc,
   collection,
   where,
   query,
@@ -34,6 +35,9 @@ interface PetState {
 
   updateLoading: AsyncType;
   updateError: string | null;
+
+  deleteLoading: AsyncType;
+  deleteError: string | null;
 }
 
 // 초기 상태
@@ -56,6 +60,9 @@ const initialState: PetState = {
 
   updateLoading: 'idle',
   updateError: null,
+
+  deleteLoading: 'idle',
+  deleteError: null,
 };
 
 export const createPet = createAsyncThunk(
@@ -162,6 +169,18 @@ export const updatePet = createAsyncThunk(
   },
 );
 
+export const deletePet = createAsyncThunk(
+  'pet/DELETE_PET',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await deleteDoc(doc(db, 'pets', id));
+      return rejectWithValue('삭제 성공');
+    } catch (err) {
+      throw rejectWithValue('삭제 실패');
+    }
+  },
+);
+
 export const petSlice = createSlice({
   name: 'pet',
   initialState,
@@ -214,6 +233,23 @@ export const petSlice = createSlice({
       })
       // 거절
       .addCase(updatePet.rejected, (state, action) => {
+        state.updateError = action.payload as string;
+        state.updateLoading = 'failed';
+      });
+
+      builder
+      // 대기중
+      .addCase(deletePet.pending, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'pending';
+      })
+      // 성공
+      .addCase(deletePet.fulfilled, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'succeeded';
+      })
+      // 거절
+      .addCase(deletePet.rejected, (state, action) => {
         state.updateError = action.payload as string;
         state.updateLoading = 'failed';
       });
