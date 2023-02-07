@@ -16,11 +16,11 @@ import { IAddPostPayload, IUpdatePostPayload } from '../interface';
 
 // 초기 상태 타입
 interface PostState {
-  PostData?: {
+  postData?: {
     id: string;
     uid: string;
-    postContent : string | null;
-    postImg : File | null;
+    postContent: string | null;
+    postImg: File | null;
   };
 
   addLoading: AsyncType;
@@ -38,10 +38,10 @@ interface PostState {
 
 // 초기 상태
 const initialState: PostState = {
-  PostData: {
+  postData: {
     id: '',
     uid: '',
-    postContent:'',
+    postContent: '',
     postImg: null,
   },
 
@@ -90,13 +90,11 @@ export const addPost = createAsyncThunk(
   },
 );
 
-export const getPost = createAsyncThunk(
-  'post/GET_POST',
-  async (uid: string, { rejectWithValue }) => {
+export const getAllPost = createAsyncThunk(
+  'post/GET_ALL_POST',
+  async () => {
     try {
-      const postsDoc = collection(db, 'post');
-      const q = query(postsDoc, where('uid', '==', uid)) as any;
-      const querySnapshot = (await getDocs(q)) as any;
+      const querySnapshot = await getDocs(collection(db, 'posts'));
       let getData: any = [];
       querySnapshot.forEach((doc: any) => {
         let data = doc.data();
@@ -105,7 +103,7 @@ export const getPost = createAsyncThunk(
       });
       return getData;
     } catch (err) {
-      throw rejectWithValue('글 불러오기 실패');
+      console.log(err)
     }
   },
 );
@@ -120,7 +118,7 @@ export const updatePost = createAsyncThunk(
       const postDoc = doc(db, 'posts', id);
       if (postImg == null) {
         await updateDoc(postDoc, {
-          postContent: postContent
+          postContent: postContent,
         });
       } else {
         const storage = getStorage();
@@ -136,7 +134,7 @@ export const updatePost = createAsyncThunk(
           postContent: postContent,
           postImg: postImgUrl,
         });
-      };
+      }
       return rejectWithValue('업데이트 성공');
     } catch (err) {
       throw rejectWithValue('업데이트 실패');
@@ -174,6 +172,24 @@ export const postSlice = createSlice({
       })
       // 거절
       .addCase(addPost.rejected, (state, action) => {
+        state.addError = action.payload as string;
+        state.addLoading = 'failed';
+      });
+    builder
+      // 대기중
+      .addCase(getAllPost.pending, (state, action) => {
+        state.addError = null;
+        state.addLoading = 'pending';
+      })
+      // 성공
+      .addCase(getAllPost.fulfilled, (state, action) => {
+        state.addError = null;
+        state.addLoading = 'succeeded';
+
+        state.postData = action.payload.data;
+      })
+      // 거절
+      .addCase(getAllPost.rejected, (state, action) => {
         state.addError = action.payload as string;
         state.addLoading = 'failed';
       });

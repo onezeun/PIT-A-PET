@@ -1,15 +1,18 @@
 import styled, { css } from 'styled-components/macro';
 
 export const EditBox = styled.div<{transition:string}>`
+  display: none;
   opacity: 0;
   transition: ${(props) => props.transition};
 
   &.opacity {
     opacity: 1;
+    display: block;
   }
 `;
 
 export const MessageBoxWrap = styled.div`
+  cursor: pointer;
   margin: 0 auto 20px;
   padding: 15px;
   width: 95%;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import * as S from './MessageBox.styles';
@@ -6,6 +7,7 @@ import * as S from './MessageBox.styles';
 import Edit from 'components/Edit';
 
 export default function MessageBox(): JSX.Element {
+  const navigate = useNavigate();
   const [editOpen, setEditOpen] = useState(false);
   let isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn) as any;
 
@@ -28,6 +30,8 @@ export default function MessageBox(): JSX.Element {
           if (editOpen == false) {
             setEditOpen(true);
           }
+        } else {
+          navigate('/signup')
         }
       }}
     >
