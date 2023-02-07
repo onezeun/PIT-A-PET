@@ -14,12 +14,25 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
   let user = useSelector((state: RootState) => state.auth.sessionData) as any;
   const uid = user ? user.uid : null;
 
+  const [postDate, setPostDate] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postImg, setPostImg] = useState({});
   const [postImgUrl, setPostImgUrl] = useState('');
 
+  const getDate = () => {
+    let today = new Date();
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+    let hours = today.getHours(); // 시
+    let minutes = today.getMinutes();  // 분
+
+    setPostDate(year +'-'+ month + '-' + date + ' ' + hours + ':' + minutes)
+  }
+
   const toggleEdit = () => {
     setEditOpen(false);
+
   };
 
   const postContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -47,9 +60,11 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
     } else if(postImgUrl == '') {
       alert('사진을 업로드해주세요');
     } else {
-      dispatch(addPost({uid, postContent, postImg}))
+      getDate();
+      dispatch(addPost({uid, postContent, postImg, postDate}))
       .then((data) => {
         console.log(data);
+        window.location.reload();
       })
     }
   }

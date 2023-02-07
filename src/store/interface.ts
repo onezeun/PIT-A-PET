@@ -53,6 +53,7 @@ export interface IAddPostPayload {
   uid: string;
   postContent: string | null;
   postImg: any | null;
+  postDate: string | null;
 }
 
 export interface IUpdatePostPayload extends IAddPostPayload {

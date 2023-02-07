@@ -7,8 +7,10 @@ import {
   updateDoc,
   deleteDoc,
   collection,
-  where,
   query,
+  orderBy,
+  limit,
+  startAfter,
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -21,6 +23,7 @@ interface PostState {
     uid: string;
     postContent: string | null;
     postImg: File | null;
+    postDate: string | null;
   };
 
   addLoading: AsyncType;
@@ -28,6 +31,7 @@ interface PostState {
 
   getLoading: AsyncType;
   getError: string | null;
+  lastPage: any;
 
   updateLoading: AsyncType;
   updateError: string | null;
@@ -43,6 +47,7 @@ const initialState: PostState = {
     uid: '',
     postContent: '',
     postImg: null,
+    postDate: '',
   },
 
   addLoading: 'idle',
@@ -50,6 +55,7 @@ const initialState: PostState = {
 
   getLoading: 'idle',
   getError: null,
+  lastPage: null,
 
   updateLoading: 'idle',
   updateError: null,
@@ -61,7 +67,7 @@ const initialState: PostState = {
 export const addPost = createAsyncThunk(
   'post/ADD_POST',
   async (
-    { uid, postContent, postImg }: IAddPostPayload,
+    { uid, postContent, postImg, postDate }: IAddPostPayload,
     { rejectWithValue },
   ): Promise<IAddPostPayload> => {
     try {
@@ -78,11 +84,13 @@ export const addPost = createAsyncThunk(
         uid: uid,
         postContent: postContent,
         postImg: postImgUrl,
+        postDate: postDate,
       });
       return {
         uid: uid,
         postContent: postContent,
         postImg: postImgUrl,
+        postDate: postDate,
       };
     } catch (err) {
       throw rejectWithValue('글 작성 실패');
@@ -92,18 +100,38 @@ export const addPost = createAsyncThunk(
 
 export const getAllPost = createAsyncThunk(
   'post/GET_ALL_POST',
-  async () => {
+  async ({ first, postPage }: { first: boolean; postPage: number }, {rejectWithValue}) => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'posts'));
+      const postsDoc = collection(db, 'posts');
       let getData: any = [];
-      querySnapshot.forEach((doc: any) => {
-        let data = doc.data();
-        data.id = doc.id;
-        getData.push(data);
-      });
-      return getData;
+      let lastVisible;
+
+      if (first == true) {
+        const q = query(postsDoc, orderBy('postDate', 'asc'), limit(2));
+        const querySnapshot = await getDocs(q);
+        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        querySnapshot.forEach((doc: any) => {
+          let data = doc.data();
+          data.id = doc.id;
+          getData.push(data);
+        });
+      } else {
+        const q = query(postsDoc,orderBy('postDate', 'asc'),limit(3),startAfter(lastVisible));
+        const querySnapshot = await getDocs(q);
+        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        querySnapshot.forEach((doc: any) => {
+          let data = doc.data();
+          data.id = doc.id;
+          getData.push(data);
+        });
+      }
+      return {
+        data: getData,
+        lastPage: lastVisible,
+      };
     } catch (err) {
-      console.log(err)
+      console.log(err);
+      throw rejectWithValue('데이터 불러오기 실패');
     }
   },
 );
@@ -187,6 +215,7 @@ export const postSlice = createSlice({
         state.addLoading = 'succeeded';
 
         state.postData = action.payload.data;
+        state.lastPage = action.payload.lastPage;
       })
       // 거절
       .addCase(getAllPost.rejected, (state, action) => {
