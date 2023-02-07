@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { apiKey } from '../../Firebase';
 import * as S from './Header.styles';
-import { userLogout } from 'store/Auth/auth.slice';
+import { userLogout } from 'store/modules/auth.slice';
 
 interface Iprops {
   sideOpen: boolean;

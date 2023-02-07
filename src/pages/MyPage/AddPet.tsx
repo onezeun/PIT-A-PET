@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { createPet } from 'store/Pet/pet.slice';
+import { createPet } from 'store/modules/pet.slice';
 import * as S from './MyPage.styles';
 interface IProps {
   uid: string;

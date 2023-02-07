@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { userLogin } from 'store/Auth/auth.slice';
+import { userLogin } from 'store/modules/auth.slice';
 import * as S from './Login.styles';
 
 export default function Login(): JSX.Element {

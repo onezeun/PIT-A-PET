@@ -8,9 +8,11 @@ import {
   browserSessionPersistence,
   updateProfile,
   signOut,
+  sendPasswordResetEmail,
+  deleteUser,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
-import { app, apiKey, auth, db } from '../../Firebase';
+import { app, auth, db } from '../../Firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
 // 초기 상태 타입
@@ -125,6 +127,20 @@ export const userLogin = createAsyncThunk(
 export const userLogout = createAsyncThunk('auth/USER_LOGOUT', async () => {
   await signOut(auth);
 });
+
+// // 비밀번호 변경
+// export const userPwdChange = createAsyncThunk('auth/USER_LOGOUT', async ({ email }) => {
+//   sendPasswordResetEmail(auth, email).then(()=>{
+
+//   })
+// });
+
+// // 탈퇴
+// export const userDelete = createAsyncThunk('auth/USER_LOGOUT', async () => {
+//   const user = auth.currentUser;
+
+//   deleteUser(user);
+// });
 
 export const authSlice = createSlice({
   name: 'auth',

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { getUser, updateUser } from 'store/User/user.slice';
-import { getPet } from 'store/Pet/pet.slice';
+import { getUser, updateUser } from 'store/modules/user.slice';
+import { getPet } from 'store/modules/pet.slice';
 import { apiKey } from '../../Firebase';
 import * as S from './MyPage.styles';
 

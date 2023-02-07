@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { updatePet, deletePet } from 'store/Pet/pet.slice';
+import { updatePet, deletePet } from 'store/modules/pet.slice';
 import * as S from './MyPage.styles';
 
 interface IPetInfo {

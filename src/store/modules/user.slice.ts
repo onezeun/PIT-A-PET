@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { AsyncType } from 'common/asyncType';
 import {
   doc,
-  getDoc,
   getDocs,
   updateDoc,
   collection,

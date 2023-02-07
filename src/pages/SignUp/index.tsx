@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { userSignUp } from 'store/Auth/auth.slice';
+import { userSignUp } from 'store/modules/auth.slice';
 import * as S from './SignUp.styles';
 
 import SignUpSuccess from './SignUpSuccess';
