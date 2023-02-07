@@ -47,15 +47,29 @@ export const EditContent = styled.textarea`
   resize: none;
 `;
 
-export const ImgUpload = styled.div``;
+export const ImgUpload = styled.div`
+  & img {
+    margin-top: 10px;
+    background: #ccc;
+    text-align: center;
+    width: 100%;
+    height: 400px;
+    border-radius: 5px;
+  }
+  `;
 
 export const ThumnailImg = styled.div`
   margin-top: 10px;
-  background: #ccc;
+  background: ${(props) => props.theme.colors.GREY};
   text-align: center;
   width: 100%;
-  min-height: 250px;
   border-radius: 5px;
+
+  & .icon {
+    color: ${(props) => props.theme.colors.WHITE};
+    font-size : 50px;
+    line-height: 400px;
+  }
 `;
 
 export const SubmitBtn = styled.button`

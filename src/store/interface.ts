@@ -47,3 +47,14 @@ export interface IAddPetPayload {
 export interface IUpdatePetPayload extends IAddPetPayload {
   id: string;
 }
+
+// post
+export interface IAddPostPayload {
+  uid: string;
+  postContent: string | null;
+  postImg: any | null;
+}
+
+export interface IUpdatePostPayload extends IAddPostPayload {
+  id: string;
+}
