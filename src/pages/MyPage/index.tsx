@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { getUser, updateUser } from 'store/modules/user.slice';
 import { getPet } from 'store/modules/pet.slice';
-import { apiKey } from '../../Firebase';
 import * as S from './MyPage.styles';
 
 import AllContainer from 'components/AllContainer';
@@ -30,7 +29,6 @@ interface IPetInfo {
   petAge: string | null;
   petGender: string | null;
 }
-
 
 export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
