@@ -68,7 +68,7 @@ export default function AddPet({ uid, modalClose }: IProps): JSX.Element {
       alert('반려동물의 사진을 넣어주세요')
     } else {
       dispatch(createPet({ uid, petImg, petName, petType, petAge, petGender }))
-        .then((res) => {
+        .then(() => {
           alert('저장이 완료되었습니다.');
           window.location.reload();
         })
