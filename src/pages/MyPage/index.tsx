@@ -16,6 +16,7 @@ interface IUserInfo {
   uid: string;
   email: string;
   userName: string;
+  userImg: string;
 
   isPet: boolean | null;
 }
@@ -35,14 +36,14 @@ export default function MyPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
+  const [id, setId] = useState('');
   const [uid, setUid] = useState('');
-  const [petId, setPetId] = useState('');
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   const [petsData, setPetsData] = useState<IPetInfo[] | null>(null);
   const [selectPetData, setSelectPetData] = useState<IPetInfo | null>(null);
-  const [userImg, setUserImg] = useState('');
+  const [userImg, setUserImg] = useState<File | null>(null);
+  const [userImgUrl, setUserImgUrl] = useState('');
   const userImgUpload = useRef<any>();
-
   if (uid == '') {
     const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
     const user = JSON.parse(sessionStorage.getItem(sessionKey)!);
@@ -56,13 +57,18 @@ export default function MyPage(): JSX.Element {
     if (petsData !== undefined) {
       fetchPetData();
     }
-  }, [])
+    if (userImg != null) {
+      updateProfile();
+    }
+  }, [userImg])
 
   // 유저 정보 가져오기
   const fetchData = () => {
     dispatch(getUser(uid))
       .then((data: any) => {
         setUserData(data.payload.data);
+        setId(data.payload.data.id);
+        console.log(userData);
       })
       .catch((err) => {
         console.log(err);
@@ -77,7 +83,6 @@ export default function MyPage(): JSX.Element {
           console.log('펫없음')
         } else {
           setPetsData(data.payload);
-          console.log(petsData)
         };
       })
       .catch((err) => {
@@ -85,18 +90,31 @@ export default function MyPage(): JSX.Element {
       });
   }
 
+  const updateProfile = () => {
+    if(userImg != null) {
+      dispatch(updateUser({id, uid, userImg}))
+      .then((data: any) => {
+        console.log(data);
+      })
+      .catch((err) => {
+  
+      });
+    }
+  };
+
   // 이미지 미리보기
   const userImgChange = () => {
     const file = userImgUpload.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setUserImg(reader.result as string);
+      setUserImgUrl(reader.result as string);
     };
+    setUserImg(file);
   };
 
   const deleteUserImg = () => {
-    setUserImg('');
+    setUserImgUrl('');
   }
 
   // 모달창
@@ -107,10 +125,6 @@ export default function MyPage(): JSX.Element {
     setAddPetModal(true);
   };
 
-  const openUpdatePet = (value: any) => {
-    setUpdatePetModal(true);
-    setPetId(value);
-  };
   const modalClose = () => {
     setAddPetModal(false);
     setUpdatePetModal(false);
@@ -126,18 +140,6 @@ export default function MyPage(): JSX.Element {
     speed: 500,
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const file = userImgUpload.current.files[0];
-    // dispatch(updateUser({}))
-    // .then((data: any) => {
-    //   console.log(data)
-    // })
-    // .catch((err) => {
-
-    // });
-  };
 
   return (
     <AllContainer>
@@ -162,7 +164,11 @@ export default function MyPage(): JSX.Element {
             회원 프로필사진 업로드
           </label>
           <S.UserImgWrap>
-            <img src={userImg ? userImg : process.env.PUBLIC_URL + '/images/profile.png'} />
+            {userImgUrl != '' ? (
+              <img src={userImgUrl ? userImgUrl : process.env.PUBLIC_URL + '/images/profile.png'} />
+            ) : (
+              <img src={userData && userData.userImg ? userData.userImg : process.env.PUBLIC_URL + '/images/profile.png'} />
+            )}
             <S.MyPageBtn onClick={() => userImgUpload.current.click()}>이미지업로드</S.MyPageBtn>
             <S.MyPageBtn onClick={deleteUserImg}>이미지제거</S.MyPageBtn>
           </S.UserImgWrap>

@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { AsyncType } from 'common/asyncType';
 import {
   doc,
+  getDoc,
   getDocs,
   updateDoc,
   collection,
@@ -10,6 +11,7 @@ import {
   query,
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { IUpdatePayloadUser, IUserPayload } from '../interface';
 
 // 초기 상태 타입
@@ -55,7 +57,12 @@ export const getUser = createAsyncThunk(
       const querySnapshot = (await getDocs(q)) as any;
       let getData;
       querySnapshot.forEach((doc: any) => {
-        getData = doc.data();
+        let data = doc.data();
+        data.id = doc.id;
+        if(data.userImg == undefined) {
+          data.userImg = null;
+        }
+        getData = data;
       });
       return {
         data: getData,
@@ -68,9 +75,27 @@ export const getUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/UPDATE_USER',
-  async (userRequest: IUpdatePayloadUser, { rejectWithValue }) => {
+  async ({id, uid, userImg}: IUpdatePayloadUser, { rejectWithValue }) => {
     try {
-    } catch (err) {}
+      const userDoc = doc(db, 'users', id);
+        if(userImg != null) {
+          const storage = getStorage();
+          const storageRef = ref(storage, 'userprofilephoto/' + userImg.name);
+          let userImgUrl;
+          await uploadBytes(storageRef, userImg);
+          await getDownloadURL(ref(storage, 'userprofilephoto/' + userImg.name)).then(
+            (url) => {
+              userImgUrl = url;
+            },
+          );
+          await updateDoc(userDoc, {
+            userImg : userImgUrl,
+          })
+        };
+      return rejectWithValue('업로드 성공');
+    } catch (err) {
+      throw rejectWithValue('업로드 실패');
+    }
   },
 );
 
@@ -96,6 +121,23 @@ export const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.fetchError = action.payload as string;
         state.fetchLoading = 'failed';
+      });
+
+      builder
+      // 대기중
+      .addCase(updateUser.pending, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'pending';
+      })
+      // 성공
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.updateError = null;
+        state.updateLoading = 'succeeded';
+      })
+      // 거절
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updateError = action.payload as string;
+        state.updateLoading = 'failed';
       });
   },
 });

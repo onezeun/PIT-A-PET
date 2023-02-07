@@ -28,12 +28,10 @@ export interface IUserPayload {
     isPet: boolean | null;
   };
 }
-export interface IUpdatePayloadUser {
+export interface IUpdatePayloadUser { 
+  id: string;
   uid: string;
-  email: string;
-  userName: string;
-
-  isPet: boolean | null;
+  userImg: any | null;
 }
 
 // pet

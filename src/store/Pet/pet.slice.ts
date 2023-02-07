@@ -72,9 +72,6 @@ export const createPet = createAsyncThunk(
     { rejectWithValue },
   ): Promise<IAddPetPayload> => {
     try {
-      // if(uid === null) {
-      //   throw rejectWithValue('유저정보오류');
-      // }
       const storage = getStorage();
       const storageRef = ref(storage, 'petimages/' + petImg.name);
       let petImgUrl;
@@ -115,7 +112,6 @@ export const getPet = createAsyncThunk(
       const q = query(petsDoc, where('uid', '==', uid)) as any;
       const querySnapshot = (await getDocs(q)) as any;
       let getData: any = [];
-      let id;
       querySnapshot.forEach((doc: any) => {
         let data = doc.data();
         data.id = doc.id;
@@ -151,7 +147,6 @@ export const updatePet = createAsyncThunk(
         await getDownloadURL(ref(storage, 'petimages/' + petImg.name)).then(
           (url) => {
             petImgUrl = url;
-            console.log(url);
           },
         );
         await updateDoc(petDoc, {
