@@ -12,15 +12,16 @@ import {
   deleteUser,
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
-import { app, auth, db } from '../../Firebase';
+import { app, auth, db, apiKey } from '../../Firebase';
 import { collection, addDoc } from 'firebase/firestore';
+
+const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+const sessionData = JSON.parse(sessionStorage.getItem(sessionKey)!);
 
 // 초기 상태 타입
 interface AuthState {
-  token: string | null;
-  uid: string | null;
-  email: string | null;
-  name: string | null;
+  isLoggedIn: boolean | null,
+  sessionData : JSON | null,
 
   signUpLoading: AsyncType;
   signUpError: string | null;
@@ -33,11 +34,10 @@ interface AuthState {
 }
 
 // 초기 상태
-const initialState: AuthState = {
-  token: null,
-  uid: null,
-  email: null,
-  name: null,
+const initialState: AuthState = sessionData 
+? {
+  isLoggedIn: true,
+  sessionData: sessionData,
 
   signUpLoading: 'idle',
   signUpError: null,
@@ -47,7 +47,21 @@ const initialState: AuthState = {
 
   logoutLoading: 'idle',
   logoutError: null,
-};
+}
+: {
+
+  isLoggedIn: false,
+  sessionData: null,
+
+  signUpLoading: 'idle',
+  signUpError: null,
+
+  loginLoading: 'idle',
+  loginError: null,
+
+  logoutLoading: 'idle',
+  logoutError: null,
+} ;
 
 // 회원가입 요청
 export const userSignUp = createAsyncThunk(
@@ -158,19 +172,16 @@ export const authSlice = createSlice({
         state.signUpError = null;
         state.signUpLoading = 'succeeded';
 
-        state.token = action.payload.token;
-        state.email = action.payload.email;
-        state.uid = action.payload.uid;
-        state.name = action.payload.name;
+        state.isLoggedIn = true,
+        state.sessionData = sessionData
       })
       // 거절
       .addCase(userSignUp.rejected, (state, action) => {
         state.signUpError = action.payload as string;
         state.signUpLoading = 'failed';
 
-        state.token = null;
-        state.email = null;
-        state.uid = null;
+        state.isLoggedIn = false,
+        state.sessionData = null
       });
     builder
       .addCase(userLogin.pending, (state, action) => {
@@ -181,18 +192,15 @@ export const authSlice = createSlice({
         state.loginError = null;
         state.loginLoading = 'succeeded';
 
-        state.email = action.payload.email;
-        state.token = action.payload.token;
-        state.uid = action.payload.uid;
-        state.name = action.payload.name;
+        state.isLoggedIn = true,
+        state.sessionData = sessionData
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;
         state.loginLoading = 'failed';
 
-        state.email = null;
-        state.token = null;
-        state.uid = null;
+        state.isLoggedIn = false,
+        state.sessionData = null
       });
     builder
       .addCase(userLogout.pending, (state, action) => {
@@ -203,9 +211,8 @@ export const authSlice = createSlice({
         state.loginError = null;
         state.loginLoading = 'succeeded';
 
-        state.email = null;
-        state.token = null;
-        state.uid = null;
+        state.isLoggedIn = false,
+        state.sessionData = null
       })
       .addCase(userLogout.rejected, (state, action) => {
         state.loginError = action.payload as string;

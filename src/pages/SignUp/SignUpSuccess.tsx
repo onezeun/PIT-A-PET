@@ -7,12 +7,12 @@ import Button from 'components/Button';
 
 export default function SignUpSuccess(): JSX.Element {
   const navigate = useNavigate();
-  let user = useSelector((state: RootState) => state.auth.name);
+  let user = useSelector((state: RootState) => state.auth.sessionData) as any;
 
   return (
     <>
       <S.SuccessTitle>
-        <span>{user}</span>님 반갑습니다🤗
+        <span>{user.displayName}</span>님 반갑습니다🤗
         <p>다양한 반려동물을 만나고 공유해보세요.</p>
       </S.SuccessTitle>
       <Button

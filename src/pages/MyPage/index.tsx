@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { getUser, updateUser } from 'store/modules/user.slice';
 import { getPet } from 'store/modules/pet.slice';
 import { apiKey } from '../../Firebase';
@@ -37,18 +37,15 @@ export default function MyPage(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
 
   const [id, setId] = useState('');
-  const [uid, setUid] = useState('');
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   const [petsData, setPetsData] = useState<IPetInfo[] | null>(null);
   const [selectPetData, setSelectPetData] = useState<IPetInfo | null>(null);
   const [userImg, setUserImg] = useState<File | null>(null);
   const [userImgUrl, setUserImgUrl] = useState('');
   const userImgUpload = useRef<any>();
-  if (uid == '') {
-    const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
-    const user = JSON.parse(sessionStorage.getItem(sessionKey)!);
-    setUid(user.uid)
-  }
+
+  let user = useSelector((state: RootState) => state.auth.sessionData) as any;
+  const uid = user.uid;
 
   useEffect(() => {
     if (userData !== undefined) {
@@ -68,7 +65,6 @@ export default function MyPage(): JSX.Element {
       .then((data: any) => {
         setUserData(data.payload.data);
         setId(data.payload.data.id);
-        console.log(userData);
       })
       .catch((err) => {
         console.log(err);
