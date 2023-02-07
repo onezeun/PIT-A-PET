@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import * as S from './MessageBox.styles';
+
 import Edit from 'components/Edit';
 
 export default function MessageBox(): JSX.Element {
   const [editOpen, setEditOpen] = useState(false);
-  const [user, setUser] = useState('1'); // 1 로그인 2 로그인(반려동물 X) 3 비회원
+  let isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn) as any;
+
+  // const [uid, setUid] = useState('1'); // 1 로그인 2 로그인(반려동물 X) 3 비회원
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (user == '1') {
+    if(isLoggedIn == true) {
       setMessage('😍 귀여운 반려동물을 공유해주세요');
-    } else if (user == '2') {
-      setMessage('좋아요로 귀여움을 표시해보세용 ㅋ');
     } else {
-      setMessage('회원가입 후 편하게 즐겨보세요!');
+      setMessage('회원가입 후 반려동물을 공유해보세요! 💗');
     }
   });
 
@@ -21,14 +24,17 @@ export default function MessageBox(): JSX.Element {
     <S.MessageBoxWrap
       className={editOpen ? 'open' : ''}
       onClick={() => {
-        if (user == '1') {
+        if (isLoggedIn == true) {
           if (editOpen == false) {
             setEditOpen(true);
-          };
+          }
         }
       }}
     >
-      {editOpen == false ? message : <Edit setEditOpen={setEditOpen}/>}
+      {editOpen == false ? message : null}
+      <S.EditBox className={editOpen ? 'opacity' : ''} transition={editOpen ? '1s ease' : '0.1s ease'}>
+        <Edit setEditOpen={setEditOpen} />
+      </S.EditBox>
     </S.MessageBoxWrap>
   );
 }
