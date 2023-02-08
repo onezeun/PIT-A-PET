@@ -35,7 +35,7 @@ export default function UserHome(): JSX.Element {
       <S.Intro>
         소개글을 입력해주세요
       </S.Intro>
-      <Card></Card>
+      {/* <Card></Card> */}
     </AllContainer>
   );
 }

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/macro';
 
 export const CardWrap = styled.div`
-  margin: auto;
+  margin: 20px auto;
   padding: 15px 0;
   width: 100%;
   max-width: 500px;
@@ -17,20 +17,30 @@ export const CardWrap = styled.div`
 
 export const UserWrap = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 10px;
   margin-bottom: 10px;
 `;
 
+export const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const UserImg = styled.img`
   width: 40px;
   height: 40px;
+  border-radius: 50%;
 `;
 
 export const UserName = styled.span`
   margin-left: 10px;
   font-size: 1.1rem;
 `;
+
+export const UserBtn = styled.div`
+`
 
 export const ImgWrap = styled.div`
   max-width: 500px;

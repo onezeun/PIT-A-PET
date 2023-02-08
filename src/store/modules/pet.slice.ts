@@ -109,7 +109,7 @@ export const getPet = createAsyncThunk(
     try {
       const petsDoc = collection(db, 'pets');
       const q = query(petsDoc, where('uid', '==', uid)) as any;
-      const querySnapshot = (await getDocs(q)) as any;
+      const querySnapshot = (await getDocs(q));
       let getData: any = [];
       querySnapshot.forEach((doc: any) => {
         let data = doc.data();

@@ -7,8 +7,10 @@ import {
   updateDoc,
   deleteDoc,
   collection,
-  where,
   query,
+  orderBy,
+  limit,
+  startAfter,
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -16,11 +18,12 @@ import { IAddPostPayload, IUpdatePostPayload } from '../interface';
 
 // 초기 상태 타입
 interface PostState {
-  PostData?: {
+  postData?: {
     id: string;
     uid: string;
-    postContent : string | null;
-    postImg : File | null;
+    postContent: string | null;
+    postImg: File | null;
+    postDate: string | null;
   };
 
   addLoading: AsyncType;
@@ -28,6 +31,7 @@ interface PostState {
 
   getLoading: AsyncType;
   getError: string | null;
+  lastPage: any;
 
   updateLoading: AsyncType;
   updateError: string | null;
@@ -38,11 +42,12 @@ interface PostState {
 
 // 초기 상태
 const initialState: PostState = {
-  PostData: {
+  postData: {
     id: '',
     uid: '',
-    postContent:'',
+    postContent: '',
     postImg: null,
+    postDate: '',
   },
 
   addLoading: 'idle',
@@ -50,6 +55,7 @@ const initialState: PostState = {
 
   getLoading: 'idle',
   getError: null,
+  lastPage: null,
 
   updateLoading: 'idle',
   updateError: null,
@@ -61,7 +67,7 @@ const initialState: PostState = {
 export const addPost = createAsyncThunk(
   'post/ADD_POST',
   async (
-    { uid, postContent, postImg }: IAddPostPayload,
+    { uid, postContent, postImg, postDate }: IAddPostPayload,
     { rejectWithValue },
   ): Promise<IAddPostPayload> => {
     try {
@@ -78,11 +84,13 @@ export const addPost = createAsyncThunk(
         uid: uid,
         postContent: postContent,
         postImg: postImgUrl,
+        postDate: postDate,
       });
       return {
         uid: uid,
         postContent: postContent,
         postImg: postImgUrl,
+        postDate: postDate,
       };
     } catch (err) {
       throw rejectWithValue('글 작성 실패');
@@ -90,22 +98,40 @@ export const addPost = createAsyncThunk(
   },
 );
 
-export const getPost = createAsyncThunk(
-  'post/GET_POST',
-  async (uid: string, { rejectWithValue }) => {
+export const getAllPost = createAsyncThunk(
+  'post/GET_ALL_POST',
+  async ({ first, postPage }: { first: boolean; postPage: number }, {rejectWithValue}) => {
     try {
-      const postsDoc = collection(db, 'post');
-      const q = query(postsDoc, where('uid', '==', uid)) as any;
-      const querySnapshot = (await getDocs(q)) as any;
+      const postsDoc = collection(db, 'posts');
       let getData: any = [];
-      querySnapshot.forEach((doc: any) => {
-        let data = doc.data();
-        data.id = doc.id;
-        getData.push(data);
-      });
-      return getData;
+      let lastVisible;
+
+      if (first == true) {
+        const q = query(postsDoc, orderBy('postDate', 'asc'), limit(2));
+        const querySnapshot = await getDocs(q);
+        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        querySnapshot.forEach((doc: any) => {
+          let data = doc.data();
+          data.id = doc.id;
+          getData.push(data);
+        });
+      } else {
+        const q = query(postsDoc,orderBy('postDate', 'asc'),limit(3),startAfter(lastVisible));
+        const querySnapshot = await getDocs(q);
+        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        querySnapshot.forEach((doc: any) => {
+          let data = doc.data();
+          data.id = doc.id;
+          getData.push(data);
+        });
+      }
+      return {
+        data: getData,
+        lastPage: lastVisible,
+      };
     } catch (err) {
-      throw rejectWithValue('글 불러오기 실패');
+      console.log(err);
+      throw rejectWithValue('데이터 불러오기 실패');
     }
   },
 );
@@ -120,7 +146,7 @@ export const updatePost = createAsyncThunk(
       const postDoc = doc(db, 'posts', id);
       if (postImg == null) {
         await updateDoc(postDoc, {
-          postContent: postContent
+          postContent: postContent,
         });
       } else {
         const storage = getStorage();
@@ -136,7 +162,7 @@ export const updatePost = createAsyncThunk(
           postContent: postContent,
           postImg: postImgUrl,
         });
-      };
+      }
       return rejectWithValue('업데이트 성공');
     } catch (err) {
       throw rejectWithValue('업데이트 실패');
@@ -174,6 +200,25 @@ export const postSlice = createSlice({
       })
       // 거절
       .addCase(addPost.rejected, (state, action) => {
+        state.addError = action.payload as string;
+        state.addLoading = 'failed';
+      });
+    builder
+      // 대기중
+      .addCase(getAllPost.pending, (state, action) => {
+        state.addError = null;
+        state.addLoading = 'pending';
+      })
+      // 성공
+      .addCase(getAllPost.fulfilled, (state, action) => {
+        state.addError = null;
+        state.addLoading = 'succeeded';
+
+        state.postData = action.payload.data;
+        state.lastPage = action.payload.lastPage;
+      })
+      // 거절
+      .addCase(getAllPost.rejected, (state, action) => {
         state.addError = action.payload as string;
         state.addLoading = 'failed';
       });
