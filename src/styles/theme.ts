@@ -2,8 +2,10 @@ import { DefaultTheme } from 'styled-components';
 
 const colors = {
   BLUE: '#5EB5E0',
+  BLUE_100: '#9FD5F0',
   YELLOW: '#FFECAC',
-  YELLOW_100: '#fff0bc',
+  YELLOW_100: '#FFF0BC',
+  YELLOW_200: '#FFF6D9',
   GREY:'#CCCCCC',
   GREY_100: '#8C8C8C',
   GREY_200: '#595959',

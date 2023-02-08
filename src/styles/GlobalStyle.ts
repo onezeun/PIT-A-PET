@@ -4,6 +4,7 @@ import reset from 'styled-reset';
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
+
   * {
   box-sizing: border-box;
   };
@@ -21,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
   };
+
+  html, body {
+    height: 100%;
+  }
 
   html, input, button {
     font-size: 16px;

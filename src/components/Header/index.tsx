@@ -50,7 +50,34 @@ export default function Header(): JSX.Element | null {
     location.pathname === '/signup'
   ) {
     return null;
-  } else {
+  } else if (location.pathname === '/chatroom') {
+    return(
+      <S.HeaderContainer>
+      <S.LogoWrap
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt="logo" />
+      </S.LogoWrap>
+      <S.GNB>
+        {resize < 768 ? (
+          <>
+            <i className="ri-bell-line icolor"></i>
+            <span onClick={toggleSide}>
+              <i className="ri-menu-line icolor"></i>
+            </span>
+          </>
+        ) : null}
+        <SideBarWrap
+          sideOpen={sideOpen}
+          setSideOpen={setSideOpen}
+          resize={resize}
+        ></SideBarWrap>
+      </S.GNB>
+    </S.HeaderContainer>
+    )
+  } else{
     return (
       <S.HeaderContainer>
         <S.LogoWrap
