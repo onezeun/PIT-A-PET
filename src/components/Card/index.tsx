@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { getUser } from 'store/modules/user.slice';
+import { createChatRoom } from 'store/modules/chat.slice';
 import * as S from './Card.styles';
 
 import Button from 'components/Button';
@@ -25,10 +27,11 @@ interface IProps {
 }
 
 export default function Card({ postData }: IProps): JSX.Element {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   let user = useSelector((state: RootState) => state.auth.sessionData) as any;
-
+  
   useEffect(() => {
     if (userData !== undefined) {
       fetchData();
@@ -39,6 +42,18 @@ export default function Card({ postData }: IProps): JSX.Element {
     dispatch(getUser(postData.uid))
       .then((data: any) => {
         setUserData(data.payload.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const createChat = () => {
+    const uid = user.uid;
+    const postUid = postData.uid;
+    dispatch(createChatRoom([uid, postUid]))
+      .then(() => {
+        navigate('/chat')
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +84,7 @@ export default function Card({ postData }: IProps): JSX.Element {
         <S.ContentTop>
           <div>
             <i className="ri-heart-3-line hearticon"></i>
-            <i className="ri-mail-line chaticon"></i>
+            <i className="ri-mail-line chaticon" onClick={createChat}></i>
             {/* <S.IconWrap>
               <i className="ri-send-plane-2-line chaticon"></i>
             </S.IconWrap> */}

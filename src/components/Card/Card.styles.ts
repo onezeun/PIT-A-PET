@@ -70,6 +70,7 @@ export const ContentTop = styled.div`
     color: ${(props) => props.theme.colors.BLACK};
     font-size: 25px;
     margin-left: 8px;
+    cursor:pointer;
   }
 
   & span {

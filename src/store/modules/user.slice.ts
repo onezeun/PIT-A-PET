@@ -48,7 +48,7 @@ const initialState: UserState = {
 
 export const getUser = createAsyncThunk(
   'user/GET_USER',
-  async ( uid: string, { rejectWithValue }, ): Promise<IUserPayload> => {
+  async ( uid: string | any[], { rejectWithValue }, ): Promise<IUserPayload> => {
     try {
       const userDoc = collection(db, 'users');
       const q = query(userDoc, where('uid', '==', uid)) as any;

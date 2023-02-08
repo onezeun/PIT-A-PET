@@ -3,6 +3,7 @@ import { authSlice } from './modules/auth.slice';
 import { petSlice } from './modules/pet.slice';
 import { userSlice } from './modules/user.slice';
 import { postSlice } from './modules/post.slice';
+import { chatSlice } from './modules/chat.slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userSlice.reducer,
     pet: petSlice.reducer,
     post: postSlice.reducer,
+    chat: chatSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false,}),
   devTools: process.env.NODE_ENV !== 'production',
