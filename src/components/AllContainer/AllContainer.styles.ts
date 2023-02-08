@@ -13,7 +13,8 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  max-width: 1200px;
+  width: 100%;
+  max-width: 500px;
   position: relative;
   transition: 0.5s ease;
 `;

@@ -23,10 +23,6 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   };
 
-  html, body {
-    height: 100%;
-  }
-
   html, input, button {
     font-size: 16px;
     font-family: 'Pretendard-Regular', sans-serif;
