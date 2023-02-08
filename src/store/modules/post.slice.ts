@@ -105,7 +105,7 @@ export const getAllPost = createAsyncThunk(
       const postsDoc = collection(db, 'posts');
       let getData: any = [];
 
-        const q = query(postsDoc, orderBy('postDate', 'asc'));
+        const q = query(postsDoc, orderBy('postDate', 'desc'));
         const querySnapshot = await getDocs(q);
         // lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         querySnapshot.forEach((doc: any) => {
