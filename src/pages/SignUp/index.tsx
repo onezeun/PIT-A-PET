@@ -28,6 +28,7 @@ export default function SignUp(): JSX.Element {
 
   const [allCheck, setAllCheck] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [payloadName, setPayloadName] = useState('');
 
   useEffect(() => {
     signUpCheck();
@@ -120,6 +121,7 @@ export default function SignUp(): JSX.Element {
           // if (typeof data.payload == "object") {
           if (data.type == 'auth/USER_SIGN_UP/fulfilled') {
             setSuccessful(true);
+            setPayloadName(data.payload.name);
           } else {
             setSignUpErrorMessage(data.payload);
           }
@@ -146,7 +148,7 @@ export default function SignUp(): JSX.Element {
             }}
           />
           {successful ? (
-            <SignUpSuccess />
+            <SignUpSuccess payloadName={payloadName}/>
           ) : (
             <>
               <h1>회원가입</h1>

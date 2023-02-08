@@ -1,18 +1,18 @@
 import React from 'react';
 import * as S from './SignUp.styles';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import Button from 'components/Button';
+interface IProps {
+  payloadName: string | null
+}
 
-export default function SignUpSuccess(): JSX.Element {
+export default function SignUpSuccess({ payloadName } :IProps): JSX.Element {
   const navigate = useNavigate();
-  let user = useSelector((state: RootState) => state.auth.sessionData) as any;
 
   return (
     <>
       <S.SuccessTitle>
-        <span>{user.displayName}</span>님 반갑습니다🤗
+        <span>{payloadName}</span>님 반갑습니다🤗
         <p>다양한 반려동물을 만나고 공유해보세요.</p>
       </S.SuccessTitle>
       <Button
