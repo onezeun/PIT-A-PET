@@ -13,7 +13,7 @@ import {
 } from '@firebase/auth';
 import { ISignUpPayload, ILoginSuccess, ILoginPayload } from '../interface';
 import { app, auth, db, apiKey } from '../../Firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 
 const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
 const sessionData = JSON.parse(sessionStorage.getItem(sessionKey)!);
@@ -22,6 +22,7 @@ const sessionData = JSON.parse(sessionStorage.getItem(sessionKey)!);
 interface AuthState {
   isLoggedIn: boolean | null,
   sessionData : JSON | null,
+  userName: string | null,
 
   signUpLoading: AsyncType;
   signUpError: string | null;
@@ -38,6 +39,7 @@ const initialState: AuthState = sessionData
 ? {
   isLoggedIn: true,
   sessionData: sessionData,
+  userName: '',
 
   signUpLoading: 'idle',
   signUpError: null,
@@ -52,6 +54,7 @@ const initialState: AuthState = sessionData
 
   isLoggedIn: false,
   sessionData: null,
+  userName: '',
 
   signUpLoading: 'idle',
   signUpError: null,
@@ -75,9 +78,10 @@ export const userSignUp = createAsyncThunk(
         email,
         password,
       );
+      const uid = userCredential.user.uid;
       await updateProfile(userCredential.user, { displayName: name });
-      await addDoc(collection(db, 'users'), {
-        uid: userCredential.user.uid,
+      await setDoc(doc(db, 'users', uid), {
+        uid: uid,
         email: userCredential.user.email,
         userName: name,
       });
