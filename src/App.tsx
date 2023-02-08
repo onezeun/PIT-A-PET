@@ -30,7 +30,7 @@ function App() {
         <Route path='/mypage' element={<MyPage />} />
         <Route path='/userhome' element={<UserHome />} />
         <Route path='/chat' element={<Chat />} />
-        <Route path='/chatroom/:id' element={<ChatRoom />} />
+        <Route path='/chatroom/:id/:name' element={<ChatRoom />} />
       </Routes>
     </>
   );

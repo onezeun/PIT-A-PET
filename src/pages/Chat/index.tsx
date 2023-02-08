@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-
-import { getUser } from 'store/modules/user.slice';
+import { getChatRoom } from 'store/modules/chat.slice';
 
 import AllContainer from 'components/AllContainer';
 import * as S from './Chat.styles';
 import Button from 'components/Button';
-import { getChatRoom } from 'store/modules/chat.slice';
+
 
 export default function Chat(): JSX.Element | null {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +39,6 @@ export default function Chat(): JSX.Element | null {
   }, [chatRoomList]);
 
   const chatRoomData = () => {
-
     dispatch(getChatRoom(currentUid))
       .then((data: any) => {
         let chatRoomData: any[] = [];
@@ -56,7 +54,7 @@ export default function Chat(): JSX.Element | null {
       <S.ChatWrap>
         {chatRoom && chatRoom.map((room, i) => {
           return (
-            <S.ChatListItem onClick={() => navigate(`/chatroom/${room.id}`)} key={i}>
+            <S.ChatListItem onClick={() => navigate(`/chatroom/${room.id}/${room.name}`)} key={i}>
               <S.OtherInfo>
                 <S.OtherImg
                   src={process.env.PUBLIC_URL + '/images/profile.png'}

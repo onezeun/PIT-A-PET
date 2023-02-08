@@ -4,23 +4,23 @@ import {
   doc,
   addDoc,
   getDocs,
-  updateDoc,
   deleteDoc,
   collection,
   where,
   query,
+  onSnapshot,
+  orderBy,
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { ICreateChatRoomPayload, IUpdatePetPayload } from '../interface';
+import { ICreateChatRoomPayload, IAddMessagePayload } from '../interface';
 
 // 초기 상태 타입
 interface ChatState {
-  chatData?: {
-    uid: string[];
-    content: string | null;
-    msgDate: Date | null;
-  };
+  id: string;
+  uid: string;
+  message: string | null;
+  date: Date | null;
 
   addLoading: AsyncType;
   addError: string | null;
@@ -31,17 +31,19 @@ interface ChatState {
   addMsgLoading: AsyncType;
   addMsgError: string | null;
 
+  getMsgLoading: AsyncType;
+  getMsgError: string | null;
+
   deleteLoading: AsyncType;
   deleteError: string | null;
 }
 
 // 초기 상태
 const initialState: ChatState = {
-  chatData: {
-    uid: [],
-    content: '',
-    msgDate : null
-  },
+  id: '',
+  uid: '',
+  message: '',
+  date: null,
 
   addLoading: 'idle',
   addError: null,
@@ -51,6 +53,9 @@ const initialState: ChatState = {
 
   addMsgLoading: 'idle',
   addMsgError: null,
+
+  getMsgLoading: 'idle',
+  getMsgError: null,
 
   deleteLoading: 'idle',
   deleteError: null,
@@ -62,7 +67,7 @@ export const createChatRoom = createAsyncThunk(
     try {
       await addDoc(collection(db, 'chatrooms'), {
         uid: uid,
-        userName: userName
+        userName: userName,
       });
     } catch (err) {
       throw rejectWithValue('채팅방 만들기 실패');
@@ -75,8 +80,11 @@ export const getChatRoom = createAsyncThunk(
   async (currentUid: string, { rejectWithValue }) => {
     try {
       const petsDoc = collection(db, 'chatrooms');
-      const q = query(petsDoc, where('uid', 'array-contains', currentUid)) as any;
-      const querySnapshot = (await getDocs(q));
+      const q = query(
+        petsDoc,
+        where('uid', 'array-contains', currentUid),
+      ) as any;
+      const querySnapshot = await getDocs(q);
       let getData: any = [];
       querySnapshot.forEach((doc: any) => {
         let data = doc.data();
@@ -93,39 +101,48 @@ export const getChatRoom = createAsyncThunk(
 export const addMessage = createAsyncThunk(
   'chat/ADD_MESSAGE',
   async (
-    { id, petImg, petName, petType, petAge, petGender }: IUpdatePetPayload,
+    { id, uid, message, date }: IAddMessagePayload,
     { rejectWithValue },
-  ) => {
+  ): Promise<IAddMessagePayload> => {
     try {
-      const petDoc = doc(db, 'pets', id);
-      if (petImg == null) {
-        await updateDoc(petDoc, {
-          petName: petName,
-          petType: petType,
-          petAge: petAge,
-          petGender: petGender,
-        });
-      } else {
-        const storage = getStorage();
-        const storageRef = ref(storage, 'petimages/' + petImg.name);
-        let petImgUrl;
-        await uploadBytes(storageRef, petImg);
-        await getDownloadURL(ref(storage, 'petimages/' + petImg.name)).then(
-          (url) => {
-            petImgUrl = url;
-          },
-        );
-        await updateDoc(petDoc, {
-          petImg: petImgUrl,
-          petName: petName,
-          petType: petType,
-          petAge: petAge,
-          petGender: petGender,
-        });
+      const chatRoomDoc = collection(db, 'chatrooms');
+      await addDoc(collection(chatRoomDoc, id, 'messages'), {
+        id: id,
+        uid: uid,
+        message: message,
+        date: date,
+      });
+      return {
+        id: id,
+        uid: uid,
+        message: message,
+        date: date,
       };
-      return rejectWithValue('업데이트 성공');
     } catch (err) {
-      throw rejectWithValue('업데이트 실패');
+      throw rejectWithValue('메세지 전송 실패');
+    }
+  },
+);
+
+export const getMessage = createAsyncThunk(
+  'chat/GET_MESSAGE',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      let getData: any = [];
+      const chatRoomDoc = collection(db, 'chatrooms');
+      const q = query(
+        collection(chatRoomDoc, id, 'messages'),
+        orderBy('date', 'asc'),
+      );
+      await onSnapshot(q, (data) => {
+        data.forEach((doc) => {
+          let data = doc.data();
+          getData.push(data);
+        });
+      });
+      return getData;
+    } catch (err) {
+      throw rejectWithValue('메세지 불러오기 실패');
     }
   },
 );
@@ -173,8 +190,6 @@ export const chatSlice = createSlice({
       .addCase(getChatRoom.fulfilled, (state, action) => {
         state.getError = null;
         state.getLoading = 'succeeded';
-
-        // state.petsData = action.payload.data;
       })
       // 거절
       .addCase(getChatRoom.rejected, (state, action) => {
@@ -198,7 +213,24 @@ export const chatSlice = createSlice({
         state.addMsgLoading = 'failed';
       });
 
-      builder
+    builder
+      // 대기중
+      .addCase(getMessage.pending, (state, action) => {
+        state.getMsgError = null;
+        state.getMsgLoading = 'pending';
+      })
+      // 성공
+      .addCase(getMessage.fulfilled, (state, action) => {
+        state.getMsgError = null;
+        state.getMsgLoading = 'succeeded';
+      })
+      // 거절
+      .addCase(getMessage.rejected, (state, action) => {
+        state.getMsgError = action.payload as string;
+        state.getMsgLoading = 'failed';
+      });
+
+    builder
       // 대기중
       .addCase(deleteChatRoom.pending, (state, action) => {
         state.deleteError = null;

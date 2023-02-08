@@ -70,3 +70,10 @@ export interface ICreateChatRoomPayload {
   uid: string[],
   userName: string[]
 }
+
+export interface IAddMessagePayload {
+  id: string;
+  uid: string;
+  message: string | null;
+  date: Date | null;
+}

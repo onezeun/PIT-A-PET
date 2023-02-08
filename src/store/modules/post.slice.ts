@@ -100,27 +100,23 @@ export const addPost = createAsyncThunk(
   },
 );
 
-export const getAllPost = createAsyncThunk(
-  'post/GET_ALL_POST',
-  async () => {
-    try {
-      const postsDoc = collection(db, 'posts');
-      let getData: any = [];
-
-        const q = query(postsDoc, orderBy('postDate', 'desc'));
-        const querySnapshot = await getDocs(q);
-        // lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-        querySnapshot.forEach((doc: any) => {
-          let data = doc.data();
-          data.id = doc.id;
-          getData.push(data);
-        })
-      return getData
-    } catch (err) {
-      console.log(err);
-    }
-  },
-);
+export const getAllPost = createAsyncThunk('post/GET_ALL_POST', async () => {
+  try {
+    let getData: any = [];
+    const postsDoc = collection(db, 'posts');
+    const q = query(postsDoc, orderBy('postDate', 'desc'));
+    const querySnapshot = await getDocs(q);
+    // lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    querySnapshot.forEach((doc: any) => {
+      let data = doc.data();
+      data.id = doc.id;
+      getData.push(data);
+    });
+    return getData;
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 export const updatePost = createAsyncThunk(
   'post/UPDATE_POST',
