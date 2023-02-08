@@ -19,7 +19,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path='/' element={<Chat />} />
+        <Route path='/' element={<Main />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/mypage' element={<MyPage />} />

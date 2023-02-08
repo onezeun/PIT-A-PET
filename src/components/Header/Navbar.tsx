@@ -11,12 +11,12 @@ export default function Navbar() {
           navigate('/');
         }}
       >
-        <S.NavBoxImgWrap>
+        <S.NavBoxImgWrap onClick={() => { navigate('/') }}>
           <img src={process.env.PUBLIC_URL + '/images/eye.png'} alt="" />
         </S.NavBoxImgWrap>
         <p>둘러보기</p>
       </S.NavBoxItem>
-      <S.NavBoxItem>
+      <S.NavBoxItem onClick={() => { navigate('/chat') }}>
         <i className="ri-chat-1-fill"></i>
         <p>메세지</p>
       </S.NavBoxItem>
