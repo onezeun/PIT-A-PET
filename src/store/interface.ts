@@ -54,6 +54,7 @@ export interface IUpdatePetPayload extends IAddPetPayload {
 // post
 export interface IAddPostPayload {
   uid: string;
+  userName: string;
   postContent: string | null;
   postImg: any | null;
   postDate: Date | null;
@@ -61,4 +62,11 @@ export interface IAddPostPayload {
 
 export interface IUpdatePostPayload extends IAddPostPayload {
   id: string;
+}
+
+//chat
+
+export interface ICreateChatRoomPayload {
+  uid: string[],
+  userName: string[]
 }

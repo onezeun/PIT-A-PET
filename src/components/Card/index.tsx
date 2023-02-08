@@ -18,6 +18,7 @@ interface IUserInfo {
 interface IPostInfo {
   id: string;
   uid: string;
+  userName: string;
   postContent: string | null;
   postImg: File | null;
 }
@@ -31,7 +32,7 @@ export default function Card({ postData }: IProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const [userData, setUserData] = useState<IUserInfo | null>(null);
   let user = useSelector((state: RootState) => state.auth.sessionData) as any;
-  
+
   useEffect(() => {
     if (userData !== undefined) {
       fetchData();
@@ -50,8 +51,11 @@ export default function Card({ postData }: IProps): JSX.Element {
 
   const createChat = () => {
     const uid = user.uid;
+    const userName = user.displayName;
     const postUid = postData.uid;
-    dispatch(createChatRoom([uid, postUid]))
+    const postUserName = postData.userName
+    // const postUserName = postData.userName
+    dispatch(createChatRoom({ uid: [uid, postUid], userName: [userName, postUserName] }))
       .then(() => {
         navigate('/chat')
       })

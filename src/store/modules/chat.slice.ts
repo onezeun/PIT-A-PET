@@ -12,7 +12,7 @@ import {
 } from '@firebase/firestore';
 import { db } from '../../Firebase';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { IAddPetPayload, IUpdatePetPayload } from '../interface';
+import { ICreateChatRoomPayload, IUpdatePetPayload } from '../interface';
 
 // 초기 상태 타입
 interface ChatState {
@@ -58,11 +58,12 @@ const initialState: ChatState = {
 
 export const createChatRoom = createAsyncThunk(
   'chat/CREATE_CHATROOM',
-  async ( uid : string[] ,{ rejectWithValue }) => {
+  async ({ uid, userName }: ICreateChatRoomPayload, { rejectWithValue }) => {
     try {
       await addDoc(collection(db, 'chatrooms'), {
         uid: uid,
-      })
+        userName: userName
+      });
     } catch (err) {
       throw rejectWithValue('채팅방 만들기 실패');
     }

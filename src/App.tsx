@@ -19,13 +19,18 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path='/' element={<Main />} />
+        {user && user != null ? (
+          <Route path='/' element={<Main />} />
+        ) : (
+          <Route path='/' element={<SignUp />} />
+        )}
+        <Route path='/main' element={<Main />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/mypage' element={<MyPage />} />
         <Route path='/userhome' element={<UserHome />} />
         <Route path='/chat' element={<Chat />} />
-        <Route path='/chatroom' element={<ChatRoom />} />
+        <Route path='/chatroom/:id' element={<ChatRoom />} />
       </Routes>
     </>
   );

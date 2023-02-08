@@ -67,7 +67,7 @@ export default function Sidebar({ sideOpen, setSideOpen, resize }: Iprops): JSX.
         <>
           <S.ListItem>보관함</S.ListItem>
           <S.ListItem onClick={() => { navigate('/mypage'); toggleSide() }}>정보수정</S.ListItem>
-          <S.ListItem onClick={() => { handlerLogout(); navigate('/'); toggleSide() }}>로그아웃</S.ListItem>
+          <S.ListItem onClick={() => { handlerLogout(); navigate('/login'); toggleSide() }}>로그아웃</S.ListItem>
         </>
       ) : (
       <>

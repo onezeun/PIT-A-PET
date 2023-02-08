@@ -13,6 +13,7 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
   const uploadImg = useRef<any>('');
   let user = useSelector((state: RootState) => state.auth.sessionData) as any;
   const uid = user ? user.uid : null;
+  const userName = user ? user.displayName : null;
 
   const [postDate, setPostDate] = useState<Date | null>(null);
   const [postContent, setPostContent] = useState('');
@@ -66,9 +67,8 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
       alert('사진을 업로드해주세요');
     } else {
       getDate();
-      dispatch(addPost({uid, postContent, postImg, postDate}))
+      dispatch(addPost({ uid, userName, postContent, postImg, postDate}))
       .then((data) => {
-        console.log(data);
         window.location.reload();
       })
     }

@@ -67,7 +67,7 @@ const initialState: PostState = {
 export const addPost = createAsyncThunk(
   'post/ADD_POST',
   async (
-    { uid, postContent, postImg, postDate }: IAddPostPayload,
+    { uid, userName, postContent, postImg, postDate }: IAddPostPayload,
     { rejectWithValue },
   ): Promise<IAddPostPayload> => {
     try {
@@ -82,12 +82,14 @@ export const addPost = createAsyncThunk(
       );
       await addDoc(collection(db, 'posts'), {
         uid: uid,
+        userName: userName,
         postContent: postContent,
         postImg: postImgUrl,
         postDate: postDate,
       });
       return {
         uid: uid,
+        userName: userName,
         postContent: postContent,
         postImg: postImgUrl,
         postDate: postDate,

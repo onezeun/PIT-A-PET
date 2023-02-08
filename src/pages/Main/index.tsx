@@ -12,6 +12,7 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 interface IPostInfo {
   id: string;
   uid: string;
+  userName: string;
   postContent: string | null;
   postImg: File | null;
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AllContainer from 'components/AllContainer';
 import * as S from './Chat.styles';
 
-export default function ChatRoom() {
+export default function ChatRoom(): JSX.Element {
   const navigate = useNavigate();
   return (
     <AllContainer>
