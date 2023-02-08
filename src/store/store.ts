@@ -11,7 +11,7 @@ export const store = configureStore({
     pet: petSlice.reducer,
     post: postSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false,}),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
