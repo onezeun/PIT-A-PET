@@ -126,7 +126,6 @@ export const PetTitleWrap = styled.div`
 
 export const PetImgSlider = styled(Slider)`
   margin: 25px auto 20px;
-  overflow: hidden;
   max-width: 500px;
   padding: 0 30px;
 `;
@@ -137,9 +136,21 @@ export const SliderContent = styled.div`
 
   & img {
     margin: auto;
-    width: 100px;
-    height: auto;
-    max-height: 100px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+`;
+
+export const ImgWrap = styled.div`
+  width: 100px;
+  height: 100px;
+  margin: auto;
+
+  & img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     margin-bottom: 10px;
   }
@@ -163,8 +174,7 @@ export const PetInfo = styled.div`
   margin: 20px auto;
   text-align: left;
   line-height: 40px;
-  max-width: 500px;
-  width: 80%;
+  width: 100%;
 
   & p {
     font-size: 1.1rem;
@@ -177,13 +187,21 @@ export const PetInfo = styled.div`
   }
 `;
 
+export const PetEditBtn = styled.button`
+  border-radius: 5px;
+  margin: 5px 0;
+  width: 100%;
+  height: 40px;
+  background: ${(props) => props.theme.colors.YELLOW_200};
+  color: ${(props) => props.theme.colors.GREY_200};
+`;
 
 export const PetWrap = styled.div`
   margin-top: 50px;
 
   .slick-slider {
-    overflow:hidden;
-  };
+    overflow: hidden;
+  }
 
   .center .slick-center ${SliderContent} {
     /* center 모드일때 center에게 강조할 경우 사용 */
@@ -193,9 +211,8 @@ export const PetWrap = styled.div`
   }
 
   .center .slick-center ${PetInfo} {
-    display:block;
-    min-width:440px;
-    margin-left:-45px;
+    display: block;
+    margin: auto;
   }
 
   .center ${SliderContent} {
@@ -206,7 +223,7 @@ export const PetWrap = styled.div`
   }
 
   .center ${PetInfo} {
-    display:none;
+    display: none;
   }
 `;
 
@@ -227,21 +244,29 @@ export const PetImgBtnWrap = styled.div`
   `}
 `;
 
+interface ButtonStyle {
+  buttonColor?: string;
+  fontColor?: string;
+}
 
-export const MyPageBtn = styled.button`
+export const MyPageBtn = styled.button<ButtonStyle>`
   border-radius: 5px;
   margin: 5px 0;
   width: 50%;
   height: 40px;
+  ${({ fontColor = 'WHITE', buttonColor = 'BLUE' }) => css`
+    background-color: ${(props) => props.theme.colors[buttonColor]};
+    color: ${(props) => props.theme.colors[fontColor]};
+  `}
 
   ${({ theme: { media } }) => css`
     @media screen and ${media.tablet} {
-      width: 40%;
+      width: 35%;
       margin: 5px 15px;
     }
 
     @media screen and ${media.desktop} {
-      width: 40%;
+      width: 35%;
       margin: 0 15px;
     }
   `}
@@ -300,7 +325,6 @@ export const PetBoxInput = styled.input`
 `;
 
 export const PetUpErrMsg = styled.p<{ mt?: string }>`
-
   margin-top: ${(props) => props.mt || '5px'};
   font-size: 0.85rem;
   color: red;

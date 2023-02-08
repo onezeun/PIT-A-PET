@@ -55,7 +55,7 @@ export default function MyPage(): JSX.Element {
     if (userImg != null) {
       updateProfile();
     }
-  }, [userImg])
+  }, [userImg]);
 
   // 유저 정보 가져오기
   const fetchData = () => {
@@ -67,32 +67,30 @@ export default function MyPage(): JSX.Element {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const fetchPetData = () => {
     dispatch(getPet(uid))
       .then((data: any) => {
         if (data.payload.length == 0) {
           setPetsData(null);
-          console.log('펫없음')
+          console.log('펫없음');
         } else {
           setPetsData(data.payload);
-        };
+        }
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const updateProfile = () => {
-    if(userImg != null) {
-      dispatch(updateUser({id, uid, userImg}))
-      .then((data: any) => {
-        console.log(data);
-      })
-      .catch((err) => {
-  
-      });
+    if (userImg != null) {
+      dispatch(updateUser({ id, uid, userImg }))
+        .then((data: any) => {
+          console.log(data);
+        })
+        .catch((err) => {});
     }
   };
 
@@ -109,7 +107,7 @@ export default function MyPage(): JSX.Element {
 
   const deleteUserImg = () => {
     setUserImgUrl('');
-  }
+  };
 
   // 모달창
   const [addPetModal, setAddPetModal] = useState(false);
@@ -133,7 +131,6 @@ export default function MyPage(): JSX.Element {
     slidesToShow: 1,
     speed: 500,
   };
-
 
   return (
     <AllContainer>
@@ -159,22 +156,47 @@ export default function MyPage(): JSX.Element {
           </label>
           <S.UserImgWrap>
             {userImgUrl != '' ? (
-              <img src={userImgUrl ? userImgUrl : process.env.PUBLIC_URL + '/images/profile.png'} />
+              <img
+                src={
+                  userImgUrl
+                    ? userImgUrl
+                    : process.env.PUBLIC_URL + '/images/profile.png'
+                }
+              />
             ) : (
-              <img src={userData && userData.userImg ? userData.userImg : process.env.PUBLIC_URL + '/images/profile.png'} />
+              <img
+                src={
+                  userData && userData.userImg
+                    ? userData.userImg
+                    : process.env.PUBLIC_URL + '/images/profile.png'
+                }
+              />
             )}
-            <S.MyPageBtn onClick={() => userImgUpload.current.click()}>이미지업로드</S.MyPageBtn>
-            <S.MyPageBtn onClick={deleteUserImg}>이미지제거</S.MyPageBtn>
+            <S.MyPageBtn onClick={() => userImgUpload.current.click()}>
+              이미지업로드
+            </S.MyPageBtn>
+            <S.MyPageBtn
+              onClick={deleteUserImg}
+              buttonColor="YELLOW_200"
+              fontColor="GREY_200"
+            >
+              이미지제거
+            </S.MyPageBtn>
           </S.UserImgWrap>
           <S.UserInfo>
             <p>
               이메일<span>{userData ? userData.email : null}</span>
             </p>
             <p>
-              이름<span style={{ marginLeft: '55px' }}>{userData ? userData.userName : null}</span>
+              이름
+              <span style={{ marginLeft: '55px' }}>
+                {userData ? userData.userName : null}
+              </span>
             </p>
           </S.UserInfo>
-          <S.MyPageBtn>비밀번호 변경</S.MyPageBtn>
+          <S.MyPageBtn buttonColor="YELLOW_200" fontColor="GREY_200">
+            비밀번호 변경
+          </S.MyPageBtn>
         </S.UserWrap>
         <S.PetWrap>
           <S.PetTitleWrap>
@@ -196,14 +218,20 @@ export default function MyPage(): JSX.Element {
                 return (
                   <S.SliderItem key={i}>
                     <S.SliderContent>
-                      <img src={process.env.PUBLIC_URL + `${pet.petImg}`} />
+                      <S.ImgWrap>
+                        <img src={process.env.PUBLIC_URL + `${pet.petImg}`} />
+                      </S.ImgWrap>
                       <p>{pet.petName}</p>
                     </S.SliderContent>
                     <S.PetInfo>
-                      <S.MyPageBtn onClick={() => {
-                        setUpdatePetModal(true);
-                        setSelectPetData(pet);
-                      }}>반려동물정보수정</S.MyPageBtn>
+                      <S.PetEditBtn
+                        onClick={() => {
+                          setUpdatePetModal(true);
+                          setSelectPetData(pet);
+                        }}
+                      >
+                        반려동물정보수정
+                      </S.PetEditBtn>
                       <p>
                         이름<span>{pet.petName}</span>
                       </p>
@@ -215,7 +243,7 @@ export default function MyPage(): JSX.Element {
                       </p>
                     </S.PetInfo>
                   </S.SliderItem>
-                )
+                );
               })}
             </S.PetImgSlider>
           )}
@@ -224,7 +252,11 @@ export default function MyPage(): JSX.Element {
             modalClose={modalClose}
             header="반려동물정보수정"
           >
-            <UpdatePet selectPetData={selectPetData} uid={uid} modalClose={modalClose} />
+            <UpdatePet
+              selectPetData={selectPetData}
+              uid={uid}
+              modalClose={modalClose}
+            />
           </Modal>
         </S.PetWrap>
       </S.MyPageWrap>
