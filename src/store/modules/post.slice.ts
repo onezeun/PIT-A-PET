@@ -23,7 +23,7 @@ interface PostState {
     uid: string;
     postContent: string | null;
     postImg: File | null;
-    postDate: string | null;
+    postDate: Date | null;
   };
 
   addLoading: AsyncType;
@@ -47,7 +47,7 @@ const initialState: PostState = {
     uid: '',
     postContent: '',
     postImg: null,
-    postDate: '',
+    postDate: null,
   },
 
   addLoading: 'idle',
@@ -100,38 +100,22 @@ export const addPost = createAsyncThunk(
 
 export const getAllPost = createAsyncThunk(
   'post/GET_ALL_POST',
-  async ({ first, postPage }: { first: boolean; postPage: number }, {rejectWithValue}) => {
+  async () => {
     try {
       const postsDoc = collection(db, 'posts');
       let getData: any = [];
-      let lastVisible;
 
-      if (first == true) {
-        const q = query(postsDoc, orderBy('postDate', 'asc'), limit(2));
+        const q = query(postsDoc, orderBy('postDate', 'asc'));
         const querySnapshot = await getDocs(q);
-        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        // lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         querySnapshot.forEach((doc: any) => {
           let data = doc.data();
           data.id = doc.id;
           getData.push(data);
-        });
-      } else {
-        const q = query(postsDoc,orderBy('postDate', 'asc'),limit(3),startAfter(lastVisible));
-        const querySnapshot = await getDocs(q);
-        lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-        querySnapshot.forEach((doc: any) => {
-          let data = doc.data();
-          data.id = doc.id;
-          getData.push(data);
-        });
-      }
-      return {
-        data: getData,
-        lastPage: lastVisible,
-      };
+        })
+      return getData
     } catch (err) {
       console.log(err);
-      throw rejectWithValue('데이터 불러오기 실패');
     }
   },
 );

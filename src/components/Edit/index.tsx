@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { addPost } from 'store/modules/post.slice';
@@ -14,10 +14,14 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
   let user = useSelector((state: RootState) => state.auth.sessionData) as any;
   const uid = user ? user.uid : null;
 
-  const [postDate, setPostDate] = useState('');
+  const [postDate, setPostDate] = useState<Date | null>(null);
   const [postContent, setPostContent] = useState('');
   const [postImg, setPostImg] = useState({});
   const [postImgUrl, setPostImgUrl] = useState('');
+
+  useEffect(()=> {
+    setPostDate(new Date());
+  },[])
 
   const getDate = () => {
     let today = new Date();
@@ -27,12 +31,11 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
     let hours = today.getHours(); // 시
     let minutes = today.getMinutes();  // 분
 
-    setPostDate(year +'-'+ month + '-' + date + ' ' + hours + ':' + minutes)
+    // setPostDate(year +'-'+ month + '-' + date + ' ' + hours + ':' + minutes)
   }
 
   const toggleEdit = () => {
     setEditOpen(false);
-
   };
 
   const postContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -54,9 +57,11 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setPostDate(new Date());
 
     if(postContent == '') {
-      alert('내용을 입력해주세요');
+      // alert('내용을 입력해주세요');
+      console.log(postDate)
     } else if(postImgUrl == '') {
       alert('사진을 업로드해주세요');
     } else {

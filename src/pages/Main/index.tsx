@@ -26,14 +26,14 @@ export default function Main(): JSX.Element {
     if (postData !== undefined) {
       fetchData();
     }
-  }, [postData])
+  },[])
 
   // 전체게시글 
   const fetchData = () => {
     setFirst(false);
-    dispatch(getAllPost({first, postPage}))
+    dispatch(getAllPost())
       .then((data: any) => {
-        setPostData(data.payload.data);
+        setPostData(data.payload);
       })
   }
 
