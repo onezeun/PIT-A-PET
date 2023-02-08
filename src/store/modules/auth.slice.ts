@@ -51,7 +51,6 @@ const initialState: AuthState = sessionData
   logoutError: null,
 }
 : {
-
   isLoggedIn: false,
   sessionData: null,
   userName: '',
@@ -69,7 +68,7 @@ const initialState: AuthState = sessionData
 // 회원가입 요청
 export const userSignUp = createAsyncThunk(
   'auth/USER_SIGN_UP',
-  async ({ name, email, password,  }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
+  async ({ name, email, password, }: ISignUpPayload, { rejectWithValue }, ): Promise<ILoginSuccess> => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);
     try {
@@ -85,11 +84,16 @@ export const userSignUp = createAsyncThunk(
         email: userCredential.user.email,
         userName: name,
       });
+      const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+      const currentUserData = JSON.parse(sessionStorage.getItem(sessionKey)!);
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
+
+        sessionData: sessionData,
+        currentUserData: currentUserData,
       };
     } catch (err: any) {
       switch (err.code) {
@@ -111,7 +115,7 @@ export const userSignUp = createAsyncThunk(
 // 로그인
 export const userLogin = createAsyncThunk(
   'auth/USER_LOGIN',
-  async ({ email, password }: ILoginPayload,{ rejectWithValue, dispatch },): Promise<ILoginSuccess> => {
+  async ({ email, password }: ILoginPayload,{ rejectWithValue },): Promise<ILoginSuccess> => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence);
     try {
@@ -120,11 +124,16 @@ export const userLogin = createAsyncThunk(
         email,
         password,
       );
+      const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+      const currentUserData = JSON.parse(sessionStorage.getItem(sessionKey)!);
       return {
         token: await userCredential.user.getIdToken(),
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         name: userCredential.user.displayName,
+
+        sessionData: sessionData,
+        currentUserData: currentUserData,
       };
     } catch (err: any) {
       switch (err.code) {
@@ -177,7 +186,7 @@ export const authSlice = createSlice({
         state.signUpLoading = 'succeeded';
 
         state.isLoggedIn = true,
-        state.sessionData = sessionData
+        state.sessionData = action.payload.currentUserData != null ? action.payload.currentUserData : sessionData
       })
       // 거절
       .addCase(userSignUp.rejected, (state, action) => {
@@ -197,7 +206,7 @@ export const authSlice = createSlice({
         state.loginLoading = 'succeeded';
 
         state.isLoggedIn = true,
-        state.sessionData = sessionData
+        state.sessionData = action.payload.currentUserData != null ? action.payload.currentUserData : sessionData
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.loginError = action.payload as string;

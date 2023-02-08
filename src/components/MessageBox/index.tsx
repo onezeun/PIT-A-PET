@@ -9,13 +9,13 @@ import Edit from 'components/Edit';
 export default function MessageBox(): JSX.Element {
   const navigate = useNavigate();
   const [editOpen, setEditOpen] = useState(false);
-  let isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn) as any;
+  let user = useSelector((state: RootState) => state.auth.sessionData) as any;
 
   // const [uid, setUid] = useState('1'); // 1 로그인 2 로그인(반려동물 X) 3 비회원
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if(isLoggedIn == true) {
+    if(user != null) {
       setMessage('😍 귀여운 반려동물을 공유해주세요');
     } else {
       setMessage('회원가입 후 반려동물을 공유해보세요! 💗');
@@ -26,7 +26,7 @@ export default function MessageBox(): JSX.Element {
     <S.MessageBoxWrap
       className={editOpen ? 'open' : ''}
       onClick={() => {
-        if (isLoggedIn == true) {
+        if (user != null) {
           if (editOpen == false) {
             setEditOpen(true);
           }

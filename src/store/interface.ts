@@ -16,6 +16,9 @@ export interface ILoginSuccess {
   uid: string;
   email: string | null;
   name: string | null;
+
+  sessionData: JSON | null;
+  currentUserData: JSON | null;
 }
 
 // user
