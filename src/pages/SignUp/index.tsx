@@ -148,7 +148,9 @@ export default function SignUp(): JSX.Element {
             }}
           />
           {successful ? (
-            <SignUpSuccess payloadName={payloadName}/>
+            <div>
+              <SignUpSuccess payloadName={payloadName}/>
+            </div>
           ) : (
             <>
               <h1>회원가입</h1>

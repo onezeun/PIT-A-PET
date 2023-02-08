@@ -80,7 +80,7 @@ export const SignUpBtn = styled.div`
   cursor: pointer;
 `;
 
-export const SuccessTitle = styled.p`
+export const SuccessTitle = styled.div`
   margin: 80px 0 40px 0;
   font-family: 'IM_Hyemin-Bold';
   font-size: 1.8rem;
