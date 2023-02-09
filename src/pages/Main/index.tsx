@@ -13,8 +13,9 @@ interface IPostInfo {
   id: string;
   uid: string;
   userName: string;
-  postContent: string | null;
-  postImg: File | null;
+  postContent: string;
+  postImg: File;
+  postDate: Date;
 }
 
 export default function Main(): JSX.Element {

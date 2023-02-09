@@ -24,17 +24,6 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
     setPostDate(new Date());
   },[])
 
-  const getDate = () => {
-    let today = new Date();
-    let year = today.getFullYear(); // 년도
-    let month = today.getMonth() + 1;  // 월
-    let date = today.getDate();  // 날짜
-    let hours = today.getHours(); // 시
-    let minutes = today.getMinutes();  // 분
-
-    // setPostDate(year +'-'+ month + '-' + date + ' ' + hours + ':' + minutes)
-  }
-
   const toggleEdit = () => {
     setEditOpen(false);
   };
@@ -66,7 +55,6 @@ export default function Edit({ setEditOpen }: Iprops): JSX.Element {
     } else if(postImgUrl == '') {
       alert('사진을 업로드해주세요');
     } else {
-      getDate();
       dispatch(addPost({ uid, userName, postContent, postImg, postDate}))
       .then((data) => {
         window.location.reload();

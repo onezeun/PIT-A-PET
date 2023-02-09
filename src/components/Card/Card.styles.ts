@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components/macro';
 
 export const CardWrap = styled.div`
   margin: 20px auto;
-  padding: 15px 0;
+  padding: 15px 0 25px;
   width: 100%;
   max-width: 500px;
   min-height: 200px;
@@ -97,7 +97,7 @@ export const CardTag = styled.div`
 
 export const Content = styled.div`
   min-height: 50px;
-  margin-top: 20px;
+  margin: 20px 0 15px;
 `;
 
 export const CommentCount = styled.p`

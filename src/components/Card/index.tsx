@@ -19,8 +19,9 @@ interface IPostInfo {
   id: string;
   uid: string;
   userName: string;
-  postContent: string | null;
-  postImg: File | null;
+  postContent: string;
+  postImg: File;
+  postDate: Date;
 }
 
 interface IProps {
@@ -64,6 +65,21 @@ export default function Card({ postData }: IProps): JSX.Element {
       });
   }
 
+  const getDate = (getdate: any) => {
+    let today = getdate.toDate()
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+    let hours = today.getHours(); // 시
+    let minutes = today.getMinutes();  // 분
+
+    return {
+      day : year +'.'+ month + '.' + date,
+      time: hours + ':' + minutes
+    }
+  }
+
+
   return (
     <S.CardWrap>
       <S.UserWrap>
@@ -93,19 +109,19 @@ export default function Card({ postData }: IProps): JSX.Element {
               <i className="ri-send-plane-2-line chaticon"></i>
             </S.IconWrap> */}
           </div>
-          <span>3 일전</span>
+          <span>{getDate(postData.postDate).day}</span>
         </S.ContentTop>
-        <S.CardTagWrap>
+        {/* <S.CardTagWrap>
           <S.CardTag>#강아지</S.CardTag>
           <S.CardTag>#포메</S.CardTag>
           <S.CardTag>#8살</S.CardTag>
           <S.CardTag>#초코콘요리사</S.CardTag>
-        </S.CardTagWrap>
+        </S.CardTagWrap> */}
         <S.Content>{postData.postContent}</S.Content>
         <div>
           <S.CommentCount>댓글 422개</S.CommentCount>
           <S.Comment>
-            <span>hwisu</span>너무 귀여워요~~
+            <span>onezeun</span>너무 귀여워요~~
           </S.Comment>
         </div>
       </S.CardContentWrap>
