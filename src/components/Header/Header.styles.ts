@@ -1,14 +1,19 @@
 import styled, { css } from 'styled-components/macro';
 
 export const HeaderContainer = styled.div`
+  position: fixed;
+  top: 0;
   display: flex;
   aline-items: center;
   justify-content: space-between;
+  width: 100vw;
   max-width: 1200px;
   margin: auto;
   height: 100px;
   padding: 20px;
   line-height: 50px;
+  z-index: 100;
+  background:  ${(props) => props.theme.colors.WHITE};
 `;
 
 export const LogoWrap = styled.div`
@@ -32,6 +37,7 @@ export const GNB = styled.div`
 `;
 
 export const SideBarWrap = styled.div`
+  line-height: 50px;
   display: block;
   z-index: 10;
   padding: 12px;

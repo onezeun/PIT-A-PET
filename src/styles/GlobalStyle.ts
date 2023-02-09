@@ -28,6 +28,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Pretendard-Regular', sans-serif;
   };
 
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
   body {
     overflow-x:hidden;
     overflow-y:auto;

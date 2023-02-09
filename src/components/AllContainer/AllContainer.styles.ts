@@ -4,11 +4,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 100%;
-  margin: 0 auto 150px;
+  margin: auto;
+  padding-top: 110px;
 
   @media screen and (min-width: 1024px) {
-    margin: 0 auto 100px;
+    padding-top: 110px;
   }
 `;
 
@@ -17,6 +17,11 @@ export const Content = styled.div`
   max-width: 500px;
   position: relative;
   transition: 0.5s ease;
+  padding-bottom:100px;
+
+  @media screen and (min-width: 1024px) {
+    padding-bottom:100px;
+  }
 `;
 
 export const BlankBox = styled.div`

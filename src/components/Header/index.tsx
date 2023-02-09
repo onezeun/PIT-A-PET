@@ -29,12 +29,41 @@ export default function Header(): JSX.Element | null {
 
   if (location.pathname === '/mypage') {
     return (
+      <S.GNB>
+        {resize < 768 ? (
+          <>
+            <Navbar></Navbar>
+          </>
+        ) : null}
+        <SideBarWrap
+          sideOpen={sideOpen}
+          setSideOpen={setSideOpen}
+          resize={resize}
+        ></SideBarWrap>
+      </S.GNB>
+    );
+  } else if (
+    location.pathname === '/login' ||
+    location.pathname === '/signup'
+  ) {
+    return null;
+  } else if (location.pathname.startsWith('/chatroom')) {
+    return (
       <S.HeaderContainer>
-        <S.LogoWrap></S.LogoWrap>
+        <S.LogoWrap
+          onClick={() => {
+            navigate('/');
+          }}
+        >
+          <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt="logo" />
+        </S.LogoWrap>
         <S.GNB>
           {resize < 768 ? (
             <>
-              <Navbar></Navbar>
+              <i className="ri-bell-line icolor"></i>
+              <span onClick={toggleSide}>
+                <i className="ri-menu-line icolor"></i>
+              </span>
             </>
           ) : null}
           <SideBarWrap
@@ -45,39 +74,7 @@ export default function Header(): JSX.Element | null {
         </S.GNB>
       </S.HeaderContainer>
     );
-  } else if (
-    location.pathname === '/login' ||
-    location.pathname === '/signup'
-  ) {
-    return null;
-  } else if (location.pathname.startsWith('/chatroom')) {
-    return(
-      <S.HeaderContainer>
-      <S.LogoWrap
-        onClick={() => {
-          navigate('/');
-        }}
-      >
-        <img src={process.env.PUBLIC_URL + '/images/logo.png'} alt="logo" />
-      </S.LogoWrap>
-      <S.GNB>
-        {resize < 768 ? (
-          <>
-            <i className="ri-bell-line icolor"></i>
-            <span onClick={toggleSide}>
-              <i className="ri-menu-line icolor"></i>
-            </span>
-          </>
-        ) : null}
-        <SideBarWrap
-          sideOpen={sideOpen}
-          setSideOpen={setSideOpen}
-          resize={resize}
-        ></SideBarWrap>
-      </S.GNB>
-    </S.HeaderContainer>
-    )
-  } else{
+  } else {
     return (
       <S.HeaderContainer>
         <S.LogoWrap

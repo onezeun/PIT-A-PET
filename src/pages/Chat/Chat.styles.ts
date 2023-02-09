@@ -3,13 +3,29 @@ interface ChatStyle {
   border?: string;
 }
 
+export const ChatRoomContainer = styled.div`
+  padding-top: 110px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    margin-left: -100px;
+  }
+
+  @media screen and (min-width: 1024px) and (max-width: 1500px) {
+    margin-left: -150px;
+  }
+`;
+
 export const ChatWrap = styled.div`
-  margin: auto;
+  height: 100%;
+  overflow:auto; 
   width: 100vw;
   max-width: 500px;
 
   @media screen and (min-width: 501px) {
-    height: 80vh;
     box-shadow: 0px 0px 5px 1px ${(props) => props.theme.colors.GREY};
     border: none;
     border-radius: 5px;
@@ -53,6 +69,9 @@ export const LastMessage = styled.span`
 
 // chatroom
 export const ChatRoomOtherInfoWrap = styled.div`
+  position: fixed;
+  max-width: 500px;
+  height: 95px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -76,17 +95,16 @@ export const BackBtnWrap = styled.div`
   }
 `;
 export const MessageBox = styled.div`
-  padding: 15px 30px;
+  padding: 105px 30px 75px 30px;
 
   @media screen and (min-width: 501px) {
-    height: 75vh;
-  };
+  }
 `;
 
 export const MagWrap = styled.div`
   display: flex;
   margin: 10px 0;
-  
+
   &.otherWrap {
     flex-direction: row;
   }
@@ -127,7 +145,7 @@ export const MsgInputWrap = styled.div`
 export const MsgInput = styled.input`
   padding: 0 10px;
   width: 100%;
-  height: 50px;
+  height: 65px;
   border: none;
   border-top: 1px solid ${(props) => props.theme.colors.GREY};
   border-left: 1px solid ${(props) => props.theme.colors.GREY};
@@ -136,8 +154,13 @@ export const MsgInput = styled.input`
 `;
 
 export const SendBtn = styled.button`
-  width: 100px;
+  width: 120px;
   border-top: 1px solid ${(props) => props.theme.colors.BLUE};
   background: ${(props) => props.theme.colors.BLUE};
   color: ${(props) => props.theme.colors.WHITE};
+`;
+
+export const Null = styled.div`
+  text-align: center;
+  padding-top: 50px;
 `;
