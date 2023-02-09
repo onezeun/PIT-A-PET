@@ -50,7 +50,7 @@ export default function Header(): JSX.Element | null {
     location.pathname === '/signup'
   ) {
     return null;
-  } else if (location.pathname === '/chatroom') {
+  } else if (location.pathname.startsWith('/chatroom')) {
     return(
       <S.HeaderContainer>
       <S.LogoWrap

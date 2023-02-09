@@ -93,7 +93,7 @@ export const Copyright = styled.p`
 
 export const NavBox = styled.ul`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   text-align: center;
   margin: 0;
