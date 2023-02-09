@@ -83,6 +83,7 @@ export const userSignUp = createAsyncThunk(
         uid: uid,
         email: userCredential.user.email,
         userName: name,
+        userImg: 'https://firebasestorage.googleapis.com/v0/b/sns-pitapet.appspot.com/o/userprofilephoto%2Fprofile.png?alt=media&token=fe09182d-0cbb-415d-ab47-483e799c990a'
       });
       const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
       const currentUserData = JSON.parse(sessionStorage.getItem(sessionKey)!);
