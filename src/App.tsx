@@ -13,17 +13,11 @@ import Chat from 'pages/Chat';
 import ChatRoom from 'pages/Chat/ChatRoom';
 
 function App() {
-  let user = useSelector((state: RootState) => state.auth);
-
   return (
     <>
       <Header />
       <Routes>
-        {user && user != null ? (
-          <Route path='/' element={<Main />} />
-        ) : (
-          <Route path='/' element={<SignUp />} />
-        )}
+        <Route path='/' element={<Main />} />
         <Route path='/main' element={<Main />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
