@@ -23,18 +23,18 @@ export default function ChatRoom(): JSX.Element {
 
   useEffect(() => {
     fetchData();
+    console.log(allMessage);
     if (scrollRef.current != null) {
-      scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [render]);
-  
+
   // 메세지 불러오기
   const fetchData = () => {
-    dispatch(getMessage(id))
-      .then((data) => {
-        setAllMessage(data.payload)
-      })
-  }
+    dispatch(getMessage(id)).then((data) => {
+      setAllMessage(data.payload);
+    });
+  };
 
   // 메세지 전송 및 데이터 저장
   const messageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,6 @@ export default function ChatRoom(): JSX.Element {
       setMessage('');
     }
   };
-
   return (
     <S.ChatRoomContainer>
       <S.ChatWrap>
@@ -89,7 +88,7 @@ export default function ChatRoom(): JSX.Element {
                 </S.MagWrap>
               );
             })}
-            <div ref={scrollRef}></div>
+          <div ref={scrollRef}></div>
         </S.MessageBox>
         <S.MsgInputWrap>
           <S.MsgInput
@@ -99,9 +98,7 @@ export default function ChatRoom(): JSX.Element {
             onKeyDown={handleKeyPress}
             value={message}
           ></S.MsgInput>
-          <S.SendBtn onClick={sendMessage}>
-            전송
-          </S.SendBtn>
+          <S.SendBtn onClick={sendMessage}>전송</S.SendBtn>
         </S.MsgInputWrap>
       </S.ChatWrap>
     </S.ChatRoomContainer>
